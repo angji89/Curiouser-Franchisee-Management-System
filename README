@@ -1,0 +1,128 @@
+# Curiouser Franchise Operating System (CFOS)
+
+## Overview
+
+Curiouser Franchise Operating System (CFOS) is a purpose-built platform designed to standardise, scale, and safeguard early years education franchises. It combines training, operations, quality control, and parent engagement into a single system—enabling consistent delivery and measurable outcomes across all locations.
+
+CFOS is not just management software. It is an operational infrastructure that ensures every franchisee can replicate the same quality, experience, and educational impact.
+
+---
+
+## 🚀 Core Features
+
+### Training Academy
+
+* Structured onboarding for franchisees and teachers
+* Modular video-based learning
+* Built-in assessments and certification
+* Progress tracking and compliance monitoring
+
+### SOP Execution System
+
+* Step-by-step class delivery checklists
+* Embedded media guidance (images/videos)
+* Materials and preparation instructions
+* Execution tracking with proof uploads
+
+### Parent Experience & Reporting
+
+* Capture and organise photos/videos of children
+* Development tracking aligned with EYFS framework
+* Structured progress reports (Observation, Assessment, Next Steps)
+* Parent-facing timeline and insights
+
+### Quality Control
+
+* Remote class monitoring via media uploads
+* HQ review and scoring system
+* Feedback and continuous improvement loop
+
+### Revenue Visibility Layer
+
+* Student enrolment tracking
+* Attendance-based data capture
+* Structured records to improve financial transparency
+
+---
+
+## 🧩 System Modules
+
+* Dashboard (multi-location overview)
+* Training Academy
+* SOP & Operations
+* Staff & Rota Management
+* Media & Parent App
+* Reporting System
+* Quality Control
+* Revenue Tracking
+
+---
+
+## 👤 User Roles
+
+* **HQ Admin** – Full visibility across all locations
+* **Franchisee** – Manages store operations and staff
+* **Teacher** – Executes lessons and completes training
+* **Parent** – Views child development and reports
+
+---
+
+## 🏗️ Tech Stack
+
+* **Frontend:** Next.js (App Router), TypeScript, Tailwind CSS
+* **Backend:** Supabase (Auth, Database, Storage)
+* **State Management:** React Query
+* **Storage:** Cloud-based media storage (Supabase Storage / AWS S3)
+
+---
+
+## 🔐 Key Principles
+
+* **Standardisation First** – Reduce operational variability
+* **Training-Led Execution** – Users must learn before they operate
+* **Data-Driven Control** – Capture truth at source, not via reports
+* **Mobile-First Design** – Built for real-world classroom usage
+
+---
+
+## 📈 Roadmap
+
+### Phase 1 (MVP)
+
+* Training Academy
+* SOP Execution
+* Media Upload
+* Basic Reporting
+
+### Phase 2
+
+* Advanced analytics dashboard
+* CRM and enrolment tracking
+* Enhanced parent experience
+
+### Phase 3
+
+* AI-assisted reporting (EYFS insights)
+* Automated quality scoring
+* Predictive performance metrics
+
+---
+
+## 🎯 Vision
+
+To become the foundational infrastructure for scalable education brands—where quality is systemised, measurable, and independent of individual operators.
+
+---
+
+## 💡 Summary
+
+CFOS transforms franchise operations from people-dependent to system-driven.
+
+It enables:
+
+* Consistent teaching quality
+* Scalable operations
+* Stronger parent trust
+* Transparent performance tracking
+
+**In short: it is a system for replicating excellence.*
