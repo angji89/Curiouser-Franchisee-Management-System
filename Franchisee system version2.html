@@ -1,0 +1,2259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curiouser — Franchise Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;550;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          paper:'#f5f0e7',paper2:'#efe9dd',cream:'#faf6ef',canvas:'#fdfbf6',
+          line:'#e6ddd0',line2:'#d4c8b5',line3:'#b8aa93',
+          ink:'#3f4d51',ink2:'#2a3538',ink3:'#1a2427',
+          muted:'#7a7066',muted2:'#a89f92',
+          ochre:'#c98b2c',ochre2:'#a67321',coral:'#bf5f49',slate:'#5c707a',
+          success:'#5f7a4a',warning:'#b25000',danger:'#a33a29',mint:'#6b8e7b',
+        },
+        fontFamily: {
+          sans:['"Inter"','-apple-system','BlinkMacSystemFont','system-ui','sans-serif'],
+          display:['"Instrument Serif"','Georgia','serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root{--paper:#f5f0e7;--paper2:#efe9dd;--cream:#faf6ef;--canvas:#fdfbf6;--line:#e6ddd0;--line2:#d4c8b5;--ink:#3f4d51;--ink2:#2a3538;--ink3:#1a2427;--muted:#7a7066;--muted2:#a89f92;--ochre:#c98b2c;--ochre2:#a67321;--coral:#bf5f49;--mint:#6b8e7b;--slate:#5c707a;--success:#5f7a4a;--warning:#b25000;--danger:#a33a29;}
+  *{-webkit-tap-highlight-color:transparent;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;box-sizing:border-box;}
+  html,body{background:var(--paper);color:var(--ink);font-family:'Inter',-apple-system,BlinkMacSystemFont,system-ui,sans-serif;font-feature-settings:"cv02","cv03","cv04","cv11","ss01";letter-spacing:-0.011em;}
+  body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85'/%3E%3CfeColorMatrix values='0 0 0 0 0.78 0 0 0 0 0.72 0 0 0 0 0.62 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");opacity:0.5;}
+  #root{position:relative;z-index:1;}
+  .display-serif{font-family:'Instrument Serif',Georgia,serif;font-weight:400;letter-spacing:-0.02em;line-height:1.02;}
+  .display-serif-italic{font-family:'Instrument Serif',Georgia,serif;font-style:italic;font-weight:400;letter-spacing:-0.015em;line-height:1.02;}
+  .display-sans{font-weight:500;letter-spacing:-0.035em;line-height:1.04;}
+  .tracked{letter-spacing:0.15em;text-transform:uppercase;font-size:10.5px;font-weight:500;}
+  .ip-protected{user-select:none;-webkit-user-select:none;-webkit-touch-callout:none;}
+  .ip-protected img,.ip-protected video{pointer-events:none;-webkit-user-drag:none;}
+  .watermark-tile{position:absolute;inset:0;pointer-events:none;display:flex;flex-wrap:wrap;align-content:space-around;justify-content:space-around;overflow:hidden;z-index:5;}
+  .watermark-tile span{color:rgba(63,77,81,0.06);font-size:10.5px;font-weight:400;transform:rotate(-24deg);white-space:nowrap;padding:26px;letter-spacing:0.1em;text-transform:uppercase;}
+  ::-webkit-scrollbar{width:10px;height:10px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:rgba(63,77,81,0.14);border-radius:10px;border:2px solid transparent;background-clip:content-box;}
+  ::-webkit-scrollbar-thumb:hover{background:rgba(63,77,81,0.28);background-clip:content-box;border:2px solid transparent;}
+  .btn-primary{background:linear-gradient(180deg,#394749 0%,#2a3538 100%);color:var(--canvas);font-weight:500;transition:all 180ms cubic-bezier(0.22,0.61,0.36,1);letter-spacing:-0.005em;box-shadow:0 1px 0 rgba(255,255,255,0.1) inset,0 1px 2px rgba(42,53,56,0.15),0 3px 8px rgba(42,53,56,0.08);}
+  .btn-primary:hover{background:linear-gradient(180deg,#2e3d40 0%,#1a2427 100%);transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,0.15) inset,0 2px 4px rgba(42,53,56,0.2),0 6px 16px rgba(42,53,56,0.12);}
+  .btn-primary:active{transform:translateY(0);}
+  .btn-ochre{background:linear-gradient(180deg,#d3952f 0%,#b07921 100%);color:var(--canvas);font-weight:500;transition:all 180ms cubic-bezier(0.22,0.61,0.36,1);box-shadow:0 1px 0 rgba(255,255,255,0.2) inset,0 1px 2px rgba(166,115,33,0.2),0 3px 8px rgba(166,115,33,0.12);}
+  .btn-ochre:hover{transform:translateY(-1px);box-shadow:0 1px 0 rgba(255,255,255,0.25) inset,0 2px 4px rgba(166,115,33,0.3),0 6px 16px rgba(166,115,33,0.18);}
+  .btn-ghost{color:var(--ink);background:var(--canvas);border:1px solid var(--line2);transition:all 180ms cubic-bezier(0.22,0.61,0.36,1);box-shadow:0 1px 2px rgba(63,77,81,0.03);}
+  .btn-ghost:hover{background:var(--cream);border-color:var(--muted2);box-shadow:0 1px 3px rgba(63,77,81,0.06);}
+  .card{background:var(--canvas);border:1px solid var(--line);transition:all 240ms cubic-bezier(0.22,0.61,0.36,1);box-shadow:0 1px 1px rgba(63,77,81,0.02),0 2px 4px rgba(63,77,81,0.03);}
+  .card-hover:hover{border-color:var(--line2);transform:translateY(-2px);box-shadow:0 1px 1px rgba(63,77,81,0.03),0 6px 16px rgba(63,77,81,0.06),0 12px 32px rgba(63,77,81,0.04);}
+  .card-sunken{background:var(--cream);border:1px solid var(--line);}
+  .card-premium{background:linear-gradient(180deg,var(--canvas) 0%,var(--cream) 100%);border:1px solid var(--line);box-shadow:0 1px 1px rgba(63,77,81,0.03),0 4px 12px rgba(63,77,81,0.04);}
+  .progress-track{background:var(--line);}
+  .progress-fill{background:linear-gradient(90deg,#394749,#2a3538);transition:width 500ms cubic-bezier(0.22,0.61,0.36,1);}
+  .hairline{border-color:var(--line);}
+  .hairline-b{border-bottom:1px solid var(--line);}
+  .hairline-t{border-top:1px solid var(--line);}
+  .hairline-r{border-right:1px solid var(--line);}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .animate-fade-up{animation:fadeUp 420ms cubic-bezier(0.22,0.61,0.36,1) both;}
+  .stagger>*{opacity:0;animation:fadeUp 480ms cubic-bezier(0.22,0.61,0.36,1) both;}
+  .stagger>*:nth-child(1){animation-delay:0ms;}
+  .stagger>*:nth-child(2){animation-delay:45ms;}
+  .stagger>*:nth-child(3){animation-delay:90ms;}
+  .stagger>*:nth-child(4){animation-delay:135ms;}
+  .stagger>*:nth-child(5){animation-delay:180ms;}
+  .stagger>*:nth-child(6){animation-delay:225ms;}
+  .stagger>*:nth-child(7){animation-delay:270ms;}
+  .stagger>*:nth-child(8){animation-delay:315ms;}
+  .toast{animation:fadeUp 240ms ease-out,fadeOutToast 240ms ease-in 2.4s forwards;}
+  @keyframes fadeOutToast{to{opacity:0;transform:translateY(-4px);}}
+  .check-box{width:20px;height:20px;border-radius:6px;border:1.5px solid var(--line2);display:inline-flex;align-items:center;justify-content:center;transition:all 180ms ease;flex-shrink:0;background:var(--canvas);}
+  .check-box.checked{background:var(--ink2);border-color:var(--ink2);box-shadow:0 1px 2px rgba(42,53,56,0.2);}
+  .check-box.checked svg{opacity:1;transform:scale(1);}
+  .check-box svg{opacity:0;transform:scale(0.6);transition:all 180ms ease;}
+  .input{background:var(--canvas);border:1px solid var(--line2);color:var(--ink);transition:all 180ms ease;font-feature-settings:"cv02","cv03","cv04","cv11";box-shadow:0 1px 0 rgba(255,255,255,0.5) inset,0 1px 2px rgba(63,77,81,0.03);}
+  .input:focus{outline:none;border-color:var(--ink2);box-shadow:0 0 0 3px rgba(63,77,81,0.07);}
+  .input::placeholder{color:var(--muted2);}
+  .pill{transition:all 150ms ease;background:transparent;color:var(--muted);border:1px solid transparent;}
+  .pill:hover{color:var(--ink2);border-color:var(--line);background:var(--cream);}
+  .pill.active{background:var(--ink2);color:var(--canvas);border-color:var(--ink2);box-shadow:0 1px 2px rgba(42,53,56,0.15);}
+  .side-item{display:flex;align-items:center;gap:12px;padding:8px 12px;border-radius:8px;font-size:13.5px;font-weight:450;color:var(--muted);transition:all 150ms ease;position:relative;}
+  .side-item:hover{color:var(--ink2);background:rgba(230,221,208,0.5);}
+  .side-item.active{color:var(--ink2);background:var(--canvas);box-shadow:0 1px 0 rgba(255,255,255,0.6) inset,0 1px 2px rgba(63,77,81,0.06),0 2px 6px rgba(63,77,81,0.04);}
+  .side-item.active::before{content:'';position:absolute;left:-9px;top:50%;transform:translateY(-50%);width:3px;height:18px;background:var(--ink2);border-radius:0 3px 3px 0;}
+  .side-item .count{margin-left:auto;font-size:11px;color:var(--muted2);font-variant-numeric:tabular-nums;}
+  .hero-grain{background-image:radial-gradient(ellipse 70% 50% at 15% 0%,rgba(201,139,44,0.05),transparent 50%),radial-gradient(ellipse 70% 50% at 85% 100%,rgba(191,95,73,0.03),transparent 50%);}
+  .cert{background:radial-gradient(ellipse at top,rgba(201,139,44,0.04),transparent 60%),var(--canvas);border:1px solid var(--line);box-shadow:0 1px 2px rgba(63,77,81,0.03),0 4px 12px rgba(63,77,81,0.04);}
+  .detail-line::before{content:'';display:inline-block;width:24px;height:1px;background:var(--line2);margin-right:12px;vertical-align:middle;}
+  .chev-r{transition:transform 200ms ease;}
+  .rotated{transform:rotate(90deg);}
+  .tabular-nums{font-variant-numeric:tabular-nums;}
+  ::selection{background:rgba(201,139,44,0.22);color:var(--ink2);}
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--ochre);outline-offset:2px;border-radius:6px;}
+  .score-ring{stroke-linecap:round;transition:stroke-dashoffset 700ms cubic-bezier(0.22,0.61,0.36,1);}
+  .indicator-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0;}
+  .indicator-green{background:var(--mint);box-shadow:0 0 0 3px rgba(107,142,123,0.15);}
+  .indicator-yellow{background:var(--ochre);box-shadow:0 0 0 3px rgba(201,139,44,0.15);}
+  .indicator-red{background:var(--coral);box-shadow:0 0 0 3px rgba(191,95,73,0.15);}
+  @media (max-width:1023px){.sidebar-desktop{display:none !important;}}
+  .thumb{background:linear-gradient(135deg,#5c707a 0%,#2a3538 100%);position:relative;overflow:hidden;}
+  .thumb::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .sparkline{stroke:var(--ink2);fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;}
+</style>
+</head>
+<body class="min-h-screen">
+<div id="root"></div>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, useMemo } = React;
+// ═══════ ICONS ═══════
+const I = {
+  home:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>,
+  book:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+  grad:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
+  clip:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>,
+  users:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+  leaf:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96a1 1 0 0 1 1.8.4c.5 2.5.34 6.06-1.4 9.12A6.94 6.94 0 0 1 13 15"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>,
+  folder:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z"/></svg>,
+  search:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
+  play:(p)=><svg {...p} viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>,
+  check:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+  lock:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+  camera:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>,
+  chevR:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>,
+  chevL:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
+  clock:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+  menu:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>,
+  x:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+  award:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/></svg>,
+  dl:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
+  upload:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>,
+  bell:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>,
+  info:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>,
+  image:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>,
+  pdf:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>,
+  docx:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>,
+  arrow:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+  video:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><polygon points="22 8 16 12 22 16 22 8"/></svg>,
+  plus:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+  edit:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+  store:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l2-5h14l2 5M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9M3 9h18M9 21V12h6v9"/></svg>,
+  send:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
+  chart:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="M7 14l4-4 4 4 5-5"/></svg>,
+  shield:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>,
+  star:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+  starF:(p)=><svg {...p} viewBox="0 0 24 24" fill="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>,
+  trend:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>,
+  trendD:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="22 17 13.5 8.5 8.5 13.5 2 7"/><polyline points="16 17 22 17 22 11"/></svg>,
+  filter:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>,
+  cog:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>,
+  dollar:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>,
+  growth:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><rect x="7" y="13" width="3" height="6"/><rect x="12" y="9" width="3" height="10"/><rect x="17" y="5" width="3" height="14"/></svg>,
+  heart:(p)=><svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>,
+};
+
+// ═══════ DATA ═══════
+const CURRENT_USER = { name:'Sarah Chen', initials:'SC', email:'sarah.chen@curiouser.co', role:'Franchisee Admin', franchise:'Selangor Central · #047' };
+
+const CLASS_THEMES = [
+  { id:'drama',name:'Drama',count:24,desc:'Roleplay, storytelling, puppetry' },
+  { id:'music',name:'Music & Movement',count:18,desc:'Rhythm, song, instruments' },
+  { id:'stem',name:'STEM',count:22,desc:'Discovery, experiments' },
+  { id:'nature',name:'Nature',count:16,desc:'Plants, animals, ecology' },
+  { id:'art',name:'Creative Arts',count:20,desc:'Paint, craft, sculpture' },
+  { id:'story',name:'Storytime',count:15,desc:'Books, language, imagination' },
+];
+
+const MOCK_CLASS_PLANS = {
+  drama: { months: {
+    'April 2026': {
+      'Week 1': [
+        { id:'cp1',title:'The Magic Forest Adventure',ageGroup:'3–4',duration:'45 min',lesson:1,fileType:'docx',fileSize:'284 KB',uploadedBy:'HQ · Dr. Elena',uploadedAt:'2026-03-28',overview:'Children embark on an imaginative journey through an enchanted forest, meeting woodland characters.'},
+        { id:'cp2',title:'Brave Little Explorers',ageGroup:'4–5',duration:'50 min',lesson:2,fileType:'docx',fileSize:'312 KB',uploadedBy:'HQ · Dr. Elena',uploadedAt:'2026-03-28',overview:'Role-play game where children become brave explorers.'},
+      ],
+      'Week 2': [
+        { id:'cp3',title:'Ocean Pollution',ageGroup:'4–5',duration:'50 min',lesson:1,fileType:'docx',fileSize:'342 KB',uploadedBy:'HQ · Marcus Theo',uploadedAt:'2026-04-01',overview:'A dramatic exploration of ocean life and the impact of pollution, using puppets and storytelling.'},
+        { id:'cp4',title:'Save the Turtles',ageGroup:'5–6',duration:'55 min',lesson:2,fileType:'docx',fileSize:'298 KB',uploadedBy:'HQ · Marcus Theo',uploadedAt:'2026-04-01',overview:'Children act as marine rescuers in a scenario-based drama lesson.'},
+      ],
+      'Week 3': [{ id:'cp5',title:'Shadow Puppet Theatre',ageGroup:'4–5',duration:'45 min',lesson:1,fileType:'pdf',fileSize:'1.2 MB',uploadedBy:'HQ · Priya',uploadedAt:'2026-04-08',overview:'Learn simple shadow puppetry techniques.'}],
+    },
+    'May 2026': { 'Week 1':[{id:'cp7',title:'Garden Party',ageGroup:'4–5',duration:'50 min',lesson:1,fileType:'docx',fileSize:'276 KB',uploadedBy:'HQ · Elena',uploadedAt:'2026-04-15',overview:'A whimsical garden-themed drama lesson.'}] }
+  }},
+  music:  { months:{ 'April 2026':{'Week 1':[{id:'cp8',title:'Drumming with Dinosaurs',ageGroup:'3–4',duration:'40 min',lesson:1,fileType:'docx',fileSize:'220 KB',uploadedBy:'HQ · Marcus',uploadedAt:'2026-03-30',overview:'Percussion-based class introducing rhythm.'}]} }},
+  stem:   { months:{ 'April 2026':{'Week 2':[{id:'cp10',title:'Floating and Sinking',ageGroup:'4–5',duration:'45 min',lesson:1,fileType:'docx',fileSize:'318 KB',uploadedBy:'HQ · James',uploadedAt:'2026-04-01',overview:'Hands-on experiments exploring density.'}]} }},
+  nature: { months:{ 'April 2026':{'Week 1':[{id:'cp11',title:'Seed to Sprout',ageGroup:'3–4',duration:'40 min',lesson:1,fileType:'pdf',fileSize:'890 KB',uploadedBy:'HQ · Elena',uploadedAt:'2026-04-01',overview:'Plant seeds and observe growth.'}]} }},
+  art:    { months:{ 'April 2026':{'Week 1':[{id:'cp12',title:'Colour Mixing Magic',ageGroup:'3–4',duration:'40 min',lesson:1,fileType:'docx',fileSize:'256 KB',uploadedBy:'HQ · Priya',uploadedAt:'2026-04-02',overview:'Exploration of primary and secondary colours.'}]} }},
+  story:  { months:{ 'April 2026':{'Week 1':[{id:'cp13',title:'The Hungry Caterpillar',ageGroup:'3–4',duration:'35 min',lesson:1,fileType:'pdf',fileSize:'1.8 MB',uploadedBy:'HQ · Elena',uploadedAt:'2026-04-03',overview:'Interactive reading with tactile props.'}]} }},
+};
+
+const COURSES = [
+  { id:'c1',title:'Early Years Pedagogy',subtitle:'Required',level:'Foundation',hours:4.5,required:true,instructor:'Dr. Elena Hoffmann',progress:72,description:'Foundational principles of early childhood education.',
+    modules:[
+      {id:'m1',title:'Introduction',lessons:[{id:'l1',title:'Welcome to Curiouser',type:'video',duration:4,completed:true},{id:'l2',title:'Our Teaching Philosophy',type:'video',duration:8,completed:true},{id:'l3',title:'Child Development 101',type:'reading',duration:12,completed:true}]},
+      {id:'m2',title:'Developmental Milestones',lessons:[{id:'l4',title:'Ages 3–4',type:'video',duration:10,completed:true},{id:'l5',title:'Ages 4–5',type:'video',duration:11,completed:true},{id:'l6',title:'Ages 5–6: Cognitive growth',type:'reading',duration:14,completed:false,current:true},{id:'l7',title:'Quiz: Milestones',type:'quiz',duration:8,completed:false}]},
+      {id:'m3',title:'Classroom Management',lessons:[{id:'l8',title:'Setting up a learning space',type:'video',duration:9,completed:false},{id:'l9',title:'Handling transitions',type:'reading',duration:10,completed:false}]},
+    ]},
+  { id:'c2',title:'Drama Class Delivery',subtitle:'Required to unlock Drama',level:'Intermediate',hours:3,required:true,instructor:'Marcus Theo',progress:0,description:'How to deliver signature Drama classes.',modules:[{id:'m1',title:'Foundations',lessons:[{id:'l1',title:'Why drama matters',type:'video',duration:7,completed:false,current:true},{id:'l2',title:'Warm-up techniques',type:'video',duration:10,completed:false}]}]},
+  { id:'c3',title:'Parent Communication',subtitle:'Recommended',level:'Foundation',hours:2,required:false,instructor:'Priya Ramesh',progress:100,description:'Build strong partnerships with parents.',modules:[{id:'m1',title:'Partnership',lessons:[{id:'l1',title:'Overview',type:'video',duration:6,completed:true}]}]},
+  { id:'c4',title:'Health, Safety & Safeguarding',subtitle:'Required · Annual',level:'Foundation',hours:2.5,required:true,instructor:'Compliance Team',progress:0,description:'Child safeguarding and health protocols.',modules:[{id:'m1',title:'Basics',lessons:[{id:'l1',title:'Policy overview',type:'video',duration:10,completed:false}]}]},
+];
+
+const QUIZ_QUESTIONS = [
+  { id:'q1',question:'What is the typical attention span for a 4-year-old during a structured activity?',options:['2–5 minutes','8–12 minutes','20–25 minutes','30+ minutes'],correct:1,explanation:'Children aged 4 can typically focus for 8–12 minutes.'},
+  { id:'q2',question:'Which of the following is NOT a key early years developmental domain?',options:['Physical development','Economic development','Social & emotional','Cognitive development'],correct:1,explanation:'The main domains are physical, social-emotional, cognitive, and language.'},
+  { id:'q3',question:'When a child shows distress during drop-off, the best first response is to:',options:['Ignore it','Acknowledge feelings and co-regulate','Distract with a new toy','Ask the parent to stay'],correct:1,explanation:'Acknowledging feelings and co-regulating helps children develop emotional literacy.'},
+];
+
+const SOP_TEMPLATES = [
+  { id:'s1',title:'Drama — Ocean Pollution',linkedClass:'Ocean Pollution · Week 2, April',duration:'50 min',
+    materials:['Blue & green tulle','Plastic bottle props','Fish puppets × 6','Turtle costume','Picture flashcards','Bluetooth speaker'],
+    steps:[
+      {id:'step1',title:'Classroom Setup',desc:'Arrange tulle across the floor. Place puppets and props.',time:'10 min before',requiresPhoto:true,photoPrompt:'Photo of prepared ocean setup'},
+      {id:'step2',title:'Opening Circle',desc:'Gather children in a circle. Sing "The Ocean Song".',time:'5 min',requiresPhoto:false},
+      {id:'step3',title:'Story Introduction',desc:'Read "Turtle\'s Troubled Home" (pages 1–8).',time:'8 min',requiresPhoto:false},
+      {id:'step4',title:'Meet the Sea Creatures',desc:'Assign puppet roles. Children act out swimming.',time:'10 min',requiresPhoto:true,photoPrompt:'Photo of children in character'},
+      {id:'step5',title:'The Problem Appears',desc:'Introduce plastic bottles. Pause for discussion.',time:'8 min',requiresPhoto:false},
+      {id:'step6',title:'The Cleanup Roleplay',desc:'Children become rescuers.',time:'8 min',requiresPhoto:true,photoPrompt:'Photo of cleanup activity'},
+      {id:'step7',title:'Reflection Circle',desc:'Return to circle. Ask open questions.',time:'5 min',requiresPhoto:false},
+      {id:'step8',title:'Cleanup & Reset',desc:'Pack materials.',time:'6 min',requiresPhoto:true,photoPrompt:'Photo of reset classroom'},
+    ]},
+  { id:'s2',title:'Music — Drumming with Dinosaurs',linkedClass:'Drumming · Week 1, April',duration:'40 min',
+    materials:['Hand drums × 8','Flashcards','Speaker'],
+    steps:[
+      {id:'s2-1',title:'Setup drum circle',desc:'Arrange drums.',time:'5 min before',requiresPhoto:true,photoPrompt:'Photo of drum setup'},
+      {id:'s2-2',title:'Welcome song',desc:'Sing hello.',time:'3 min',requiresPhoto:false},
+      {id:'s2-3',title:'Dinosaur warm-up',desc:'March like T-Rex.',time:'7 min',requiresPhoto:false},
+      {id:'s2-4',title:'Call & response',desc:'Teacher taps, children echo.',time:'12 min',requiresPhoto:true,photoPrompt:'Photo of drumming'},
+      {id:'s2-5',title:'Free exploration',desc:'Children experiment.',time:'8 min',requiresPhoto:false},
+      {id:'s2-6',title:'Closing circle',desc:'Final rhythm, goodbye.',time:'5 min',requiresPhoto:false},
+    ]},
+];
+
+const EYFS_AREAS = [
+  { id:'csed',name:'Communication & Language',short:'CL' },
+  { id:'pd',name:'Physical Development',short:'PD' },
+  { id:'psed',name:'Personal, Social & Emotional',short:'PSED' },
+  { id:'lit',name:'Literacy',short:'LIT' },
+  { id:'mat',name:'Mathematics',short:'MAT' },
+  { id:'utw',name:'Understanding the World',short:'UTW' },
+  { id:'ead',name:'Expressive Arts & Design',short:'EAD' },
+];
+
+const MOCK_CHILDREN = [
+  { id:'ch1',name:'Maya Patel',age:'4y 3m',observationsCount:12 },
+  { id:'ch2',name:'Liam O\'Connor',age:'4y 8m',observationsCount:9 },
+  { id:'ch3',name:'Amira Hassan',age:'3y 11m',observationsCount:15 },
+  { id:'ch4',name:'Noah Tanaka',age:'5y 1m',observationsCount:7 },
+  { id:'ch5',name:'Zara Williams',age:'4y 5m',observationsCount:11 },
+  { id:'ch6',name:'Ethan Lim',age:'4y 0m',observationsCount:8 },
+];
+
+const MOCK_OBSERVATIONS = [
+  { id:'o1',childId:'ch1',date:'2026-04-21',note:'Maya confidently narrated the story of the Magic Forest to her peers, using full sentences and descriptive language. She introduced new vocabulary like "whispering" and "glimmering".',areas:['csed','lit'] },
+  { id:'o2',childId:'ch1',date:'2026-04-18',note:'During the drumming activity Maya kept a steady beat and encouraged two quieter children to join in. Strong social leadership.',areas:['psed','ead'] },
+  { id:'o3',childId:'ch1',date:'2026-04-15',note:'Maya counted to 20 unprompted while sorting coloured blocks, and grouped them by both colour and shape.',areas:['mat'] },
+];
+
+const MOCK_USERS = [
+  { id:'u1',name:'Sarah Chen',email:'sarah.chen@curiouser.co',role:'FRANCHISEE_ADMIN',store:'Selangor Central',active:true },
+  { id:'u2',name:'Maya Lee',email:'maya.lee@curiouser.co',role:'TEACHER',store:'Selangor Central',active:true },
+  { id:'u3',name:'Daniel Wong',email:'daniel.w@curiouser.co',role:'TEACHER',store:'Selangor Central',active:true },
+  { id:'u4',name:'Priya Ramesh',email:'priya@curiouser.co',role:'HQ_ADMIN',store:'HQ',active:true },
+  { id:'u5',name:'James Tan',email:'james.t@curiouser.co',role:'FRANCHISEE_ADMIN',store:'KL Bangsar',active:true },
+  { id:'u6',name:'Fatima Ibrahim',email:'fatima.i@curiouser.co',role:'TEACHER',store:'KL Bangsar',active:false },
+];
+
+const MOCK_STORES = [
+  { id:'s1',code:'#047',name:'Selangor Central',region:'Selangor',teachers:6,students:48,status:'active',healthScore:92 },
+  { id:'s2',code:'#048',name:'KL Bangsar',region:'KL',teachers:4,students:32,status:'active',healthScore:74 },
+  { id:'s3',code:'#052',name:'Penang Georgetown',region:'Penang',teachers:5,students:41,status:'active',healthScore:68 },
+  { id:'s4',code:'#055',name:'JB Taman Molek',region:'Johor',teachers:3,students:24,status:'active',healthScore:58 },
+];
+
+const ANALYTICS_STORES = [
+  { id:'s1',name:'Selangor Central',code:'#047',revenue:142400,revenueGrowth:12.4,enrollment:48,enrollmentGrowth:8.0,retention:94,trainingComplete:88,qualityScore:92,health:92 },
+  { id:'s2',name:'KL Bangsar',code:'#048',revenue:98300,revenueGrowth:4.2,enrollment:32,enrollmentGrowth:2.0,retention:86,trainingComplete:74,qualityScore:78,health:74 },
+  { id:'s3',name:'Penang Georgetown',code:'#052',revenue:112600,revenueGrowth:6.7,enrollment:41,enrollmentGrowth:4.5,retention:80,trainingComplete:65,qualityScore:72,health:68 },
+  { id:'s4',name:'JB Taman Molek',code:'#055',revenue:68200,revenueGrowth:-2.1,enrollment:24,enrollmentGrowth:-8.0,retention:72,trainingComplete:48,qualityScore:62,health:58 },
+];
+
+const REVENUE_12M = [84,89,92,88,96,102,108,115,121,128,134,142];
+
+const QC_SUBMISSIONS = [
+  { id:'qc1',storeId:'s1',storeName:'Selangor Central',classTitle:'Ocean Pollution',teacher:'Maya Lee',date:'2026-04-22',mediaType:'video',mediaCount:1,status:'pending',scores:null },
+  { id:'qc2',storeId:'s2',storeName:'KL Bangsar',classTitle:'Drumming with Dinosaurs',teacher:'Aisha Rahman',date:'2026-04-22',mediaType:'photos',mediaCount:6,status:'pending',scores:null },
+  { id:'qc3',storeId:'s1',storeName:'Selangor Central',classTitle:'Shadow Puppets',teacher:'Daniel Wong',date:'2026-04-21',mediaType:'video',mediaCount:1,status:'reviewed',scores:{environment:5,teaching:4,engagement:5,overall:4.7} },
+  { id:'qc4',storeId:'s3',storeName:'Penang Georgetown',classTitle:'Floating and Sinking',teacher:'Mei Ling',date:'2026-04-21',mediaType:'photos',mediaCount:8,status:'reviewed',scores:{environment:3,teaching:4,engagement:4,overall:3.7} },
+  { id:'qc5',storeId:'s4',storeName:'JB Taman Molek',classTitle:'Colour Mixing Magic',teacher:'Siti Aminah',date:'2026-04-20',mediaType:'photos',mediaCount:4,status:'reviewed',scores:{environment:2,teaching:3,engagement:3,overall:2.7} },
+];
+
+// ═══════ UTILITIES ═══════
+function Toast({ message, onDone }) {
+  useEffect(() => { const t = setTimeout(onDone, 2700); return () => clearTimeout(t); }, []);
+  return <div className="toast fixed bottom-20 lg:bottom-6 left-1/2 -translate-x-1/2 z-50 bg-ink2 text-canvas px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2.5 text-[13px]"><I.check className="w-3.5 h-3.5"/><span>{message}</span></div>;
+}
+function ProgressBar({ value, height = 3 }) { return <div className="progress-track rounded-full overflow-hidden" style={{height:`${height}px`}}><div className="progress-fill h-full rounded-full" style={{width:`${value}%`}}/></div>; }
+function Pill({ children, tone = 'neutral' }) {
+  const tones = { neutral:'bg-cream text-muted border border-line', dark:'bg-ink2 text-canvas', ochre:'bg-ochre/10 text-ochre border border-ochre/20', success:'bg-success/10 text-success border border-success/20', warning:'bg-warning/10 text-warning border border-warning/20', danger:'bg-danger/10 text-danger border border-danger/20', outline:'border border-line2 text-ink2 bg-canvas' };
+  return <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium ${tones[tone]}`}>{children}</span>;
+}
+function healthColor(s) { return s >= 85 ? 'green' : s >= 70 ? 'yellow' : 'red'; }
+function healthLabel(s) { return s >= 85 ? 'Excellent' : s >= 70 ? 'Good' : s >= 55 ? 'Needs attention' : 'Critical'; }
+function healthHex(s) { return s >= 85 ? '#6b8e7b' : s >= 70 ? '#c98b2c' : '#bf5f49'; }
+
+function PageHeader({ eyebrow, title, subtitle, right }) {
+  return (
+    <div className="mb-10 lg:mb-12 flex items-end justify-between gap-4 flex-wrap">
+      <div>
+        <div className="tracked text-muted mb-4 detail-line">{eyebrow}</div>
+        <h1 className="display-serif text-[40px] lg:text-[56px] text-ink2 mb-4 leading-[1.02]">{title}</h1>
+        {subtitle && <p className="text-[15px] lg:text-[16px] text-muted max-w-2xl leading-relaxed">{subtitle}</p>}
+      </div>
+      {right && <div>{right}</div>}
+    </div>
+  );
+}
+function BreadcrumbBack({ onClick, label }) {
+  return <button onClick={onClick} className="flex items-center gap-1.5 text-[13px] mb-6 text-muted hover:text-ink2 transition"><I.chevL className="w-4 h-4"/><span>{label}</span></button>;
+}
+// ═══════ APP SHELL ═══════
+function App() {
+  const [page, setPage] = useState('home');
+  const [classSelection, setClassSel] = useState(null);
+  const [currentCourse, setCurrentCourse] = useState(null);
+  const [currentLesson, setCurrentLesson] = useState(null);
+  const [currentSop, setCurrentSop] = useState(null);
+  const [currentChild, setCurrentChild] = useState(null);
+  const [currentQC, setCurrentQC] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [adminView, setAdminView] = useState('users');
+
+  const showToast = (msg) => setToast(msg);
+
+  const nav = (target) => {
+    setPage(target);
+    setMenuOpen(false);
+    setClassSel(null); setCurrentCourse(null); setCurrentLesson(null);
+    setCurrentSop(null); setCurrentChild(null); setCurrentQC(null);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  const NAV_ITEMS = [
+    { id:'home',      label:'Dashboard',     icon:I.home,   section:'main' },
+    { id:'analytics', label:'Analytics',     icon:I.chart,  section:'main' },
+    { id:'classes',   label:'Class Plans',   icon:I.book,   section:'work' },
+    { id:'academy',   label:'Training',      icon:I.grad,   section:'work' },
+    { id:'sop',       label:'SOP Execution', icon:I.clip,   section:'work' },
+    { id:'reports',   label:'Child Reports', icon:I.leaf,   section:'work' },
+    { id:'quality',   label:'Quality Control',icon:I.shield,section:'work' },
+    { id:'admin',     label:'Admin',         icon:I.users,  section:'manage' },
+  ];
+
+  return (
+    <div className="min-h-screen flex">
+      <Sidebar nav={NAV_ITEMS} current={page} onNav={nav}/>
+
+      <div className="flex-1 min-w-0 flex flex-col">
+        <header className="lg:hidden sticky top-0 z-40 bg-paper/85 backdrop-blur-xl border-b hairline">
+          <div className="px-5 h-14 flex items-center justify-between">
+            <button className="p-1.5 -ml-1.5" onClick={()=>setMenuOpen(true)}><I.menu className="w-5 h-5 text-ink"/></button>
+            <div className="flex items-center gap-2">
+              <div className="w-7 h-7 rounded-md bg-ink2 flex items-center justify-center">
+                <span className="display-serif-italic text-canvas text-[16px] leading-none">C</span>
+              </div>
+              <span className="text-[15px] font-medium text-ink2" style={{letterSpacing:'-0.02em'}}>Curiouser</span>
+            </div>
+            <div className="w-7 h-7 rounded-full bg-ink2 text-canvas flex items-center justify-center text-[10.5px] font-medium">{CURRENT_USER.initials}</div>
+          </div>
+        </header>
+
+        {menuOpen && (
+          <div className="lg:hidden fixed inset-0 z-50 bg-ink2/30 backdrop-blur-sm" onClick={()=>setMenuOpen(false)}>
+            <aside className="absolute left-0 top-0 h-full w-[280px] bg-paper2 p-5 animate-fade-up" onClick={e=>e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-7 h-7 rounded-md bg-ink2 flex items-center justify-center">
+                    <span className="display-serif-italic text-canvas text-[16px] leading-none">C</span>
+                  </div>
+                  <span className="text-[15px] font-medium text-ink2">Curiouser</span>
+                </div>
+                <button onClick={()=>setMenuOpen(false)}><I.x className="w-5 h-5 text-muted"/></button>
+              </div>
+              <nav className="space-y-0.5">
+                {NAV_ITEMS.map(item => (
+                  <button key={item.id} onClick={()=>nav(item.id)} className={`side-item w-full ${page === item.id ? 'active' : ''}`}>
+                    <item.icon className="w-4 h-4"/><span>{item.label}</span>
+                  </button>
+                ))}
+              </nav>
+            </aside>
+          </div>
+        )}
+
+        <header className="sidebar-desktop sticky top-0 z-30 bg-paper/85 backdrop-blur-xl border-b hairline hidden lg:block">
+          <div className="px-8 h-14 flex items-center justify-between">
+            <div className="relative">
+              <I.search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted2"/>
+              <input placeholder="Search anything…" className="input pl-9 pr-4 py-1.5 rounded-lg text-[13px] w-72"/>
+            </div>
+            <div className="flex items-center gap-4">
+              <button className="relative p-1.5 hover:bg-cream rounded-lg transition">
+                <I.bell className="w-[17px] h-[17px] text-ink"/>
+                <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-coral rounded-full"></span>
+              </button>
+              <div className="flex items-center gap-2.5">
+                <div className="text-right">
+                  <div className="text-[12.5px] font-medium text-ink2 leading-tight">{CURRENT_USER.name}</div>
+                  <div className="text-[10.5px] text-muted leading-tight mt-0.5">{CURRENT_USER.franchise}</div>
+                </div>
+                <div className="w-8 h-8 rounded-full bg-ink2 text-canvas flex items-center justify-center text-[10.5px] font-medium">{CURRENT_USER.initials}</div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-1 min-w-0 pb-20 lg:pb-10">
+          {page === 'home'      && <HomePage onNav={nav} />}
+          {page === 'analytics' && <AnalyticsPage onNav={nav} />}
+
+          {page === 'classes' && !classSelection && <ClassPlansLibrary onOpen={setClassSel} showToast={showToast}/>}
+          {page === 'classes' &&  classSelection  && <ClassPlanViewer selection={classSelection} onBack={()=>setClassSel(null)} />}
+
+          {page === 'academy' && !currentCourse && <AcademyHome onOpen={setCurrentCourse} />}
+          {page === 'academy' &&  currentCourse && !currentLesson && <CoursePage course={currentCourse} onBack={()=>setCurrentCourse(null)} onOpenLesson={setCurrentLesson} showToast={showToast}/>}
+          {page === 'academy' &&  currentCourse &&  currentLesson && <LessonPage course={currentCourse} lesson={currentLesson} onBack={()=>setCurrentLesson(null)} showToast={showToast}/>}
+
+          {page === 'sop' && !currentSop && <SOPLibrary onOpen={setCurrentSop}/>}
+          {page === 'sop' &&  currentSop && <SOPRunner sop={currentSop} onBack={()=>setCurrentSop(null)} showToast={showToast}/>}
+
+          {page === 'reports' && !currentChild && <ReportsHome onOpen={setCurrentChild}/>}
+          {page === 'reports' &&  currentChild && <ChildReport child={currentChild} onBack={()=>setCurrentChild(null)} showToast={showToast}/>}
+
+          {page === 'quality' && !currentQC && <QualityHome onOpen={setCurrentQC} showToast={showToast}/>}
+          {page === 'quality' &&  currentQC && <QualityReview submission={currentQC} onBack={()=>setCurrentQC(null)} showToast={showToast}/>}
+
+          {page === 'admin' && <AdminPanel view={adminView} setView={setAdminView} showToast={showToast}/>}
+        </main>
+
+        <nav className="lg:hidden fixed bottom-0 left-0 right-0 bg-paper/95 backdrop-blur-xl border-t hairline z-30">
+          <div className="grid grid-cols-5">
+            {[
+              { id:'home',icon:I.home,label:'Home' },
+              { id:'analytics',icon:I.chart,label:'Analytics' },
+              { id:'classes',icon:I.book,label:'Plans' },
+              { id:'sop',icon:I.clip,label:'SOP' },
+              { id:'quality',icon:I.shield,label:'Quality' },
+            ].map(n => (
+              <button key={n.id} onClick={()=>nav(n.id)} className={`flex flex-col items-center py-2 gap-0.5 transition ${page === n.id ? 'text-ink2' : 'text-muted2'}`}>
+                <n.icon className="w-[17px] h-[17px]" /><span className="text-[10px] font-medium">{n.label}</span>
+              </button>
+            ))}
+          </div>
+        </nav>
+
+        {toast && <Toast message={toast} onDone={()=>setToast(null)} />}
+      </div>
+    </div>
+  );
+}
+
+function Sidebar({ nav, current, onNav }) {
+  return (
+    <aside className="sidebar-desktop hidden lg:flex flex-col w-[244px] shrink-0 bg-paper2 hairline-r sticky top-0 h-screen">
+      <div className="p-5 pb-4">
+        <button onClick={()=>onNav('home')} className="flex items-center gap-2.5 w-full">
+          <div className="w-8 h-8 rounded-lg bg-ink2 flex items-center justify-center shadow-sm">
+            <span className="display-serif-italic text-canvas text-[18px] leading-none">C</span>
+          </div>
+          <div className="flex-1 text-left">
+            <div className="text-[14px] font-medium text-ink2" style={{letterSpacing:'-0.02em'}}>Curiouser</div>
+            <div className="tracked text-muted2">CFOS</div>
+          </div>
+        </button>
+      </div>
+
+      <nav className="flex-1 overflow-y-auto px-3 py-2 space-y-5">
+        <div>
+          <div className="tracked text-muted2 px-3 mb-2">Overview</div>
+          <div className="space-y-0.5">
+            {nav.filter(n => n.section === 'main').map(item => (
+              <button key={item.id} onClick={()=>onNav(item.id)} className={`side-item w-full ${current === item.id ? 'active' : ''}`}>
+                <item.icon className="w-4 h-4"/><span>{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="tracked text-muted2 px-3 mb-2">Workspace</div>
+          <div className="space-y-0.5">
+            {nav.filter(n => n.section === 'work').map(item => (
+              <button key={item.id} onClick={()=>onNav(item.id)} className={`side-item w-full ${current === item.id ? 'active' : ''}`}>
+                <item.icon className="w-4 h-4"/><span>{item.label}</span>
+                {item.id === 'quality' && <span className="count">2</span>}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div>
+          <div className="tracked text-muted2 px-3 mb-2">Manage</div>
+          <div className="space-y-0.5">
+            {nav.filter(n => n.section === 'manage').map(item => (
+              <button key={item.id} onClick={()=>onNav(item.id)} className={`side-item w-full ${current === item.id ? 'active' : ''}`}>
+                <item.icon className="w-4 h-4"/><span>{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
+
+      <div className="p-3 hairline-t">
+        <div className="flex items-center gap-3 p-2">
+          <div className="w-8 h-8 rounded-full bg-ink2 text-canvas flex items-center justify-center text-[10.5px] font-medium">{CURRENT_USER.initials}</div>
+          <div className="flex-1 min-w-0">
+            <div className="text-[13px] font-medium text-ink2 truncate">{CURRENT_USER.name}</div>
+            <div className="text-[10.5px] text-muted truncate">{CURRENT_USER.franchise}</div>
+          </div>
+          <button className="p-1 hover:bg-cream rounded-md transition text-muted2"><I.cog className="w-4 h-4"/></button>
+        </div>
+      </div>
+    </aside>
+  );
+}
+
+// ═══════ HOME ═══════
+function HomePage({ onNav }) {
+  return (
+    <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-10 lg:py-14 hero-grain">
+      <div className="mb-12 lg:mb-14 animate-fade-up">
+        <div className="tracked text-muted detail-line mb-5">Thursday · 23 April</div>
+        <h1 className="display-serif text-[48px] md:text-[72px] lg:text-[88px] text-ink2 mb-3">
+          Good morning, <em className="display-serif-italic">Sarah</em>.
+        </h1>
+        <p className="display-serif text-[22px] md:text-[28px] text-muted max-w-3xl leading-[1.3]">
+          Today is a good day to teach <em className="display-serif-italic text-ink">something wonderful</em>.
+        </p>
+      </div>
+
+      <div className="mb-14 lg:mb-16">
+        <div className="flex items-baseline justify-between mb-5">
+          <div>
+            <div className="tracked text-muted mb-2">Your workspace</div>
+            <h2 className="display-sans text-[24px] lg:text-[28px] text-ink2">Jump back in</h2>
+          </div>
+          <span className="text-[12px] text-muted hidden md:block">8 modules</span>
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 stagger">
+          <ModuleTile onClick={()=>onNav('classes')}   icon={I.book}   eyebrow="Curriculum"   title="Class Plans"  meta="24 plans"/>
+          <ModuleTile onClick={()=>onNav('academy')}   icon={I.grad}   eyebrow="Learning"     title="Training"     meta="72% complete"/>
+          <ModuleTile onClick={()=>onNav('sop')}       icon={I.clip}   eyebrow="Operations"   title="SOP"          meta="Ready for tomorrow"/>
+          <ModuleTile onClick={()=>onNav('reports')}   icon={I.leaf}   eyebrow="Reporting"    title="Child Reports" meta="12 due soon"/>
+          <ModuleTile onClick={()=>onNav('quality')}   icon={I.shield} eyebrow="Quality"      title="Quality Control" meta="2 pending review"/>
+          <ModuleTile onClick={()=>onNav('analytics')} icon={I.chart}  eyebrow="Insights"     title="Analytics"    meta="Health 92"/>
+          <ModuleTile onClick={()=>onNav('admin')}     icon={I.users}  eyebrow="Manage"       title="Admin"        meta="6 teachers"/>
+          <ModuleTile onClick={()=>onNav('reports')}   icon={I.star}   eyebrow="Recognition"  title="Certificates" meta="3 earned"/>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-12 lg:mb-14 stagger">
+        <StatCard value="24"  label="Class plans this month" trend="+4" trendUp/>
+        <StatCard value="68%" label="Training progress"      trend="+12%" trendUp/>
+        <StatCard value="12"  label="SOPs completed"         trend="+2" trendUp/>
+        <StatCard value="92"  label="Health score"           trend="Excellent" positive/>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4 lg:gap-5 mb-14 lg:mb-16">
+        <Panel eyebrow="Resume learning" action={{label:'All courses', onClick:()=>onNav('academy')}}>
+          <div className="flex gap-4">
+            <div className="w-16 h-16 rounded-xl bg-cream hairline border flex items-center justify-center shrink-0">
+              <I.play className="w-5 h-5 text-ink2"/>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[11px] text-muted mb-1">Early Years Pedagogy</div>
+              <div className="text-[15px] font-medium text-ink2 leading-tight mb-3 truncate">Ages 5–6: Cognitive growth</div>
+              <ProgressBar value={72} />
+              <div className="flex justify-between text-[11px] text-muted mt-1.5 tabular-nums">
+                <span>72% complete</span>
+                <span>~1h 30m remaining</span>
+              </div>
+            </div>
+          </div>
+        </Panel>
+
+        <Panel eyebrow="Tomorrow's class" action={{label:'Open SOP', onClick:()=>onNav('sop')}}>
+          <div className="flex gap-4">
+            <div className="w-16 h-16 rounded-xl bg-ink2 text-canvas flex flex-col items-center justify-center shrink-0 shadow-sm">
+              <div className="text-[9px] font-medium tracked leading-none text-canvas/70">APR</div>
+              <div className="display-serif text-[24px] leading-none mt-1">24</div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[11px] text-muted mb-1">Drama · 10:30 AM</div>
+              <div className="text-[15px] font-medium text-ink2 leading-tight mb-2 truncate">Ocean Pollution</div>
+              <div className="text-[12px] text-muted mb-3">Ages 4–5 · 50 min · 8 steps</div>
+              <div className="flex gap-1.5">
+                <Pill tone="neutral">Plan ready</Pill>
+                <Pill tone="neutral">SOP linked</Pill>
+              </div>
+            </div>
+          </div>
+        </Panel>
+      </div>
+
+      <div className="bg-ink2 text-canvas rounded-2xl lg:rounded-3xl px-7 lg:px-14 py-12 lg:py-20 relative overflow-hidden animate-fade-up shadow-xl">
+        <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-ochre/10 blur-3xl"></div>
+        <div className="relative">
+          <div className="tracked text-ochre/70 detail-line before:bg-ochre/30 mb-5">This summer</div>
+          <h3 className="display-serif text-[36px] md:text-[56px] lg:text-[64px] mb-4 leading-[1.04]">
+            Introducing <em className="display-serif-italic text-canvas/85">Ocean Heroes</em>.
+          </h3>
+          <p className="text-canvas/70 text-[16px] lg:text-[19px] max-w-xl mb-10 leading-relaxed">
+            A new four-week drama and STEM unit launching June 1. Complete the training module now to unlock the curriculum.
+          </p>
+          <div className="flex gap-3 flex-wrap">
+            <button className="btn-ochre px-6 py-3 rounded-full text-[13px]">Preview unit</button>
+            <button className="text-canvas/90 px-6 py-3 text-[13px] font-medium hover:text-canvas inline-flex items-center gap-1.5 group">
+              Read more <I.arrow className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition"/>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ModuleTile({ onClick, icon: Icon, eyebrow, title, meta }) {
+  return (
+    <button onClick={onClick} className="card card-hover text-left rounded-2xl p-5 lg:p-6 group">
+      <div className="flex items-start justify-between mb-8 lg:mb-10">
+        <div className="w-10 h-10 rounded-xl bg-cream hairline border flex items-center justify-center text-ink2 group-hover:text-ink3 transition">
+          <Icon className="w-[18px] h-[18px]"/>
+        </div>
+        <I.arrow className="w-4 h-4 text-muted2 group-hover:text-ink2 group-hover:translate-x-0.5 transition-all"/>
+      </div>
+      <div className="tracked text-muted2 mb-1.5">{eyebrow}</div>
+      <h3 className="text-[17px] lg:text-[18px] font-medium text-ink2 mb-1" style={{letterSpacing:'-0.02em'}}>{title}</h3>
+      <div className="text-[12px] text-muted">{meta}</div>
+    </button>
+  );
+}
+
+function StatCard({ value, label, trend, trendUp, positive }) {
+  return (
+    <div className="card rounded-2xl p-5 lg:p-6">
+      <div className="flex items-baseline justify-between mb-1">
+        <div className="display-sans text-[30px] lg:text-[36px] text-ink2 tabular-nums">{value}</div>
+        {trend && (
+          <div className={`text-[11px] font-medium inline-flex items-center gap-0.5 ${trendUp || positive ? 'text-success' : 'text-coral'}`}>
+            {trendUp && <I.trend className="w-3 h-3"/>}{trend}
+          </div>
+        )}
+      </div>
+      <div className="text-[12px] text-muted">{label}</div>
+    </div>
+  );
+}
+
+function Panel({ eyebrow, action, children }) {
+  return (
+    <div className="card rounded-2xl p-6 animate-fade-up">
+      <div className="flex items-center justify-between mb-5">
+        <div className="tracked text-muted2">{eyebrow}</div>
+        {action && <button onClick={action.onClick} className="text-[12px] text-ochre hover:text-ochre2 inline-flex items-center gap-1 transition">{action.label}<I.chevR className="w-3 h-3"/></button>}
+      </div>
+      {children}
+    </div>
+  );
+}
+// ═══════ ANALYTICS ═══════
+function AnalyticsPage({ onNav }) {
+  const [period, setPeriod] = useState('12m');
+  const totalRevenue = ANALYTICS_STORES.reduce((s,x)=>s+x.revenue,0);
+  const totalEnrollment = ANALYTICS_STORES.reduce((s,x)=>s+x.enrollment,0);
+  const avgRetention = Math.round(ANALYTICS_STORES.reduce((s,x)=>s+x.retention,0) / ANALYTICS_STORES.length);
+  const avgHealth = Math.round(ANALYTICS_STORES.reduce((s,x)=>s+x.health,0) / ANALYTICS_STORES.length);
+
+  return (
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <PageHeader
+        eyebrow="Executive overview"
+        title={<>Analytics <em className="display-serif-italic text-muted">dashboard</em></>}
+        subtitle="Revenue, enrollment, retention and quality across every franchise — at a glance."
+        right={
+          <div className="flex items-center gap-1 p-1 bg-cream rounded-full border hairline">
+            {['30d','3m','12m','YTD'].map(p => (
+              <button key={p} onClick={()=>setPeriod(p)} className={`px-3 py-1 rounded-full text-[12px] font-medium transition ${period===p ? 'bg-ink2 text-canvas' : 'text-muted hover:text-ink2'}`}>{p}</button>
+            ))}
+          </div>
+        }
+      />
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-8">
+        <KPICard icon={I.dollar} eyebrow="Revenue"    value={`RM ${(totalRevenue/1000).toFixed(1)}k`} change="+8.2%" trend="up"   spark={REVENUE_12M}/>
+        <KPICard icon={I.growth} eyebrow="Enrollment" value={String(totalEnrollment)}                 change="+4.8%" trend="up"   spark={[98,102,108,110,118,122,128,134,138,141,143,145]}/>
+        <KPICard icon={I.heart}  eyebrow="Retention"  value={`${avgRetention}%`}                       change="−1.2%" trend="down" spark={[88,87,89,88,86,87,85,84,84,83,83,avgRetention]}/>
+        <KPICard icon={I.shield} eyebrow="Health"     value={String(avgHealth)}                        change={healthLabel(avgHealth)} trend={avgHealth>=85?'up':'flat'} spark={[68,70,72,74,75,74,75,76,72,73,73,avgHealth]}/>
+      </div>
+
+      <div className="grid lg:grid-cols-3 gap-4 lg:gap-5 mb-8">
+        <div className="lg:col-span-2 card rounded-2xl p-6 lg:p-8">
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <div className="tracked text-muted2 mb-2">Revenue · last 12 months</div>
+              <div className="display-sans text-[32px] lg:text-[40px] text-ink2 tabular-nums">RM {(totalRevenue/1000).toFixed(1)}k</div>
+              <div className="text-[12px] text-success mt-1 inline-flex items-center gap-1"><I.trend className="w-3 h-3"/> +8.2% vs last period</div>
+            </div>
+            <div className="flex gap-4 text-[11px] text-muted">
+              <span className="inline-flex items-center gap-1.5"><span className="w-2 h-2 rounded-sm bg-ink2"></span>Revenue</span>
+              <span className="inline-flex items-center gap-1.5"><span className="w-2 h-2 rounded-sm bg-ochre"></span>Target</span>
+            </div>
+          </div>
+          <RevenueChart data={REVENUE_12M}/>
+        </div>
+
+        <div className="card rounded-2xl p-6 lg:p-8 flex flex-col">
+          <div className="tracked text-muted2 mb-2">Portfolio health</div>
+          <div className="flex items-center justify-center my-4">
+            <HealthRing value={avgHealth} size={160}/>
+          </div>
+          <div className="space-y-2 mt-auto">
+            {[
+              { label:'Excellent (85+)', count:ANALYTICS_STORES.filter(s=>s.health>=85).length, color:'green' },
+              { label:'Good (70–84)',    count:ANALYTICS_STORES.filter(s=>s.health>=70 && s.health<85).length, color:'yellow' },
+              { label:'Needs attention', count:ANALYTICS_STORES.filter(s=>s.health<70).length, color:'red' },
+            ].map(row => (
+              <div key={row.label} className="flex items-center justify-between text-[12.5px]">
+                <div className="flex items-center gap-2.5">
+                  <span className={`indicator-dot indicator-${row.color}`}></span>
+                  <span className="text-ink2">{row.label}</span>
+                </div>
+                <span className="text-muted tabular-nums">{row.count} stores</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="card rounded-2xl overflow-hidden mb-8">
+        <div className="flex items-center justify-between p-5 lg:p-6 hairline-b">
+          <div>
+            <h3 className="text-[16px] font-medium text-ink2" style={{letterSpacing:'-0.02em'}}>Store performance</h3>
+            <div className="text-[12px] text-muted mt-0.5">{ANALYTICS_STORES.length} franchises · sorted by health score</div>
+          </div>
+          <button className="btn-ghost px-3 py-1.5 rounded-full text-[12px] inline-flex items-center gap-1.5"><I.filter className="w-3 h-3"/> Filter</button>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-[13px] min-w-[900px]">
+            <thead>
+              <tr className="tracked text-muted2 bg-cream/60 hairline-b">
+                <th className="text-left font-medium px-5 lg:px-6 py-3">Store</th>
+                <th className="text-right font-medium px-3 py-3">Revenue</th>
+                <th className="text-right font-medium px-3 py-3">Enrollment</th>
+                <th className="text-right font-medium px-3 py-3">Retention</th>
+                <th className="text-right font-medium px-3 py-3">Training</th>
+                <th className="text-right font-medium px-3 py-3">Quality</th>
+                <th className="text-right font-medium px-5 lg:px-6 py-3">Health</th>
+              </tr>
+            </thead>
+            <tbody>
+              {ANALYTICS_STORES.sort((a,b)=>b.health-a.health).map((s, i, arr) => (
+                <tr key={s.id} className={`${i !== arr.length-1 ? 'hairline-b' : ''} hover:bg-cream/40 transition cursor-pointer`}>
+                  <td className="px-5 lg:px-6 py-4">
+                    <div className="flex items-center gap-3">
+                      <span className={`indicator-dot indicator-${healthColor(s.health)}`}></span>
+                      <div>
+                        <div className="font-medium text-ink2">{s.name}</div>
+                        <div className="text-[11px] text-muted tabular-nums">{s.code} · {s.enrollment} students</div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-3 py-4 text-right tabular-nums">
+                    <div className="text-ink2 font-medium">RM {(s.revenue/1000).toFixed(1)}k</div>
+                    <div className={`text-[11px] ${s.revenueGrowth >= 0 ? 'text-success' : 'text-coral'}`}>{s.revenueGrowth >= 0 ? '+' : ''}{s.revenueGrowth}%</div>
+                  </td>
+                  <td className="px-3 py-4 text-right tabular-nums">
+                    <div className="text-ink2">{s.enrollment}</div>
+                    <div className={`text-[11px] ${s.enrollmentGrowth >= 0 ? 'text-success' : 'text-coral'}`}>{s.enrollmentGrowth >= 0 ? '+' : ''}{s.enrollmentGrowth}%</div>
+                  </td>
+                  <MetricCell value={s.retention} threshold={{good:85,ok:75}} suffix="%"/>
+                  <MetricCell value={s.trainingComplete} threshold={{good:80,ok:65}} suffix="%"/>
+                  <MetricCell value={s.qualityScore} threshold={{good:85,ok:70}} suffix=""/>
+                  <td className="px-5 lg:px-6 py-4 text-right">
+                    <div className="inline-flex items-center gap-2">
+                      <div className="display-sans text-[20px] text-ink2 tabular-nums">{s.health}</div>
+                      <Pill tone={s.health >= 85 ? 'success' : s.health >= 70 ? 'ochre' : 'danger'}>{healthLabel(s.health)}</Pill>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div className="grid lg:grid-cols-2 gap-4 lg:gap-5">
+        <div className="card rounded-2xl p-6">
+          <h4 className="text-[14px] font-medium text-ink2 mb-4">Enrollment by store</h4>
+          <BarChart data={ANALYTICS_STORES.map(s => ({ label:s.name, value:s.enrollment }))}/>
+        </div>
+        <div className="card rounded-2xl p-6">
+          <h4 className="text-[14px] font-medium text-ink2 mb-4">Quality score by store</h4>
+          <BarChart data={ANALYTICS_STORES.map(s => ({ label:s.name, value:s.qualityScore, color:healthHex(s.qualityScore) }))} max={100}/>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MetricCell({ value, threshold, suffix }) {
+  const color = value >= threshold.good ? 'text-success' : value >= threshold.ok ? 'text-ochre' : 'text-coral';
+  return <td className="px-3 py-4 text-right tabular-nums"><div className={`${color} font-medium`}>{value}{suffix}</div></td>;
+}
+
+function KPICard({ icon: Icon, eyebrow, value, change, trend, spark }) {
+  const trendColor = trend === 'up' ? 'text-success' : trend === 'down' ? 'text-coral' : 'text-muted';
+  const TrendIcon = trend === 'up' ? I.trend : trend === 'down' ? I.trendD : null;
+  return (
+    <div className="card rounded-2xl p-5 lg:p-6">
+      <div className="flex items-center justify-between mb-5">
+        <div className="w-9 h-9 rounded-lg bg-cream hairline border flex items-center justify-center">
+          <Icon className="w-4 h-4 text-ink2"/>
+        </div>
+        {spark && <Sparkline data={spark} width={72} height={28}/>}
+      </div>
+      <div className="tracked text-muted2 mb-1.5">{eyebrow}</div>
+      <div className="display-sans text-[28px] lg:text-[32px] text-ink2 tabular-nums mb-1">{value}</div>
+      <div className={`text-[11.5px] font-medium inline-flex items-center gap-0.5 ${trendColor}`}>
+        {TrendIcon && <TrendIcon className="w-3 h-3"/>}{change}
+      </div>
+    </div>
+  );
+}
+
+function Sparkline({ data, width = 80, height = 30, color }) {
+  const max = Math.max(...data), min = Math.min(...data);
+  const range = max - min || 1;
+  const points = data.map((v, i) => {
+    const x = (i / (data.length - 1)) * width;
+    const y = height - ((v - min) / range) * (height - 4) - 2;
+    return `${x},${y}`;
+  }).join(' ');
+  return <svg width={width} height={height} className="overflow-visible"><polyline points={points} className="sparkline" style={{stroke:color||'var(--ink2)'}}/></svg>;
+}
+
+function RevenueChart({ data }) {
+  const months = ['May','Jun','Jul','Aug','Sep','Oct','Nov','Dec','Jan','Feb','Mar','Apr'];
+  const max = Math.max(...data);
+  const target = 130;
+  const width = 100;
+  const height = 200;
+  return (
+    <div className="relative">
+      <svg viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none" className="w-full h-[200px]">
+        <line x1="0" y1={height - (target/max)*height*0.85} x2={width} y2={height - (target/max)*height*0.85} stroke="var(--ochre)" strokeWidth="0.25" strokeDasharray="1,1" opacity="0.6"/>
+        <polygon points={`0,${height} ${data.map((v,i)=>`${(i/(data.length-1))*width},${height-(v/max)*height*0.85}`).join(' ')} ${width},${height}`} fill="url(#revgrad)" opacity="0.3"/>
+        <polyline points={data.map((v,i)=>`${(i/(data.length-1))*width},${height-(v/max)*height*0.85}`).join(' ')} fill="none" stroke="var(--ink2)" strokeWidth="0.5" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke"/>
+        <defs><linearGradient id="revgrad" x1="0" x2="0" y1="0" y2="1"><stop offset="0%" stopColor="var(--ink2)" stopOpacity="0.4"/><stop offset="100%" stopColor="var(--ink2)" stopOpacity="0"/></linearGradient></defs>
+        {data.map((v,i)=><circle key={i} cx={(i/(data.length-1))*width} cy={height-(v/max)*height*0.85} r="0.4" fill="var(--ink2)" vectorEffect="non-scaling-stroke"/>)}
+      </svg>
+      <div className="flex justify-between text-[10.5px] text-muted2 mt-3 px-1">
+        {months.map((m, i) => <span key={i} className={i === months.length-1 ? 'text-ink2 font-medium' : ''}>{m}</span>)}
+      </div>
+    </div>
+  );
+}
+
+function HealthRing({ value, size }) {
+  const strokeWidth = 8;
+  const r = size/2 - strokeWidth;
+  const c = 2 * Math.PI * r;
+  const offset = c - (value/100) * c;
+  const color = healthHex(value);
+  return (
+    <svg width={size} height={size} className="-rotate-90 shrink-0">
+      <circle cx={size/2} cy={size/2} r={r} fill="none" strokeWidth={strokeWidth} stroke="var(--line)"/>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" strokeWidth={strokeWidth} strokeLinecap="round" stroke={color} strokeDasharray={c} strokeDashoffset={offset} className="score-ring"/>
+      <text x={size/2} y={size/2 - 2} textAnchor="middle" transform={`rotate(90 ${size/2} ${size/2})`} fill="var(--ink2)" fontSize={size*0.22} fontWeight="500" fontFamily="Inter" className="tabular-nums">{value}</text>
+      <text x={size/2} y={size/2 + 14} textAnchor="middle" transform={`rotate(90 ${size/2} ${size/2})`} fill="var(--muted)" fontSize="10" fontFamily="Inter" style={{letterSpacing:'0.1em',textTransform:'uppercase'}}>avg health</text>
+    </svg>
+  );
+}
+
+function BarChart({ data, max }) {
+  const actualMax = max || Math.max(...data.map(d => d.value));
+  return (
+    <div className="space-y-2.5">
+      {data.map(d => (
+        <div key={d.label} className="flex items-center gap-3 text-[12px]">
+          <div className="w-32 truncate text-ink2">{d.label}</div>
+          <div className="flex-1 h-6 bg-cream rounded-md overflow-hidden hairline border relative">
+            <div className="h-full rounded-md transition-all duration-500" style={{ width:`${(d.value / actualMax) * 100}%`, background:d.color || 'var(--ink2)' }}/>
+          </div>
+          <div className="w-10 text-right text-ink2 font-medium tabular-nums">{d.value}</div>
+        </div>
+      ))}
+    </div>
+  );
+}
+// ═══════ CLASS PLANS ═══════
+function ClassPlansLibrary({ onOpen, showToast }) {
+  const [themeId, setThemeId] = useState(null);
+  const [month, setMonth] = useState(null);
+  const [search, setSearch] = useState('');
+  const [showUpload, setShowUpload] = useState(false);
+
+  if (themeId && month) return <WeekView themeId={themeId} month={month} onOpen={onOpen} onBackMonth={()=>setMonth(null)} onBackTheme={()=>{setThemeId(null);setMonth(null);}} />;
+  if (themeId) return <MonthView themeId={themeId} onSelectMonth={setMonth} onBack={()=>setThemeId(null)} />;
+
+  const themes = CLASS_THEMES.filter(t => t.name.toLowerCase().includes(search.toLowerCase()));
+
+  return (
+    <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <PageHeader
+        eyebrow="Curriculum library"
+        title={<>Class <em className="display-serif-italic text-muted">Plans</em></>}
+        subtitle="HQ uploads Word or PDF lesson plans here. Franchisees view inline — always protected, never downloadable."
+        right={<button onClick={()=>setShowUpload(true)} className="btn-primary px-4 py-2.5 rounded-full text-[13px] inline-flex items-center gap-2"><I.upload className="w-3.5 h-3.5"/> Upload plan</button>}
+      />
+
+      {showUpload && <UploadClassPlan onClose={()=>setShowUpload(false)} showToast={showToast}/>}
+
+      <div className="relative mb-8 max-w-sm">
+        <I.search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted2"/>
+        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search themes" className="input w-full pl-10 pr-4 py-2.5 rounded-xl text-[14px]"/>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
+        {themes.map(theme => (
+          <button key={theme.id} onClick={()=>setThemeId(theme.id)} className="card card-hover text-left rounded-2xl p-6">
+            <div className="flex items-start justify-between mb-10">
+              <div className="w-10 h-10 rounded-xl bg-cream hairline border flex items-center justify-center">
+                <I.folder className="w-[17px] h-[17px] text-ink2"/>
+              </div>
+              <span className="text-[11px] text-muted2 tabular-nums">{theme.count} plans</span>
+            </div>
+            <h3 className="text-[22px] font-medium text-ink2 mb-1" style={{letterSpacing:'-0.025em'}}>{theme.name}</h3>
+            <p className="text-[13px] text-muted leading-relaxed">{theme.desc}</p>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function UploadClassPlan({ onClose, showToast }) {
+  const [step, setStep] = useState('file');
+  const [fileName, setFileName] = useState('');
+  const [title, setTitle] = useState('');
+  const [theme, setTheme] = useState('drama');
+  const [month, setMonth] = useState('April 2026');
+  const [week, setWeek] = useState('Week 1');
+  const [uploading, setUploading] = useState(false);
+
+  const simulateUpload = () => {
+    setFileName('Ocean_Heroes_Week1_Lesson2.docx');
+    setTitle('Ocean Heroes · Lesson 2');
+    setStep('meta');
+  };
+
+  const finalize = () => {
+    setUploading(true);
+    setTimeout(() => { showToast('Plan uploaded and published'); onClose(); }, 900);
+  };
+
+  return (
+    <div className="mb-10 card rounded-2xl p-6 lg:p-8 animate-fade-up">
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <div className="tracked text-muted2 mb-1">HQ · New class plan</div>
+          <h3 className="text-[20px] font-medium text-ink2" style={{letterSpacing:'-0.02em'}}>Upload lesson plan</h3>
+        </div>
+        <button onClick={onClose} className="p-1.5 hover:bg-cream rounded-lg transition"><I.x className="w-4 h-4 text-muted"/></button>
+      </div>
+
+      <div className="flex items-center gap-3 mb-8">
+        {[
+          {id:'file',label:'Choose file'},
+          {id:'meta',label:'Assign location'},
+        ].map((s, i, arr) => (
+          <React.Fragment key={s.id}>
+            <div className={`flex items-center gap-2 ${step === s.id ? 'text-ink2' : (i < arr.findIndex(x => x.id === step) ? 'text-success' : 'text-muted2')}`}>
+              <div className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-medium tabular-nums border ${step === s.id ? 'bg-ink2 text-canvas border-ink2' : i < arr.findIndex(x => x.id === step) ? 'bg-success text-canvas border-success' : 'border-line2'}`}>
+                {i < arr.findIndex(x => x.id === step) ? <I.check className="w-2.5 h-2.5" style={{strokeWidth:3}}/> : i + 1}
+              </div>
+              <span className="text-[12px] font-medium">{s.label}</span>
+            </div>
+            {i < arr.length - 1 && <div className="flex-1 h-px bg-line"></div>}
+          </React.Fragment>
+        ))}
+      </div>
+
+      {step === 'file' && (
+        <button onClick={simulateUpload} className="w-full border-2 border-dashed border-line2 hover:border-ink2 rounded-2xl p-12 text-center transition group bg-cream/40">
+          <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-canvas hairline border flex items-center justify-center group-hover:bg-ink2 group-hover:text-canvas transition text-ink2">
+            <I.upload className="w-6 h-6"/>
+          </div>
+          <div className="text-[15px] font-medium text-ink2 mb-1">Drop a .docx or .pdf file here</div>
+          <div className="text-[12px] text-muted">Or click to browse · max 20 MB · automatically watermarked on view</div>
+        </button>
+      )}
+
+      {step === 'meta' && (
+        <div>
+          <div className="card-sunken rounded-xl p-4 mb-6 flex items-center gap-4">
+            <div className="w-12 h-12 rounded-lg bg-canvas hairline border flex items-center justify-center"><I.docx className="w-5 h-5 text-ink2"/></div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[13px] font-medium text-ink2 truncate">{fileName}</div>
+              <div className="text-[11px] text-muted">284 KB · uploaded just now</div>
+            </div>
+            <I.check className="w-4 h-4 text-success"/>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-4 mb-5">
+            <div>
+              <label className="tracked text-muted2 block mb-1.5">Lesson title</label>
+              <input value={title} onChange={e=>setTitle(e.target.value)} className="input w-full px-3 py-2 rounded-lg text-[14px]"/>
+            </div>
+            <div>
+              <label className="tracked text-muted2 block mb-1.5">Theme</label>
+              <select value={theme} onChange={e=>setTheme(e.target.value)} className="input w-full px-3 py-2 rounded-lg text-[14px]">
+                {CLASS_THEMES.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="tracked text-muted2 block mb-1.5">Month</label>
+              <select value={month} onChange={e=>setMonth(e.target.value)} className="input w-full px-3 py-2 rounded-lg text-[14px]">
+                <option>April 2026</option><option>May 2026</option><option>June 2026</option>
+              </select>
+            </div>
+            <div>
+              <label className="tracked text-muted2 block mb-1.5">Week</label>
+              <select value={week} onChange={e=>setWeek(e.target.value)} className="input w-full px-3 py-2 rounded-lg text-[14px]">
+                <option>Week 1</option><option>Week 2</option><option>Week 3</option><option>Week 4</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="flex gap-2">
+            <button onClick={()=>setStep('file')} className="btn-ghost px-4 py-2 rounded-full text-[13px]">Back</button>
+            <button onClick={finalize} disabled={!title || uploading} className="btn-primary px-5 py-2 rounded-full text-[13px] inline-flex items-center gap-2 disabled:opacity-40">
+              {uploading ? 'Publishing…' : <><I.check className="w-3.5 h-3.5"/> Publish plan</>}
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function MonthView({ themeId, onSelectMonth, onBack }) {
+  const theme = CLASS_THEMES.find(t => t.id === themeId);
+  const data = MOCK_CLASS_PLANS[themeId];
+  const months = Object.keys(data?.months || {});
+
+  return (
+    <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <BreadcrumbBack onClick={onBack} label="All themes"/>
+      <PageHeader eyebrow={theme.name} title={<>Select a <em className="display-serif-italic text-muted">month</em></>} subtitle="Browse weekly plans organized by month."/>
+      <div className="grid md:grid-cols-3 gap-4 stagger">
+        {months.map(m => {
+          const weekCount = Object.keys(data.months[m]).length;
+          const planCount = Object.values(data.months[m]).reduce((s,w)=>s+w.length,0);
+          return (
+            <button key={m} onClick={()=>onSelectMonth(m)} className="card card-hover text-left rounded-2xl p-6">
+              <div className="flex items-start justify-between mb-10">
+                <I.folder className="w-[17px] h-[17px] text-ink2"/>
+                <I.chevR className="w-4 h-4 text-muted2"/>
+              </div>
+              <h3 className="text-[20px] font-medium text-ink2 mb-1" style={{letterSpacing:'-0.02em'}}>{m}</h3>
+              <div className="text-[12px] text-muted tabular-nums">{weekCount} weeks · {planCount} plans</div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function WeekView({ themeId, month, onOpen, onBackMonth, onBackTheme }) {
+  const theme = CLASS_THEMES.find(t => t.id === themeId);
+  const weeks = MOCK_CLASS_PLANS[themeId].months[month];
+
+  return (
+    <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <div className="flex items-center gap-2 text-[12px] text-muted mb-6 flex-wrap">
+        <button onClick={onBackTheme} className="hover:text-ink2 transition">Themes</button>
+        <I.chevR className="w-3 h-3 text-muted2"/>
+        <button onClick={onBackMonth} className="hover:text-ink2 transition">{theme.name}</button>
+        <I.chevR className="w-3 h-3 text-muted2"/>
+        <span className="text-ink2">{month}</span>
+      </div>
+      <PageHeader eyebrow={theme.name} title={month}/>
+
+      <div className="space-y-10 stagger">
+        {Object.entries(weeks).map(([weekName, plans]) => (
+          <div key={weekName}>
+            <div className="tracked text-muted mb-4 detail-line">{weekName}</div>
+            <div className="grid md:grid-cols-2 gap-3">
+              {plans.map(plan => (
+                <button key={plan.id} onClick={()=>onOpen({themeId, month, weekName, plan})} className="card card-hover text-left rounded-2xl p-5 flex gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-cream hairline border flex items-center justify-center shrink-0">
+                    {plan.fileType === 'pdf' ? <I.pdf className="w-5 h-5 text-ink2"/> : <I.docx className="w-5 h-5 text-ink2"/>}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1 flex-wrap">
+                      <Pill tone="neutral">Lesson {plan.lesson}</Pill>
+                      <Pill tone="neutral">{plan.duration}</Pill>
+                      <span className="text-[11px] text-muted">Ages {plan.ageGroup}</span>
+                    </div>
+                    <h4 className="text-[15.5px] font-medium text-ink2 leading-tight mb-1">{plan.title}</h4>
+                    <div className="text-[11px] text-muted2">{plan.uploadedBy} · {plan.uploadedAt}</div>
+                  </div>
+                  <I.chevR className="w-4 h-4 text-muted2 self-center"/>
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ClassPlanViewer({ selection, onBack }) {
+  const { themeId, month, weekName, plan } = selection;
+  const theme = CLASS_THEMES.find(t => t.id === themeId);
+  const [page, setPage] = useState(1);
+  const totalPages = 4;
+  const [warning, setWarning] = useState(null);
+  const flashWarning = (msg) => { setWarning(msg); setTimeout(()=>setWarning(null), 2400); };
+
+  useEffect(() => {
+    const handlers = {
+      contextmenu: (e) => { e.preventDefault(); flashWarning('Right-click is disabled'); },
+      keydown: (e) => {
+        if ((e.ctrlKey || e.metaKey) && ['s','p','c','a','u'].includes(e.key.toLowerCase())) { e.preventDefault(); flashWarning('Disabled to protect curriculum IP'); }
+        if (e.key === 'PrintScreen') flashWarning('Screenshots are discouraged');
+        if (e.key === 'F12') { e.preventDefault(); flashWarning('Developer tools disabled'); }
+      },
+      copy: (e) => { e.preventDefault(); flashWarning('Copying is disabled'); },
+      dragstart: (e) => e.preventDefault(),
+    };
+    Object.entries(handlers).forEach(([k,fn]) => document.addEventListener(k, fn));
+    return () => Object.entries(handlers).forEach(([k,fn]) => document.removeEventListener(k, fn));
+  }, []);
+
+  return (
+    <div className="max-w-[1000px] mx-auto px-6 lg:px-10 py-8 lg:py-12 animate-fade-up ip-protected">
+      <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
+        <button onClick={onBack} className="flex items-center gap-1.5 text-[13px] text-muted hover:text-ink2 transition">
+          <I.chevL className="w-4 h-4"/><span>Back to {weekName}</span>
+        </button>
+        <div className="flex items-center gap-2">
+          <Pill tone="outline">{plan.fileType.toUpperCase()} · {plan.fileSize}</Pill>
+          <Pill tone="outline"><I.lock className="w-3 h-3"/> View-only</Pill>
+        </div>
+      </div>
+
+      <div className="bg-canvas rounded-2xl hairline border relative overflow-hidden shadow-md">
+        <div className="watermark-tile">
+          {[...Array(24)].map((_,i)=><span key={i}>{CURRENT_USER.email} · 23 APR 2026</span>)}
+        </div>
+
+        <div className="relative z-10 p-8 md:p-16 min-h-[600px]">
+          {page === 1 && (<>
+            <div className="tracked text-muted2 detail-line mb-6">{theme.name} · {month} · {weekName}</div>
+            <h1 className="display-serif text-[44px] md:text-[72px] text-ink2 mb-6 leading-[1.02]">{plan.title}</h1>
+            <div className="flex flex-wrap gap-2 mb-10">
+              <Pill tone="neutral">Lesson {plan.lesson}</Pill>
+              <Pill tone="neutral">Ages {plan.ageGroup}</Pill>
+              <Pill tone="neutral">{plan.duration}</Pill>
+            </div>
+            <div className="space-y-10">
+              <div>
+                <div className="tracked text-muted2 mb-3">Overview</div>
+                <p className="display-serif text-[18px] md:text-[20px] text-ink2 leading-[1.55] max-w-2xl">{plan.overview}</p>
+              </div>
+              <div>
+                <div className="tracked text-muted2 mb-3">Learning outcomes</div>
+                <ul className="space-y-3 text-[14.5px] text-ink2 max-w-2xl">
+                  <li className="flex gap-4"><span className="display-serif-italic text-muted2 tabular-nums w-6">01</span><span>Develop empathy for marine life through character embodiment</span></li>
+                  <li className="flex gap-4"><span className="display-serif-italic text-muted2 tabular-nums w-6">02</span><span>Build narrative thinking through cause-and-effect play</span></li>
+                  <li className="flex gap-4"><span className="display-serif-italic text-muted2 tabular-nums w-6">03</span><span>Practice cooperative problem-solving in a group setting</span></li>
+                  <li className="flex gap-4"><span className="display-serif-italic text-muted2 tabular-nums w-6">04</span><span>Introduce ecological vocabulary: pollution, habitat, rescue</span></li>
+                </ul>
+              </div>
+            </div>
+          </>)}
+
+          {page === 2 && (<>
+            <div className="tracked text-muted2 detail-line mb-6">Page 2 · Materials</div>
+            <h2 className="display-serif text-[36px] md:text-[44px] text-ink2 mb-10">Materials & <em className="display-serif-italic text-muted">preparation</em></h2>
+            <div className="grid md:grid-cols-2 gap-10">
+              <div>
+                <div className="tracked text-muted2 mb-3">Required</div>
+                <ul className="space-y-2.5 text-[14px] text-ink2">
+                  {['Blue & green tulle fabric (2m each)','Plastic bottle props (pre-washed, 6 pieces)','Fish puppets × 6','Turtle costume × 1','Picture flashcards','Bluetooth speaker','Ocean soundscape audio'].map(m => (
+                    <li key={m} className="flex gap-3"><span className="w-1 h-1 bg-muted2 rounded-full shrink-0 mt-2"></span>{m}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <div className="tracked text-muted2 mb-3">Setup · 10 min before</div>
+                <ol className="space-y-2.5 text-[14px] text-ink2">
+                  {['Spread tulle across central floor area','Arrange puppets in visible positions','Hide plastic bottles nearby','Queue soundscape audio','Prepare reflection circle space'].map((s,i) => (
+                    <li key={s} className="flex gap-4"><span className="display-serif-italic text-muted2 tabular-nums w-5">{String(i+1).padStart(2,'0')}</span>{s}</li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </>)}
+
+          {page === 3 && (<>
+            <div className="tracked text-muted2 detail-line mb-6">Page 3 · Lesson flow</div>
+            <h2 className="display-serif text-[36px] md:text-[44px] text-ink2 mb-10"><em className="display-serif-italic text-muted">Sequence</em></h2>
+            <div className="space-y-px bg-line rounded-2xl overflow-hidden hairline border">
+              {[
+                {time:'0–5',title:'Opening Circle',desc:'Gather children. Sing "The Ocean Song".'},
+                {time:'5–13',title:'Story Introduction',desc:'Read "Turtle\'s Troubled Home" (pages 1–8).'},
+                {time:'13–23',title:'Meet the Sea Creatures',desc:'Children choose puppet roles.'},
+                {time:'23–31',title:'The Problem Appears',desc:'Introduce plastic.'},
+                {time:'31–39',title:'The Cleanup Roleplay',desc:'Children become rescuers.'},
+                {time:'39–45',title:'Reflection Circle',desc:'Return to circle. Ask open questions.'},
+                {time:'45–50',title:'Cleanup & Transition',desc:'Invite helpers to pack materials.'},
+              ].map((s,i) => (
+                <div key={i} className="flex gap-6 p-5 bg-canvas">
+                  <div className="w-16 shrink-0 display-serif-italic text-[17px] text-ochre tabular-nums">{s.time}m</div>
+                  <div>
+                    <div className="text-[15px] font-medium text-ink2 mb-1">{s.title}</div>
+                    <div className="text-[13.5px] text-ink leading-relaxed">{s.desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </>)}
+
+          {page === 4 && (<>
+            <div className="tracked text-muted2 detail-line mb-6">Page 4 · Assessment</div>
+            <h2 className="display-serif text-[36px] md:text-[44px] text-ink2 mb-10">Observation & <em className="display-serif-italic text-muted">differentiation</em></h2>
+            <div className="grid md:grid-cols-2 gap-10">
+              <div>
+                <div className="tracked text-muted2 mb-3">What to observe</div>
+                <ul className="space-y-2.5 text-[14px] text-ink2">
+                  {['Engagement with the story narrative','Willingness to take on character roles','Emotional response to the "problem"','Cooperation during the cleanup','Vocabulary used in reflection'].map(s => (
+                    <li key={s} className="flex gap-3"><span className="w-1 h-1 bg-muted2 rounded-full shrink-0 mt-2"></span>{s}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <div className="tracked text-muted2 mb-3">Differentiation</div>
+                <div className="space-y-5 text-[14px] text-ink">
+                  <div>
+                    <div className="font-medium text-ink2 mb-1">Younger · 3–4</div>
+                    <p className="leading-relaxed">Simplify vocabulary. Focus on "happy fish / sad fish".</p>
+                  </div>
+                  <div>
+                    <div className="font-medium text-ink2 mb-1">Older · 5–6</div>
+                    <p className="leading-relaxed">Introduce vocabulary like "habitat" and "pollution".</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>)}
+        </div>
+
+        <div className="relative z-10 hairline-t bg-cream/60 px-6 md:px-16 py-4 flex items-center justify-between">
+          <button onClick={()=>setPage(Math.max(1,page-1))} disabled={page===1} className="flex items-center gap-1 text-[13px] text-muted disabled:opacity-30 hover:text-ink2 transition">
+            <I.chevL className="w-4 h-4"/> Previous
+          </button>
+          <div className="tabular-nums text-[12px] text-muted">
+            Page <span className="display-serif text-[16px] text-ink2">{page}</span> <span className="text-muted2">of</span> {totalPages}
+          </div>
+          <button onClick={()=>setPage(Math.min(totalPages,page+1))} disabled={page===totalPages} className="flex items-center gap-1 text-[13px] text-muted disabled:opacity-30 hover:text-ink2 transition">
+            Next <I.chevR className="w-4 h-4"/>
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-2 text-[11px] text-muted">
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full hairline border bg-canvas"><I.dl className="w-3 h-3"/> Download disabled</span>
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full hairline border bg-canvas"><I.camera className="w-3 h-3"/> Screenshots discouraged</span>
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full hairline border bg-canvas"><I.lock className="w-3 h-3"/> Watermarked · {CURRENT_USER.email}</span>
+      </div>
+
+      {warning && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-ink2 text-canvas px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 text-[13px] animate-fade-up">
+          <I.lock className="w-3.5 h-3.5"/> {warning}
+        </div>
+      )}
+    </div>
+  );
+}
+// ═══════ QUALITY CONTROL ═══════
+function QualityHome({ onOpen, showToast }) {
+  const [tab, setTab] = useState('pending');
+  const [showUpload, setShowUpload] = useState(false);
+
+  const filtered = QC_SUBMISSIONS.filter(s => {
+    if (tab === 'pending')  return s.status === 'pending';
+    if (tab === 'reviewed') return s.status === 'reviewed';
+    return true;
+  });
+
+  const reviewed = QC_SUBMISSIONS.filter(s => s.scores);
+  const avgQuality = reviewed.length ? Math.round(reviewed.reduce((sum,s)=>sum+s.scores.overall,0) / reviewed.length * 20) : 0;
+
+  return (
+    <div className="max-w-[1440px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <PageHeader
+        eyebrow="Quality control"
+        title={<>Quality <em className="display-serif-italic text-muted">review</em></>}
+        subtitle="Franchises upload class photos or videos. HQ reviews and scores each submission across three dimensions."
+        right={<button onClick={()=>setShowUpload(true)} className="btn-primary px-4 py-2.5 rounded-full text-[13px] inline-flex items-center gap-2"><I.upload className="w-3.5 h-3.5"/> Submit for review</button>}
+      />
+
+      {showUpload && <QCUploadForm onClose={()=>setShowUpload(false)} showToast={showToast}/>}
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-8">
+        <StatCard value={String(QC_SUBMISSIONS.filter(s=>s.status==='pending').length)} label="Pending review"/>
+        <StatCard value={String(QC_SUBMISSIONS.filter(s=>s.status==='reviewed').length)} label="Reviewed this week"/>
+        <StatCard value={`${avgQuality}%`} label="Average quality score" trend="+3%" trendUp/>
+        <StatCard value="4" label="Stores monitored"/>
+      </div>
+
+      <div className="flex items-center gap-2 mb-6 overflow-x-auto -mx-6 px-6 lg:mx-0 lg:px-0">
+        {[
+          { id:'pending', label:`Pending (${QC_SUBMISSIONS.filter(s=>s.status==='pending').length})` },
+          { id:'reviewed', label:'Reviewed' },
+          { id:'all', label:'All submissions' },
+        ].map(t => (
+          <button key={t.id} onClick={()=>setTab(t.id)} className={`pill px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap ${tab===t.id ? 'active' : ''}`}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="space-y-3 stagger">
+        {filtered.map(sub => (
+          <button key={sub.id} onClick={()=>onOpen(sub)} className="card card-hover w-full text-left rounded-2xl p-5 flex items-center gap-5">
+            <div className="thumb w-16 h-16 lg:w-20 lg:h-20 rounded-xl shrink-0 flex items-center justify-center relative">
+              {sub.mediaType === 'video' ? <I.play className="w-6 h-6 text-white relative z-10"/> : <I.image className="w-6 h-6 text-white relative z-10"/>}
+              <div className="absolute top-1.5 right-1.5 bg-ink2/70 backdrop-blur-sm text-white text-[9px] font-medium px-1.5 py-0.5 rounded tabular-nums">{sub.mediaCount}</div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-start justify-between gap-3 mb-1">
+                <div className="min-w-0">
+                  <div className="text-[15px] font-medium text-ink2 truncate mb-1">{sub.classTitle}</div>
+                  <div className="text-[12px] text-muted truncate">{sub.storeName} · {sub.teacher} · {sub.date}</div>
+                </div>
+                <div className="shrink-0">
+                  {sub.status === 'pending'
+                    ? <Pill tone="warning">Pending review</Pill>
+                    : <div className="flex items-center gap-2">
+                        {sub.scores && <ScoreStars score={sub.scores.overall} size={14}/>}
+                        <span className="text-[13px] font-medium text-ink2 tabular-nums">{sub.scores?.overall.toFixed(1)}</span>
+                      </div>
+                  }
+                </div>
+              </div>
+              {sub.scores && (
+                <div className="flex gap-4 text-[11px] text-muted mt-2">
+                  <span>Env <span className="text-ink2 font-medium tabular-nums">{sub.scores.environment}</span></span>
+                  <span>Teaching <span className="text-ink2 font-medium tabular-nums">{sub.scores.teaching}</span></span>
+                  <span>Engage <span className="text-ink2 font-medium tabular-nums">{sub.scores.engagement}</span></span>
+                </div>
+              )}
+            </div>
+            <I.chevR className="w-4 h-4 text-muted2 shrink-0"/>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function QCUploadForm({ onClose, showToast }) {
+  return (
+    <div className="mb-8 card rounded-2xl p-6 animate-fade-up">
+      <div className="flex items-center justify-between mb-5">
+        <div>
+          <div className="tracked text-muted2 mb-1">New quality submission</div>
+          <h3 className="text-[18px] font-medium text-ink2" style={{letterSpacing:'-0.02em'}}>Upload class media</h3>
+        </div>
+        <button onClick={onClose} className="p-1.5 hover:bg-cream rounded-lg transition"><I.x className="w-4 h-4 text-muted"/></button>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4 mb-5">
+        <div>
+          <label className="tracked text-muted2 block mb-1.5">Class</label>
+          <select className="input w-full px-3 py-2 rounded-lg text-[14px]">
+            <option>Ocean Pollution · 22 April</option>
+            <option>Drumming with Dinosaurs · 21 April</option>
+          </select>
+        </div>
+        <div>
+          <label className="tracked text-muted2 block mb-1.5">Media type</label>
+          <select className="input w-full px-3 py-2 rounded-lg text-[14px]">
+            <option>Photos (up to 10)</option>
+            <option>Video (up to 3 min)</option>
+          </select>
+        </div>
+      </div>
+
+      <button onClick={()=>{showToast('Submitted for HQ review'); onClose();}} className="w-full border-2 border-dashed border-line2 hover:border-ink2 rounded-xl p-8 text-center transition group bg-cream/40">
+        <div className="w-12 h-12 mx-auto mb-3 rounded-xl bg-canvas hairline border flex items-center justify-center text-ink2 group-hover:bg-ink2 group-hover:text-canvas transition">
+          <I.upload className="w-5 h-5"/>
+        </div>
+        <div className="text-[13px] font-medium text-ink2 mb-1">Drop photos or video here</div>
+        <div className="text-[11px] text-muted">Or click to browse</div>
+      </button>
+    </div>
+  );
+}
+
+function ScoreStars({ score, size = 16, interactive, onChange }) {
+  return (
+    <div className="inline-flex items-center gap-0.5">
+      {[1,2,3,4,5].map(n => (
+        <button key={n} onClick={interactive ? ()=>onChange(n) : undefined} disabled={!interactive} className={interactive ? 'transition hover:scale-110 cursor-pointer' : 'cursor-default'}>
+          {n <= Math.round(score)
+            ? <I.starF style={{color:'var(--ochre)',width:size,height:size}}/>
+            : <I.star  style={{color:'var(--line2)',width:size,height:size}}/>}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+function QualityReview({ submission, onBack, showToast }) {
+  const [env, setEnv] = useState(submission.scores?.environment || 0);
+  const [teaching, setTeaching] = useState(submission.scores?.teaching || 0);
+  const [engagement, setEngagement] = useState(submission.scores?.engagement || 0);
+  const [comments, setComments] = useState('');
+
+  const overall = ((env + teaching + engagement) / 3).toFixed(1);
+  const canSubmit = env > 0 && teaching > 0 && engagement > 0;
+
+  return (
+    <div className="max-w-[1200px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <BreadcrumbBack onClick={onBack} label="All submissions"/>
+
+      <div className="grid lg:grid-cols-5 gap-5 lg:gap-8">
+        <div className="lg:col-span-3 space-y-4">
+          <div className="tracked text-muted2">{submission.storeName} · {submission.date}</div>
+          <h1 className="display-serif text-[32px] md:text-[44px] text-ink2 leading-[1.02]">{submission.classTitle}</h1>
+          <div className="text-[13px] text-muted mb-2">Submitted by {submission.teacher} · {submission.mediaCount} {submission.mediaType}</div>
+
+          <div className="thumb aspect-video rounded-2xl overflow-hidden flex items-center justify-center relative shadow-md">
+            {submission.mediaType === 'video'
+              ? <button className="w-16 h-16 rounded-full bg-white/95 text-ink2 flex items-center justify-center hover:scale-105 transition relative z-10 shadow-lg"><I.play className="w-6 h-6 ml-0.5"/></button>
+              : <I.image className="w-12 h-12 text-white/70 relative z-10"/>}
+            <div className="absolute bottom-4 left-4 text-white text-[12px] bg-ink2/60 backdrop-blur-sm px-3 py-1 rounded-full font-medium">
+              {submission.mediaType === 'video' ? '2:34 min' : `${submission.mediaCount} photos`}
+            </div>
+          </div>
+
+          {submission.mediaType === 'photos' && (
+            <div className="grid grid-cols-4 gap-2">
+              {[...Array(submission.mediaCount)].map((_, i) => (
+                <div key={i} className="thumb aspect-square rounded-lg"/>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="lg:col-span-2 lg:sticky lg:top-20 self-start">
+          <div className="card-premium rounded-2xl p-6 lg:p-7">
+            <div className="tracked text-muted2 mb-1">HQ review</div>
+            <h3 className="text-[18px] font-medium text-ink2 mb-6" style={{letterSpacing:'-0.02em'}}>Score this class</h3>
+
+            <div className="space-y-5">
+              <ScoreRow label="Environment" hint="Cleanliness, setup, materials" value={env} onChange={setEnv}/>
+              <ScoreRow label="Teaching quality" hint="Delivery, pacing, instruction" value={teaching} onChange={setTeaching}/>
+              <ScoreRow label="Engagement" hint="Children's participation, joy" value={engagement} onChange={setEngagement}/>
+            </div>
+
+            <div className="mt-6 pt-6 hairline-t">
+              <div className="flex items-center justify-between">
+                <div className="tracked text-muted2">Overall score</div>
+                <div className="flex items-center gap-3">
+                  <div className="display-sans text-[28px] text-ink2 tabular-nums">{overall}</div>
+                  <div className="text-[12px] text-muted">/ 5.0</div>
+                </div>
+              </div>
+              {canSubmit && (
+                <div className="mt-2">
+                  <div className="h-1.5 rounded-full bg-line overflow-hidden">
+                    <div className="h-full rounded-full transition-all duration-500" style={{ width:`${(overall/5)*100}%`, background: overall >= 4 ? 'var(--mint)' : overall >= 3 ? 'var(--ochre)' : 'var(--coral)' }}/>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6">
+              <label className="tracked text-muted2 block mb-2">Feedback for teacher</label>
+              <textarea value={comments} onChange={e=>setComments(e.target.value)} rows="4" placeholder="Share what went well and areas to improve…" className="input w-full p-3 rounded-xl text-[13.5px] resize-none"/>
+            </div>
+
+            <div className="mt-5 flex gap-2">
+              <button disabled={!canSubmit} onClick={()=>{showToast('Review saved and sent to teacher'); onBack();}} className="btn-primary flex-1 px-4 py-2.5 rounded-full text-[13px] inline-flex items-center justify-center gap-2 disabled:opacity-40">
+                <I.send className="w-3.5 h-3.5"/> Submit review
+              </button>
+              <button onClick={onBack} className="btn-ghost px-4 py-2.5 rounded-full text-[13px]">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ScoreRow({ label, hint, value, onChange }) {
+  return (
+    <div>
+      <div className="flex items-baseline justify-between mb-2">
+        <div>
+          <div className="text-[13.5px] font-medium text-ink2">{label}</div>
+          <div className="text-[11px] text-muted">{hint}</div>
+        </div>
+        <div className="text-[13px] font-medium text-ink2 tabular-nums">{value > 0 ? `${value}.0` : '—'}</div>
+      </div>
+      <ScoreStars score={value} size={22} interactive onChange={onChange}/>
+    </div>
+  );
+}
+// ═══════ ACADEMY ═══════
+function AcademyHome({ onOpen }) {
+  const [filter, setFilter] = useState('all');
+  const overall = Math.round(COURSES.reduce((s,c)=>s+c.progress,0) / COURSES.length);
+  const requiredDone = COURSES.filter(c => c.required && c.progress===100).length;
+  const requiredTotal = COURSES.filter(c => c.required).length;
+
+  const filtered = COURSES.filter(c => {
+    if (filter === 'required')   return c.required;
+    if (filter === 'progress')   return c.progress > 0 && c.progress < 100;
+    if (filter === 'completed')  return c.progress === 100;
+    return true;
+  });
+
+  return (
+    <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <PageHeader
+        eyebrow="Learning & development"
+        title={<>Training <em className="display-serif-italic text-muted">Academy</em></>}
+        subtitle="Grow your teaching practice. Required courses unlock curriculum access."
+      />
+
+      <div className="grid lg:grid-cols-3 gap-4 lg:gap-5 mb-10">
+        <div className="lg:col-span-2 bg-ink2 text-canvas rounded-2xl p-7 lg:p-10 relative overflow-hidden shadow-lg">
+          <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-ochre/10 blur-3xl"></div>
+          <div className="relative flex items-center gap-8">
+            <ProgressRing value={overall} size={88} dark/>
+            <div>
+              <div className="tracked text-canvas/50 detail-line before:bg-canvas/30 mb-2">Overall progress</div>
+              <div className="display-serif text-[36px] lg:text-[44px] mb-1 tabular-nums">{overall}% <em className="display-serif-italic text-canvas/60">complete</em></div>
+              <div className="text-[13px] text-canvas/70">{requiredDone} of {requiredTotal} required courses · 3 certificates earned</div>
+            </div>
+          </div>
+        </div>
+        <div className="card rounded-2xl p-6 flex flex-col">
+          <div className="tracked text-muted2 mb-3">Next up</div>
+          <div className="text-[17px] font-medium text-ink2 leading-tight mb-1">Ages 5–6: Cognitive growth</div>
+          <div className="text-[12px] text-muted mb-6">14 min · Reading</div>
+          <button onClick={()=>onOpen(COURSES[0])} className="btn-primary w-full py-2.5 rounded-full text-[13px] flex items-center justify-center gap-2 mt-auto">
+            <I.play className="w-3 h-3"/> Resume
+          </button>
+        </div>
+      </div>
+
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-1 -mx-6 px-6 lg:mx-0 lg:px-0">
+        {[{id:'all',label:'All'},{id:'required',label:'Required'},{id:'progress',label:'In progress'},{id:'completed',label:'Completed'}].map(f => (
+          <button key={f.id} onClick={()=>setFilter(f.id)} className={`pill px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap ${filter===f.id ? 'active' : ''}`}>
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4 lg:gap-5 stagger">
+        {filtered.map(c => <CourseCard key={c.id} course={c} onOpen={onOpen} />)}
+      </div>
+    </div>
+  );
+}
+
+function CourseCard({ course, onOpen }) {
+  return (
+    <button onClick={()=>onOpen(course)} className="card card-hover text-left rounded-2xl overflow-hidden flex flex-col">
+      <div className="p-6 hairline-b">
+        <div className="flex items-start justify-between mb-6">
+          <Pill tone={course.required ? 'dark' : 'neutral'}>{course.required ? 'Required' : 'Optional'}</Pill>
+          {course.progress === 100 && <Pill tone="success"><I.check className="w-3 h-3"/> Complete</Pill>}
+        </div>
+        <div className="text-[11px] text-muted2 mb-1">{course.subtitle}</div>
+        <h3 className="text-[21px] font-medium text-ink2 leading-tight mb-3" style={{letterSpacing:'-0.025em'}}>{course.title}</h3>
+        <div className="flex items-center gap-2.5 text-[12px] text-muted">
+          <span>{course.level}</span>
+          <span className="text-muted2">·</span>
+          <span className="inline-flex items-center gap-1"><I.clock className="w-3 h-3"/>{course.hours}h</span>
+          <span className="text-muted2">·</span>
+          <span>{course.instructor}</span>
+        </div>
+      </div>
+      <div className="p-6">
+        <div className="flex items-center justify-between text-[12px] text-muted mb-2 tabular-nums">
+          <span>{course.progress}% complete</span>
+          <span className="text-ochre font-medium">{course.progress === 0 ? 'Start' : course.progress === 100 ? 'Review' : 'Continue'} →</span>
+        </div>
+        <ProgressBar value={course.progress}/>
+      </div>
+    </button>
+  );
+}
+
+function ProgressRing({ value, size = 60, dark = false }) {
+  const r = size/2 - 3;
+  const c = 2 * Math.PI * r;
+  const offset = c - (value/100) * c;
+  return (
+    <svg width={size} height={size} className="-rotate-90 shrink-0">
+      <circle cx={size/2} cy={size/2} r={r} fill="none" strokeWidth="2.5" stroke={dark ? 'rgba(253,251,246,0.15)' : 'var(--line)'}/>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" strokeWidth="2.5" strokeLinecap="round" stroke={dark ? 'rgba(253,251,246,0.9)' : 'var(--ink2)'} strokeDasharray={c} strokeDashoffset={offset} className="score-ring"/>
+      <text x={size/2} y={size/2+4} textAnchor="middle" transform={`rotate(90 ${size/2} ${size/2})`} fill={dark ? 'var(--canvas)' : 'var(--ink2)'} fontSize="14" fontWeight="500" fontFamily="Inter" className="tabular-nums">{value}%</text>
+    </svg>
+  );
+}
+
+function CoursePage({ course, onBack, onOpenLesson, showToast }) {
+  return (
+    <div className="animate-fade-up">
+      <div className="bg-cream hairline-b">
+        <div className="max-w-[1000px] mx-auto px-6 lg:px-10 py-10 lg:py-16">
+          <BreadcrumbBack onClick={onBack} label="All courses"/>
+          <div className="flex gap-2 mb-4">
+            {course.required && <Pill tone="dark">Required</Pill>}
+            <Pill tone="neutral">{course.level}</Pill>
+          </div>
+          <h1 className="display-serif text-[44px] lg:text-[64px] text-ink2 leading-[1.02] mb-5 max-w-3xl">{course.title}</h1>
+          <p className="display-serif text-[17px] lg:text-[20px] text-ink leading-[1.55] max-w-2xl mb-10">{course.description}</p>
+          <div className="flex items-center gap-4 text-[13px] text-muted flex-wrap mb-10">
+            <span className="inline-flex items-center gap-1.5"><I.clock className="w-3.5 h-3.5"/> {course.hours} hours</span>
+            <span className="text-muted2">·</span>
+            <span>{course.modules.length} modules</span>
+            <span className="text-muted2">·</span>
+            <span>{course.modules.reduce((s,m)=>s+m.lessons.length,0)} lessons</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <ProgressRing value={course.progress} size={52}/>
+            <div>
+              <div className="tracked text-muted2 mb-0.5">Your progress</div>
+              <div className="text-[17px] font-medium text-ink2 tabular-nums">{course.progress}% complete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-[1000px] mx-auto px-6 lg:px-10 py-10 lg:py-14">
+        <h2 className="text-[22px] font-medium text-ink2 mb-6" style={{letterSpacing:'-0.02em'}}>Course content</h2>
+        <div className="space-y-3 stagger">
+          {course.modules.map((mod, mi) => <CourseModule key={mod.id} mod={mod} index={mi} course={course} onOpenLesson={onOpenLesson}/>)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CourseModule({ mod, index, course, onOpenLesson }) {
+  const [open, setOpen] = useState(mod.lessons.some(l => l.current) || index === 0);
+  const done = mod.lessons.filter(l=>l.completed).length;
+  return (
+    <div className="card rounded-2xl overflow-hidden">
+      <button onClick={()=>setOpen(!open)} className="w-full px-5 lg:px-6 py-4 flex items-center gap-5 hover:bg-cream/60 transition">
+        <div className="display-serif-italic text-[18px] text-muted2 tabular-nums w-8 shrink-0">{String(index+1).padStart(2,'0')}</div>
+        <div className="flex-1 text-left min-w-0">
+          <div className="text-[15px] font-medium text-ink2 truncate">{mod.title}</div>
+          <div className="text-[12px] text-muted tabular-nums mt-0.5">{done} of {mod.lessons.length} lessons</div>
+        </div>
+        <I.chevR className={`chev-r w-4 h-4 text-muted2 shrink-0 ${open ? 'rotated' : ''}`}/>
+      </button>
+      {open && (
+        <div className="hairline-t">
+          {mod.lessons.map(l => (
+            <button key={l.id} onClick={()=>onOpenLesson({...l, course, module: mod})} className="w-full px-5 lg:px-6 py-3.5 flex items-center gap-4 hover:bg-cream/60 transition text-left hairline-b last:border-b-0">
+              <div className="w-5 h-5 rounded-full shrink-0 flex items-center justify-center" style={{backgroundColor: l.completed ? 'var(--ink2)' : (l.current ? 'var(--canvas)' : 'var(--cream)'), border: l.current && !l.completed ? '1.5px solid var(--ink2)' : 'none'}}>
+                {l.completed && <I.check className="w-3 h-3 text-canvas"/>}
+                {l.current && !l.completed && <div className="w-1.5 h-1.5 rounded-full bg-ink2"></div>}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className={`text-[14px] truncate ${l.completed ? 'text-muted' : 'text-ink2 font-medium'}`}>{l.title}</div>
+                <div className="text-[11px] text-muted mt-0.5 flex items-center gap-1.5">
+                  <span className="capitalize">{l.type}</span><span className="text-muted2">·</span><span className="tabular-nums">{l.duration} min</span>
+                </div>
+              </div>
+              {l.current && <Pill tone="outline">Current</Pill>}
+              <I.chevR className="w-4 h-4 text-muted2 shrink-0"/>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function LessonPage({ course, lesson, onBack, showToast }) {
+  if (lesson.type === 'quiz') return <QuizLesson lesson={lesson} onBack={onBack} showToast={showToast}/>;
+  return <VideoLesson lesson={lesson} onBack={onBack} showToast={showToast}/>;
+}
+
+function VideoLesson({ lesson, onBack, showToast }) {
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(32);
+  useEffect(() => {
+    if (!playing) return;
+    const i = setInterval(()=>setProgress(p=>Math.min(100, p+1.5)), 500);
+    return () => clearInterval(i);
+  }, [playing]);
+
+  return (
+    <div className="max-w-[900px] mx-auto px-6 lg:px-10 py-8 lg:py-12 animate-fade-up">
+      <BreadcrumbBack onClick={onBack} label="Back to course"/>
+
+      <div className="thumb relative aspect-video rounded-2xl overflow-hidden mb-6 shadow-md">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <button onClick={()=>setPlaying(!playing)} className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-canvas/95 text-ink2 flex items-center justify-center hover:scale-105 transition shadow-lg relative z-10">
+            {playing ? <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg> : <I.play className="w-5 h-5 ml-0.5"/>}
+          </button>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 p-5 z-10">
+          <div className="h-0.5 bg-canvas/20 rounded-full overflow-hidden">
+            <div className="h-full bg-canvas rounded-full transition-all" style={{width:`${progress}%`}}></div>
+          </div>
+          <div className="flex items-center justify-between text-canvas/80 text-[11px] mt-2 tabular-nums">
+            <span>{Math.floor(progress*lesson.duration/100)}:{String(Math.floor(progress*lesson.duration*0.6/100)%60).padStart(2,'0')}</span>
+            <span>{lesson.duration}:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="tracked text-muted2 mb-2">{lesson.module?.title}</div>
+      <h1 className="display-serif text-[32px] lg:text-[44px] text-ink2 mb-3 leading-[1.04]">{lesson.title}</h1>
+      <div className="flex items-center gap-3 text-[12px] text-muted mb-8">
+        <span className="inline-flex items-center gap-1"><I.video className="w-3 h-3"/>Video</span>
+        <span className="text-muted2">·</span>
+        <span className="tabular-nums">{lesson.duration} min</span>
+      </div>
+
+      <div className="text-[15px] text-ink leading-relaxed space-y-4 max-w-2xl">
+        <p className="display-serif text-[18px] lg:text-[20px] text-ink2 leading-[1.55]">In this lesson, we explore the cognitive development patterns typical of children aged 5–6.</p>
+        <p>You'll learn how to recognize readiness signals for symbolic thinking, and how to introduce concepts like cause-and-effect, early number sense, and rudimentary logical reasoning.</p>
+      </div>
+
+      <div className="mt-10 flex items-center gap-3">
+        <button onClick={()=>showToast('Lesson marked complete')} className="btn-primary flex-1 md:flex-none px-6 py-3 rounded-full text-[13px] inline-flex items-center justify-center gap-2">
+          <I.check className="w-3.5 h-3.5"/> Mark as complete
+        </button>
+        <button className="btn-ghost px-6 py-3 rounded-full text-[13px]">Next lesson →</button>
+      </div>
+    </div>
+  );
+}
+
+function QuizLesson({ lesson, onBack, showToast }) {
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const score = Object.entries(answers).reduce((s, [qi, a]) => s + (QUIZ_QUESTIONS[qi].correct === a ? 1 : 0), 0);
+  const total = QUIZ_QUESTIONS.length;
+  const passed = score / total >= 0.7;
+
+  return (
+    <div className="max-w-[720px] mx-auto px-6 lg:px-10 py-8 lg:py-12 animate-fade-up">
+      <BreadcrumbBack onClick={onBack} label="Back to course"/>
+      <div className="tracked text-muted2 mb-2">{lesson.module?.title} · Quiz</div>
+      <h1 className="display-serif text-[32px] lg:text-[44px] text-ink2 mb-3 leading-[1.04]">{lesson.title}</h1>
+      <p className="text-[13px] text-muted mb-10">Answer all questions · 70% required to pass · {total} questions</p>
+
+      <div className="space-y-4">
+        {QUIZ_QUESTIONS.map((q, qi) => (
+          <div key={q.id} className="card rounded-2xl p-6">
+            <div className="flex items-start gap-5 mb-5">
+              <div className="display-serif-italic text-[20px] text-muted2 tabular-nums shrink-0">{String(qi+1).padStart(2,'0')}</div>
+              <h3 className="text-[17px] font-medium text-ink2 leading-snug flex-1">{q.question}</h3>
+            </div>
+            <div className="space-y-2 ml-11">
+              {q.options.map((opt, oi) => {
+                const selected = answers[qi] === oi;
+                const isCorrect = submitted && oi === q.correct;
+                const isWrong = submitted && selected && oi !== q.correct;
+                return (
+                  <button key={oi} disabled={submitted} onClick={()=>setAnswers({...answers,[qi]:oi})}
+                    className={`w-full text-left p-3.5 rounded-xl border transition text-[14px] flex items-center gap-3
+                      ${isCorrect ? 'border-success bg-success/5 text-success' : ''}
+                      ${isWrong   ? 'border-danger bg-danger/5 text-danger' : ''}
+                      ${!submitted && selected ? 'border-ink2 bg-cream text-ink2' : ''}
+                      ${!submitted && !selected ? 'border-line hover:border-line2 text-ink2' : ''}`}>
+                    <div className={`w-4 h-4 rounded-full border-[1.5px] flex items-center justify-center shrink-0
+                      ${isCorrect ? 'border-success bg-success' : ''}
+                      ${isWrong   ? 'border-danger bg-danger' : ''}
+                      ${!submitted && selected ? 'border-ink2 bg-ink2' : ''}
+                      ${!submitted && !selected ? 'border-line2' : ''}`}>
+                      {(isCorrect || (!submitted && selected)) && <I.check className="w-2.5 h-2.5 text-canvas" style={{strokeWidth:3}}/>}
+                      {isWrong && <I.x className="w-2.5 h-2.5 text-canvas" style={{strokeWidth:3}}/>}
+                    </div>
+                    <span>{opt}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {submitted && <div className="ml-11 mt-3 p-3 rounded-xl card-sunken text-[13px] text-ink"><div className="font-medium text-ink2 mb-1">Explanation</div>{q.explanation}</div>}
+          </div>
+        ))}
+      </div>
+
+      {!submitted ? (
+        <button disabled={Object.keys(answers).length !== total} onClick={()=>setSubmitted(true)} className="btn-primary mt-8 w-full py-3.5 rounded-full text-[13px] disabled:opacity-30 disabled:cursor-not-allowed">
+          Submit quiz
+        </button>
+      ) : (
+        <div className="mt-8 card rounded-2xl p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${passed ? 'bg-success text-canvas' : 'bg-danger text-canvas'}`}>
+              {passed ? <I.check className="w-5 h-5"/> : <I.x className="w-5 h-5"/>}
+            </div>
+            <div>
+              <div className="text-[17px] font-medium text-ink2">{passed ? 'You passed' : 'Not quite there'}</div>
+              <div className="text-[13px] text-muted tabular-nums">Score: {score} / {total} ({Math.round(score/total*100)}%)</div>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            {passed
+              ? <button onClick={()=>{showToast('Progress saved'); onBack();}} className="btn-primary px-5 py-2 rounded-full text-[13px]">Continue</button>
+              : <button onClick={()=>{setSubmitted(false); setAnswers({});}} className="btn-primary px-5 py-2 rounded-full text-[13px]">Try again</button>}
+            <button onClick={onBack} className="btn-ghost px-5 py-2 rounded-full text-[13px]">Back to course</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+// ═══════ SOP ═══════
+function SOPLibrary({ onOpen }) {
+  return (
+    <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <PageHeader
+        eyebrow="Standard operating procedures"
+        title={<>SOP <em className="display-serif-italic text-muted">Execution</em></>}
+        subtitle="Step-by-step teaching guides with photo proof. Built for classrooms."
+      />
+
+      <div className="grid md:grid-cols-2 gap-4 mb-10">
+        <div className="card rounded-2xl p-6 flex items-center gap-5">
+          <div className="w-12 h-12 rounded-xl bg-cream hairline border flex items-center justify-center shrink-0"><I.clip className="w-5 h-5 text-ink2"/></div>
+          <div>
+            <div className="display-sans text-[30px] text-ink2 tabular-nums">12</div>
+            <div className="text-[12px] text-muted">executions this month · 100% compliance</div>
+          </div>
+        </div>
+        <div className="card rounded-2xl p-6 flex items-center gap-5">
+          <div className="w-12 h-12 rounded-xl bg-cream hairline border flex items-center justify-center shrink-0"><I.camera className="w-5 h-5 text-ink2"/></div>
+          <div>
+            <div className="display-sans text-[30px] text-ink2 tabular-nums">38</div>
+            <div className="text-[12px] text-muted">photos uploaded for HQ review</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="tracked text-muted mb-4 detail-line">Available SOPs</div>
+      <div className="grid md:grid-cols-2 gap-4 stagger">
+        {SOP_TEMPLATES.map(s => (
+          <button key={s.id} onClick={()=>onOpen(s)} className="card card-hover text-left rounded-2xl p-6">
+            <div className="flex items-start justify-between mb-6">
+              <I.clip className="w-[17px] h-[17px] text-ink2"/>
+              <span className="text-[11px] text-muted tabular-nums">{s.duration}</span>
+            </div>
+            <h3 className="text-[18px] font-medium text-ink2 leading-tight mb-1.5" style={{letterSpacing:'-0.02em'}}>{s.title}</h3>
+            <div className="text-[12px] text-muted mb-5">{s.linkedClass}</div>
+            <div className="flex items-center justify-between text-[11px] text-muted2 tabular-nums">
+              <span>{s.steps.length} steps · {s.steps.filter(x=>x.requiresPhoto).length} photo checkpoints</span>
+              <I.chevR className="w-4 h-4"/>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SOPRunner({ sop, onBack, showToast }) {
+  const [completed, setCompleted] = useState({});
+  const [photos, setPhotos] = useState({});
+  const [activeStep, setActiveStep] = useState(0);
+  const [started, setStarted] = useState(false);
+
+  const progress = Math.round(Object.keys(completed).length / sop.steps.length * 100);
+
+  const toggleStep = (id) => setCompleted(c => { const n={...c}; if(n[id]) delete n[id]; else n[id]={at:new Date().toISOString()}; return n; });
+  const addPhoto = (stepId) => { setPhotos(p => ({...p,[stepId]:[...(p[stepId]||[]),{id:Date.now(),name:'IMG_'+Math.floor(Math.random()*9000+1000)+'.jpg'}]})); showToast('Photo uploaded'); };
+
+  const finish = () => {
+    const allDone = Object.keys(completed).length === sop.steps.length;
+    const photosOk = sop.steps.filter(s=>s.requiresPhoto).every(s=>photos[s.id]?.length);
+    if (!allDone) return showToast('Some steps are incomplete');
+    if (!photosOk) return showToast('Photo checkpoints missing');
+    showToast('Execution logged');
+    setTimeout(onBack, 700);
+  };
+
+  if (!started) {
+    return (
+      <div className="max-w-[720px] mx-auto px-6 lg:px-10 py-8 lg:py-12 animate-fade-up">
+        <BreadcrumbBack onClick={onBack} label="All SOPs"/>
+        <div className="card rounded-2xl p-8">
+          <div className="tracked text-muted2 mb-3">{sop.linkedClass}</div>
+          <h1 className="display-serif text-[32px] lg:text-[44px] text-ink2 mb-5 leading-[1.04]">{sop.title}</h1>
+          <div className="flex items-center gap-3 text-[13px] text-muted mb-8 flex-wrap">
+            <span className="inline-flex items-center gap-1.5"><I.clock className="w-3.5 h-3.5"/>{sop.duration}</span>
+            <span className="text-muted2">·</span>
+            <span>{sop.steps.length} steps</span>
+            <span className="text-muted2">·</span>
+            <span>{sop.steps.filter(s=>s.requiresPhoto).length} photo checkpoints</span>
+          </div>
+
+          <div className="tracked text-muted2 mb-3">Materials to prepare</div>
+          <div className="grid sm:grid-cols-2 gap-2 mb-8">
+            {sop.materials.map(m => (
+              <div key={m} className="flex items-center gap-2.5 p-2.5 rounded-lg card-sunken text-[13px] text-ink">
+                <div className="check-box checked"><I.check className="w-3 h-3 text-canvas"/></div>
+                <span>{m}</span>
+              </div>
+            ))}
+          </div>
+
+          <button onClick={()=>setStarted(true)} className="btn-primary w-full py-3 rounded-full text-[13px] flex items-center justify-center gap-2">
+            <I.play className="w-3 h-3"/> Start execution
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const current = sop.steps[activeStep];
+  const stepPhotos = photos[current.id] || [];
+
+  return (
+    <div className="max-w-[900px] mx-auto px-6 lg:px-10 py-8 lg:py-12 animate-fade-up">
+      <div className="flex items-center justify-between mb-6">
+        <button onClick={()=>setStarted(false)} className="flex items-center gap-1.5 text-[13px] text-muted hover:text-ink2 transition"><I.chevL className="w-4 h-4"/><span>Exit</span></button>
+        <div className="text-[12px] text-muted tabular-nums">{Object.keys(completed).length} / {sop.steps.length} complete</div>
+      </div>
+
+      <div className="mb-8">
+        <ProgressBar value={progress} height={4}/>
+      </div>
+
+      <div className="tracked text-muted mb-3">{sop.title}</div>
+
+      <div className="card rounded-2xl p-6 lg:p-8 mb-6">
+        <div className="flex items-start gap-4 mb-6">
+          <div className="display-serif-italic text-[28px] text-ochre tabular-nums shrink-0">{String(activeStep+1).padStart(2,'0')}</div>
+          <div className="flex-1">
+            <h2 className="display-serif text-[28px] lg:text-[32px] text-ink2 mb-2 leading-[1.1]">{current.title}</h2>
+            <div className="text-[13px] text-muted">{current.time}</div>
+          </div>
+          <button onClick={()=>toggleStep(current.id)} className={`check-box ${completed[current.id] ? 'checked' : ''} w-8 h-8`}>
+            <I.check className="w-4 h-4 text-canvas"/>
+          </button>
+        </div>
+
+        <p className="text-[15.5px] text-ink leading-relaxed mb-6">{current.desc}</p>
+
+        {current.requiresPhoto && (
+          <div className="card-sunken rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-4">
+              <I.camera className="w-4 h-4 text-ink2"/>
+              <div className="text-[13px] font-medium text-ink2">Photo checkpoint</div>
+              <Pill tone="ochre">Required</Pill>
+            </div>
+            <p className="text-[13px] text-muted mb-4">{current.photoPrompt}</p>
+            {stepPhotos.length > 0 && (
+              <div className="grid grid-cols-3 gap-2 mb-3">
+                {stepPhotos.map(p => (
+                  <div key={p.id} className="thumb aspect-square rounded-lg flex items-center justify-center relative">
+                    <I.image className="w-5 h-5 text-white relative z-10"/>
+                  </div>
+                ))}
+              </div>
+            )}
+            <button onClick={()=>addPhoto(current.id)} className="btn-ghost w-full py-2 rounded-xl text-[12.5px] flex items-center justify-center gap-2">
+              <I.camera className="w-3.5 h-3.5"/> Upload photo
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div className="flex items-center gap-3">
+        <button onClick={()=>setActiveStep(Math.max(0,activeStep-1))} disabled={activeStep===0} className="btn-ghost px-5 py-2.5 rounded-full text-[13px] disabled:opacity-30">Previous</button>
+        {activeStep < sop.steps.length - 1 ? (
+          <button onClick={()=>setActiveStep(activeStep+1)} className="btn-primary flex-1 py-2.5 rounded-full text-[13px]">Next step →</button>
+        ) : (
+          <button onClick={finish} className="btn-primary flex-1 py-2.5 rounded-full text-[13px] inline-flex items-center justify-center gap-2"><I.check className="w-3.5 h-3.5"/> Finish execution</button>
+        )}
+      </div>
+
+      <div className="mt-10">
+        <div className="tracked text-muted mb-3">All steps</div>
+        <div className="space-y-1.5">
+          {sop.steps.map((s, i) => (
+            <button key={s.id} onClick={()=>setActiveStep(i)} className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-left transition ${activeStep === i ? 'bg-cream border hairline' : 'hover:bg-cream/50'}`}>
+              <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ${completed[s.id] ? 'bg-ink2' : 'border-[1.5px] border-line2 bg-canvas'}`}>
+                {completed[s.id] && <I.check className="w-3 h-3 text-canvas"/>}
+              </div>
+              <div className="display-serif-italic text-[13px] text-muted2 tabular-nums w-5 shrink-0">{String(i+1).padStart(2,'0')}</div>
+              <div className="flex-1 min-w-0 text-[13px] text-ink2 truncate">{s.title}</div>
+              <div className="text-[11px] text-muted tabular-nums shrink-0">{s.time}</div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════ REPORTS ═══════
+function ReportsHome({ onOpen }) {
+  const [search, setSearch] = useState('');
+  const children = MOCK_CHILDREN.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
+
+  return (
+    <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <PageHeader
+        eyebrow="EYFS child reports"
+        title={<>Child <em className="display-serif-italic text-muted">Reports</em></>}
+        subtitle="Track observations across the seven EYFS areas of learning. Share progress with parents."
+      />
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 lg:gap-4 mb-8 stagger">
+        <StatCard value="48" label="Children enrolled"/>
+        <StatCard value="312" label="Observations logged" trend="+24" trendUp/>
+        <StatCard value="12" label="Reports due"/>
+        <StatCard value="7" label="EYFS areas covered"/>
+      </div>
+
+      <div className="relative mb-6 max-w-sm">
+        <I.search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted2"/>
+        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search children" className="input w-full pl-10 pr-4 py-2.5 rounded-xl text-[14px]"/>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
+        {children.map(child => (
+          <button key={child.id} onClick={()=>onOpen(child)} className="card card-hover text-left rounded-2xl p-6">
+            <div className="flex items-center gap-4 mb-4">
+              <div className="w-12 h-12 rounded-full bg-cream hairline border flex items-center justify-center">
+                <span className="display-serif-italic text-[18px] text-ink2">{child.name.split(' ').map(n=>n[0]).join('')}</span>
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-[15px] font-medium text-ink2 truncate">{child.name}</div>
+                <div className="text-[12px] text-muted">Age {child.age}</div>
+              </div>
+              <I.chevR className="w-4 h-4 text-muted2"/>
+            </div>
+            <div className="text-[12px] text-muted tabular-nums">{child.observationsCount} observations logged</div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ChildReport({ child, onBack, showToast }) {
+  const [showAdd, setShowAdd] = useState(false);
+  const [note, setNote] = useState('');
+  const [selectedAreas, setSelectedAreas] = useState([]);
+  const observations = MOCK_OBSERVATIONS.filter(o => o.childId === child.id);
+
+  const toggleArea = (id) => setSelectedAreas(a => a.includes(id) ? a.filter(x=>x!==id) : [...a, id]);
+  const submitObs = () => {
+    if (!note.trim() || selectedAreas.length === 0) return;
+    showToast('Observation logged');
+    setNote(''); setSelectedAreas([]); setShowAdd(false);
+  };
+
+  return (
+    <div className="max-w-[1000px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <BreadcrumbBack onClick={onBack} label="All children"/>
+
+      <div className="card rounded-2xl p-6 lg:p-8 mb-6">
+        <div className="flex items-center gap-5 mb-6">
+          <div className="w-16 h-16 rounded-full bg-cream hairline border flex items-center justify-center">
+            <span className="display-serif-italic text-[24px] text-ink2">{child.name.split(' ').map(n=>n[0]).join('')}</span>
+          </div>
+          <div className="flex-1">
+            <div className="tracked text-muted2 mb-1">Child</div>
+            <h1 className="display-serif text-[36px] lg:text-[44px] text-ink2 leading-[1.02]">{child.name}</h1>
+            <div className="text-[13px] text-muted mt-1">Age {child.age} · {observations.length} observations on file</div>
+          </div>
+          <button onClick={()=>setShowAdd(true)} className="btn-primary px-4 py-2.5 rounded-full text-[13px] inline-flex items-center gap-2">
+            <I.plus className="w-3.5 h-3.5"/> New observation
+          </button>
+        </div>
+      </div>
+
+      {showAdd && (
+        <div className="card rounded-2xl p-6 mb-6 animate-fade-up">
+          <div className="flex items-center justify-between mb-5">
+            <h3 className="text-[16px] font-medium text-ink2">New observation</h3>
+            <button onClick={()=>setShowAdd(false)}><I.x className="w-4 h-4 text-muted"/></button>
+          </div>
+          <textarea value={note} onChange={e=>setNote(e.target.value)} rows="4" placeholder="What did you observe?" className="input w-full p-3 rounded-xl text-[14px] resize-none mb-4"/>
+          <div className="tracked text-muted2 mb-3">EYFS areas (select one or more)</div>
+          <div className="flex flex-wrap gap-2 mb-5">
+            {EYFS_AREAS.map(a => (
+              <button key={a.id} onClick={()=>toggleArea(a.id)} className={`px-3 py-1.5 rounded-full text-[12px] font-medium transition ${selectedAreas.includes(a.id) ? 'bg-ink2 text-canvas' : 'bg-cream text-muted hover:text-ink2 border hairline'}`}>
+                {a.name}
+              </button>
+            ))}
+          </div>
+          <div className="flex gap-2">
+            <button onClick={submitObs} disabled={!note.trim() || !selectedAreas.length} className="btn-primary px-5 py-2 rounded-full text-[13px] disabled:opacity-40">Save observation</button>
+            <button onClick={()=>setShowAdd(false)} className="btn-ghost px-5 py-2 rounded-full text-[13px]">Cancel</button>
+          </div>
+        </div>
+      )}
+
+      <div className="tracked text-muted mb-4 detail-line">Recent observations</div>
+      <div className="space-y-4 stagger">
+        {observations.map(o => (
+          <div key={o.id} className="card rounded-2xl p-6">
+            <div className="flex items-center justify-between mb-3">
+              <div className="flex flex-wrap gap-1.5">
+                {o.areas.map(aid => {
+                  const area = EYFS_AREAS.find(a => a.id === aid);
+                  return <Pill key={aid} tone="neutral">{area?.short}</Pill>;
+                })}
+              </div>
+              <div className="text-[11px] text-muted tabular-nums">{o.date}</div>
+            </div>
+            <p className="text-[14.5px] text-ink leading-relaxed">{o.note}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ═══════ ADMIN ═══════
+function AdminPanel({ view, setView, showToast }) {
+  return (
+    <div className="max-w-[1280px] mx-auto px-6 lg:px-10 py-10 lg:py-14 animate-fade-up">
+      <PageHeader
+        eyebrow="Administration"
+        title={<>Admin <em className="display-serif-italic text-muted">panel</em></>}
+        subtitle="Manage users, stores and permissions across the franchise network."
+      />
+
+      <div className="flex items-center gap-2 mb-6 overflow-x-auto">
+        {[
+          { id:'users',  label:'Users',  icon:I.users  },
+          { id:'stores', label:'Stores', icon:I.store  },
+        ].map(v => (
+          <button key={v.id} onClick={()=>setView(v.id)} className={`pill px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap inline-flex items-center gap-1.5 ${view===v.id ? 'active' : ''}`}>
+            <v.icon className="w-3.5 h-3.5"/>{v.label}
+          </button>
+        ))}
+      </div>
+
+      {view === 'users' && (
+        <div className="card rounded-2xl overflow-hidden">
+          <div className="flex items-center justify-between p-5 lg:p-6 hairline-b">
+            <div>
+              <h3 className="text-[16px] font-medium text-ink2">Users</h3>
+              <div className="text-[12px] text-muted">{MOCK_USERS.length} across all stores</div>
+            </div>
+            <button onClick={()=>showToast('Invite sent')} className="btn-primary px-3 py-1.5 rounded-full text-[12px] inline-flex items-center gap-1.5"><I.plus className="w-3 h-3"/> Invite</button>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-[13px] min-w-[700px]">
+              <thead>
+                <tr className="tracked text-muted2 bg-cream/60 hairline-b">
+                  <th className="text-left font-medium px-5 lg:px-6 py-3">Name</th>
+                  <th className="text-left font-medium px-3 py-3">Role</th>
+                  <th className="text-left font-medium px-3 py-3">Store</th>
+                  <th className="text-left font-medium px-3 py-3">Status</th>
+                  <th className="text-right font-medium px-5 lg:px-6 py-3"></th>
+                </tr>
+              </thead>
+              <tbody>
+                {MOCK_USERS.map((u, i) => (
+                  <tr key={u.id} className={`${i !== MOCK_USERS.length-1 ? 'hairline-b' : ''} hover:bg-cream/40 transition`}>
+                    <td className="px-5 lg:px-6 py-3.5">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-cream hairline border flex items-center justify-center shrink-0">
+                          <span className="display-serif-italic text-[13px] text-ink2">{u.name.split(' ').map(n=>n[0]).join('')}</span>
+                        </div>
+                        <div>
+                          <div className="font-medium text-ink2">{u.name}</div>
+                          <div className="text-[11px] text-muted">{u.email}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="px-3 py-3.5"><Pill tone={u.role === 'HQ_ADMIN' ? 'ochre' : u.role === 'FRANCHISEE_ADMIN' ? 'dark' : 'neutral'}>{u.role.replace('_',' ').toLowerCase()}</Pill></td>
+                    <td className="px-3 py-3.5 text-ink2">{u.store}</td>
+                    <td className="px-3 py-3.5">{u.active ? <Pill tone="success">Active</Pill> : <Pill tone="neutral">Inactive</Pill>}</td>
+                    <td className="px-5 lg:px-6 py-3.5 text-right">
+                      <button className="p-1 hover:bg-cream rounded-md transition"><I.edit className="w-3.5 h-3.5 text-muted2"/></button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {view === 'stores' && (
+        <div className="grid md:grid-cols-2 gap-4 stagger">
+          {MOCK_STORES.map(s => (
+            <div key={s.id} className="card rounded-2xl p-6">
+              <div className="flex items-start justify-between mb-5">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-xl bg-cream hairline border flex items-center justify-center">
+                    <I.store className="w-[17px] h-[17px] text-ink2"/>
+                  </div>
+                  <div>
+                    <h3 className="text-[16px] font-medium text-ink2" style={{letterSpacing:'-0.02em'}}>{s.name}</h3>
+                    <div className="text-[11px] text-muted tabular-nums">{s.code} · {s.region}</div>
+                  </div>
+                </div>
+                <Pill tone={s.healthScore >= 85 ? 'success' : s.healthScore >= 70 ? 'ochre' : 'danger'}>{s.healthScore}</Pill>
+              </div>
+              <div className="grid grid-cols-2 gap-4 pt-4 hairline-t">
+                <div>
+                  <div className="tracked text-muted2 mb-1">Teachers</div>
+                  <div className="display-sans text-[22px] text-ink2 tabular-nums">{s.teachers}</div>
+                </div>
+                <div>
+                  <div className="tracked text-muted2 mb-1">Students</div>
+                  <div className="display-sans text-[22px] text-ink2 tabular-nums">{s.students}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════ BOOT ═══════
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>

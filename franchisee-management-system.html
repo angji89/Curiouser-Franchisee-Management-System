@@ -1,0 +1,1888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Bright Beginnings — Franchisee Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          cream:   '#f7f2eb',
+          ochre:   '#c98b2c',
+          slate1:  '#5c707a',
+          coral:   '#bf5f49',
+          ink:     '#3f4d51',
+        },
+        fontFamily: {
+          display: ['Fraunces', 'serif'],
+          sans:    ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root {
+    --cream:  #f7f2eb;
+    --ochre:  #c98b2c;
+    --slate1: #5c707a;
+    --coral:  #bf5f49;
+    --ink:    #3f4d51;
+  }
+  * { -webkit-tap-highlight-color: transparent; }
+  html, body { background: var(--cream); color: var(--ink); font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+  .font-display { font-family: 'Fraunces', serif; font-optical-sizing: auto; }
+
+  /* —— IP PROTECTION for class plan viewer —— */
+  .ip-protected {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-touch-callout: none;
+    pointer-events: auto;
+  }
+  .ip-protected img, .ip-protected video {
+    pointer-events: none;
+    -webkit-user-drag: none;
+  }
+  @media print {
+    .ip-protected { display: none !important; }
+    body::after {
+      content: "Printing is disabled to protect curriculum IP.";
+      display: block; font-size: 24px; padding: 40px; text-align: center;
+    }
+  }
+
+  /* Watermark overlay */
+  .watermark-layer {
+    position: absolute; inset: 0; pointer-events: none;
+    background-image: repeating-linear-gradient(
+      -30deg,
+      transparent 0, transparent 120px,
+      rgba(63,77,81,0.04) 120px, rgba(63,77,81,0.04) 240px
+    );
+    z-index: 5;
+  }
+  .watermark-text {
+    position: absolute; inset: 0; pointer-events: none;
+    display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around;
+    overflow: hidden; z-index: 6;
+  }
+  .watermark-text span {
+    font-family: 'Fraunces', serif;
+    color: rgba(63,77,81,0.10);
+    font-size: 14px; font-weight: 500;
+    transform: rotate(-24deg);
+    white-space: nowrap; padding: 40px;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar { width: 10px; height: 10px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(92,112,122,0.25); border-radius: 10px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(92,112,122,0.45); }
+
+  /* Subtle paper texture */
+  .paper {
+    background-color: var(--cream);
+    background-image:
+      radial-gradient(rgba(201,139,44,0.04) 1px, transparent 1px),
+      radial-gradient(rgba(92,112,122,0.04) 1px, transparent 1px);
+    background-size: 24px 24px, 48px 48px;
+    background-position: 0 0, 12px 12px;
+  }
+
+  /* Progress ring */
+  .ring-bg { stroke: rgba(63,77,81,0.12); }
+  .ring-fg { stroke: var(--ochre); transition: stroke-dashoffset 0.6s ease; }
+
+  /* Checkbox custom */
+  .sop-check {
+    width: 28px; height: 28px; border-radius: 10px;
+    border: 2px solid rgba(63,77,81,0.25);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease; flex-shrink: 0;
+  }
+  .sop-check.checked {
+    background: var(--ochre); border-color: var(--ochre);
+  }
+  .sop-check.checked svg { opacity: 1; transform: scale(1); }
+  .sop-check svg { opacity: 0; transform: scale(0.5); transition: all 0.2s ease; }
+
+  /* Pill tabs */
+  .pill { transition: all 0.2s ease; }
+  .pill.active {
+    background: var(--ink); color: var(--cream);
+  }
+
+  /* Nav item */
+  .nav-item { transition: all 0.2s ease; }
+  .nav-item.active {
+    background: rgba(201,139,44,0.12);
+    color: var(--ochre);
+  }
+  .nav-item.active .nav-dot { background: var(--ochre); }
+
+  /* Fade in */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up { animation: fadeUp 0.4s ease both; }
+
+  /* Card hover */
+  .card-hover { transition: all 0.25s ease; }
+  .card-hover:hover { transform: translateY(-2px); box-shadow: 0 12px 28px -12px rgba(63,77,81,0.18); }
+
+  /* Certificate */
+  .certificate {
+    background:
+      radial-gradient(circle at 10% 10%, rgba(201,139,44,0.08), transparent 40%),
+      radial-gradient(circle at 90% 90%, rgba(191,95,73,0.08), transparent 40%),
+      #fffaf2;
+    border: 1px solid rgba(201,139,44,0.3);
+  }
+
+  /* No text selection for viewer */
+  .no-select, .no-select * {
+    user-select: none !important;
+    -webkit-user-select: none !important;
+  }
+
+  /* Video placeholder */
+  .video-shell {
+    background: linear-gradient(135deg, #3f4d51 0%, #5c707a 100%);
+  }
+
+  /* Toast */
+  .toast {
+    animation: fadeUp 0.3s ease, fadeOut 0.3s ease 2.4s forwards;
+  }
+  @keyframes fadeOut {
+    to { opacity: 0; transform: translateY(-8px); }
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 768px) {
+    .desktop-only { display: none !important; }
+  }
+  @media (min-width: 769px) {
+    .mobile-only { display: none !important; }
+  }
+</style>
+</head>
+<body class="min-h-screen overflow-x-hidden">
+
+<div id="root"></div>
+
+<!-- React -->
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, useMemo } = React;
+
+// ───────────────────────────────────────────────────────────
+//  ICONS (inline SVG, no external dep)
+// ───────────────────────────────────────────────────────────
+const Icon = {
+  home:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>,
+  book:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+  grad:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
+  clip:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>,
+  folder:  (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z"/></svg>,
+  search:  (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
+  play:    (p) => <svg {...p} viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>,
+  check:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+  lock:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+  camera:  (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>,
+  chevR:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>,
+  chevL:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
+  clock:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+  menu:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>,
+  x:       (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+  award:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/></svg>,
+  dl:      (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
+  upload:  (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>,
+  bell:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>,
+  sparkle: (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>,
+  info:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>,
+  image:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>,
+  pdf:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>,
+  arrow:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+  eye:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>,
+  video:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><polygon points="22 8 16 12 22 16 22 8"/></svg>,
+};
+
+// ───────────────────────────────────────────────────────────
+//  MOCK DATA
+// ───────────────────────────────────────────────────────────
+
+const CLASS_THEMES = [
+  { id: 'drama',   name: 'Drama & Theatre',   color: '#bf5f49', icon: '🎭', desc: 'Role-play, storytelling, puppetry' },
+  { id: 'music',   name: 'Music & Movement',  color: '#c98b2c', icon: '🎵', desc: 'Rhythm, songs, instruments' },
+  { id: 'stem',    name: 'STEM Explorers',    color: '#5c707a', icon: '🔬', desc: 'Science experiments, discovery' },
+  { id: 'nature',  name: 'Nature & Ecology',  color: '#3f4d51', icon: '🌿', desc: 'Plants, animals, environment' },
+  { id: 'art',     name: 'Creative Arts',     color: '#bf5f49', icon: '🎨', desc: 'Painting, crafts, sculpture' },
+  { id: 'story',   name: 'Storytime & Lit',   color: '#c98b2c', icon: '📖', desc: 'Books, language, imagination' },
+];
+
+const MOCK_CLASS_PLANS = {
+  drama: {
+    theme: 'Drama & Theatre',
+    months: {
+      'April 2026': {
+        weeks: {
+          'Week 1': [
+            { id: 'cp1', title: 'The Magic Forest Adventure', ageGroup: '3–4', duration: '45 min', lesson: 1, overview: 'Children embark on an imaginative journey through an enchanted forest, meeting woodland characters.' },
+            { id: 'cp2', title: 'Brave Little Explorers',      ageGroup: '4–5', duration: '50 min', lesson: 2, overview: 'Role-play game where children become brave explorers discovering new lands.' },
+          ],
+          'Week 2': [
+            { id: 'cp3', title: 'Ocean Pollution Theme',        ageGroup: '4–5', duration: '50 min', lesson: 1, overview: 'A dramatic exploration of ocean life and the impact of pollution, using puppets and storytelling to inspire environmental care.' },
+            { id: 'cp4', title: 'Save the Turtles Roleplay',    ageGroup: '5–6', duration: '55 min', lesson: 2, overview: 'Children act as marine rescuers in an engaging scenario-based drama lesson.' },
+          ],
+          'Week 3': [
+            { id: 'cp5', title: 'Shadow Puppet Theatre',        ageGroup: '4–5', duration: '45 min', lesson: 1, overview: 'Learn simple shadow puppetry techniques and perform a mini story.' },
+          ],
+          'Week 4': [
+            { id: 'cp6', title: 'The Bakery Storytime',         ageGroup: '3–4', duration: '40 min', lesson: 1, overview: 'Role-play bakers and customers while learning about kindness.' },
+          ],
+        }
+      },
+      'May 2026': {
+        weeks: {
+          'Week 1': [
+            { id: 'cp7', title: 'Garden Party Performance',     ageGroup: '4–5', duration: '50 min', lesson: 1, overview: 'A whimsical garden-themed drama lesson with costumes and roles.' },
+          ],
+        }
+      }
+    }
+  },
+  music: {
+    theme: 'Music & Movement',
+    months: {
+      'April 2026': {
+        weeks: {
+          'Week 1': [
+            { id: 'cp8', title: 'Drumming with Dinosaurs',      ageGroup: '3–4', duration: '40 min', lesson: 1, overview: 'Percussion-based class introducing rhythm through dinosaur themes.' },
+          ],
+          'Week 2': [
+            { id: 'cp9', title: 'Rainforest Soundscape',        ageGroup: '4–5', duration: '45 min', lesson: 1, overview: 'Create rainforest sounds using instruments and voice.' },
+          ],
+        }
+      }
+    }
+  },
+  stem: {
+    theme: 'STEM Explorers',
+    months: {
+      'April 2026': {
+        weeks: {
+          'Week 2': [
+            { id: 'cp10', title: 'Floating and Sinking',        ageGroup: '4–5', duration: '45 min', lesson: 1, overview: 'Hands-on experiments exploring density and buoyancy.' },
+          ],
+        }
+      }
+    }
+  },
+  nature:  { theme: 'Nature & Ecology', months: { 'April 2026': { weeks: { 'Week 1': [{ id: 'cp11', title: 'Seed to Sprout', ageGroup: '3–4', duration: '40 min', lesson: 1, overview: 'Plant seeds and observe growth over the term.' }] } } } },
+  art:     { theme: 'Creative Arts',    months: { 'April 2026': { weeks: { 'Week 1': [{ id: 'cp12', title: 'Colour Mixing Magic', ageGroup: '3–4', duration: '40 min', lesson: 1, overview: 'Exploration of primary and secondary colours.' }] } } } },
+  story:   { theme: 'Storytime & Lit',  months: { 'April 2026': { weeks: { 'Week 1': [{ id: 'cp13', title: 'The Very Hungry Caterpillar', ageGroup: '3–4', duration: '35 min', lesson: 1, overview: 'Interactive reading with tactile props.' }] } } } },
+};
+
+const COURSES = [
+  {
+    id: 'c1',
+    title: 'Early Years Pedagogy Foundations',
+    subtitle: 'Required • Core curriculum',
+    level: 'Beginner',
+    hours: 4.5,
+    required: true,
+    instructor: 'Dr. Elena Hoffmann',
+    progress: 72,
+    cover: 'pedagogy',
+    description: 'Master the foundational principles of early childhood education: developmental milestones, learning theories, and age-appropriate practice.',
+    modules: [
+      {
+        id: 'm1', title: 'Introduction to Early Years',
+        lessons: [
+          { id: 'l1', title: 'Welcome to the Academy',           type: 'video', duration: 4,  completed: true },
+          { id: 'l2', title: 'Our Teaching Philosophy',           type: 'video', duration: 8,  completed: true },
+          { id: 'l3', title: 'Child Development 101',             type: 'slides',duration: 12, completed: true },
+        ],
+      },
+      {
+        id: 'm2', title: 'Developmental Milestones',
+        lessons: [
+          { id: 'l4', title: 'Ages 3–4: Expected milestones',     type: 'video', duration: 10, completed: true },
+          { id: 'l5', title: 'Ages 4–5: Social development',      type: 'video', duration: 11, completed: true },
+          { id: 'l6', title: 'Ages 5–6: Cognitive growth',        type: 'slides',duration: 14, completed: false, current: true },
+          { id: 'l7', title: 'Quiz: Milestones',                  type: 'quiz',  duration: 8,  completed: false },
+        ],
+      },
+      {
+        id: 'm3', title: 'Classroom Management',
+        lessons: [
+          { id: 'l8', title: 'Setting up a learning space',       type: 'video', duration: 9,  completed: false },
+          { id: 'l9', title: 'Handling transitions',              type: 'slides',duration: 10, completed: false },
+          { id: 'l10',title: 'De-escalation techniques',          type: 'video', duration: 12, completed: false },
+        ],
+      },
+      {
+        id: 'm4', title: 'Assessment & Observation',
+        lessons: [
+          { id: 'l11', title: 'Observational assessment',         type: 'video', duration: 9,  completed: false },
+          { id: 'l12', title: 'Final Assessment',                 type: 'quiz',  duration: 15, completed: false },
+        ],
+      },
+    ],
+  },
+  {
+    id: 'c2',
+    title: 'Drama Class Delivery Masterclass',
+    subtitle: 'Required to unlock Drama curriculum',
+    level: 'Intermediate',
+    hours: 3,
+    required: true,
+    instructor: 'Marcus Theo',
+    progress: 0,
+    cover: 'drama',
+    description: 'Learn how to deliver our signature Drama classes with confidence. Covers warm-ups, storytelling, voice projection, and managing group dynamics.',
+    modules: [
+      { id: 'm1', title: 'Foundations of Drama Teaching', lessons: [
+        { id: 'l1', title: 'Why drama matters for kids',         type: 'video', duration: 7,  completed: false, current: true },
+        { id: 'l2', title: 'Warm-up techniques',                 type: 'video', duration: 10, completed: false },
+      ]},
+      { id: 'm2', title: 'Delivery Techniques', lessons: [
+        { id: 'l3', title: 'Voice & projection',                 type: 'video', duration: 9,  completed: false },
+        { id: 'l4', title: 'Using props effectively',            type: 'slides',duration: 8,  completed: false },
+      ]},
+      { id: 'm3', title: 'Assessment', lessons: [
+        { id: 'l5', title: 'Drama Quiz',                         type: 'quiz',  duration: 10, completed: false },
+      ]},
+    ],
+  },
+  {
+    id: 'c3',
+    title: 'Parent Communication Excellence',
+    subtitle: 'Optional • Recommended',
+    level: 'Beginner',
+    hours: 2,
+    required: false,
+    instructor: 'Priya Ramesh',
+    progress: 100,
+    cover: 'parent',
+    description: 'Build strong partnerships with parents through effective communication strategies and difficult conversation frameworks.',
+    modules: [
+      { id: 'm1', title: 'The parent partnership model', lessons: [{id:'l1',title:'Overview',type:'video',duration:6,completed:true}]},
+      { id: 'm2', title: 'Difficult conversations',      lessons: [{id:'l2',title:'Frameworks',type:'video',duration:8,completed:true}]},
+    ],
+  },
+  {
+    id: 'c4',
+    title: 'Health, Safety & Safeguarding',
+    subtitle: 'Required • Annual renewal',
+    level: 'Beginner',
+    hours: 2.5,
+    required: true,
+    instructor: 'Compliance Team',
+    progress: 0,
+    cover: 'safety',
+    description: 'Essential compliance training covering child safeguarding, health protocols, incident reporting, and emergency procedures.',
+    modules: [
+      { id: 'm1', title: 'Safeguarding basics', lessons: [{id:'l1',title:'Policy overview',type:'video',duration:10,completed:false}]},
+    ],
+  },
+  {
+    id: 'c5',
+    title: 'STEM Class Delivery',
+    subtitle: 'Optional • Unlocks STEM curriculum',
+    level: 'Intermediate',
+    hours: 3.5,
+    required: false,
+    instructor: 'Dr. James Okoro',
+    progress: 25,
+    cover: 'stem',
+    description: 'Deliver engaging science and discovery lessons. Learn experiment safety, inquiry-based teaching, and how to handle the unexpected.',
+    modules: [
+      { id: 'm1', title: 'Inquiry teaching', lessons: [
+        {id:'l1',title:'The inquiry cycle',type:'video',duration:8,completed:true},
+        {id:'l2',title:'Setting up experiments',type:'video',duration:10,completed:false,current:true}
+      ]},
+    ],
+  },
+];
+
+const QUIZ_QUESTIONS = [
+  {
+    id: 'q1',
+    question: 'What is the typical attention span for a 4-year-old during a structured activity?',
+    options: [ '2–5 minutes', '8–12 minutes', '20–25 minutes', '30+ minutes' ],
+    correct: 1,
+    explanation: 'Children aged 4 can typically focus for 8–12 minutes on a single activity. Lessons should rotate activities every ~10 minutes.',
+  },
+  {
+    id: 'q2',
+    question: 'Which of the following is NOT a key early years developmental domain?',
+    options: [ 'Physical development', 'Economic development', 'Social & emotional development', 'Cognitive development' ],
+    correct: 1,
+    explanation: 'The main domains are physical, social-emotional, cognitive, and language. Economic development is not a child development domain.',
+  },
+  {
+    id: 'q3',
+    question: 'When a child shows distress during drop-off, the best first response is to:',
+    options: [
+      'Ignore it so they learn resilience',
+      'Acknowledge their feelings and co-regulate calmly',
+      'Distract them immediately with a new toy',
+      'Ask the parent to stay longer',
+    ],
+    correct: 1,
+    explanation: 'Acknowledging feelings and co-regulating (calm voice, physical presence) helps children develop emotional literacy.',
+  },
+];
+
+const SOP_TEMPLATES = [
+  {
+    id: 's1',
+    title: 'Drama Class — Ocean Pollution Theme',
+    linkedClass: 'Ocean Pollution Theme • Week 2, April',
+    duration: '50 min',
+    materials: [
+      'Blue & green tulle fabric (ocean backdrop)',
+      'Plastic bottle props (pre-washed)',
+      'Fish puppets × 6',
+      'Turtle costume × 1',
+      'Picture flashcards (sea creatures)',
+      'Bluetooth speaker',
+    ],
+    steps: [
+      { id: 'step1', title: 'Classroom Setup',        desc: 'Arrange blue tulle across the floor. Place puppets and props in the "ocean" area. Set up speaker.', time: '10 min before',     requiresPhoto: true,  photoPrompt: 'Photo of prepared ocean setup' },
+      { id: 'step2', title: 'Opening Circle',         desc: 'Gather children in a circle. Sing "The Ocean Song". Introduce today\'s theme.',                          time: '5 min',              requiresPhoto: false },
+      { id: 'step3', title: 'Story Introduction',     desc: 'Read "Turtle\'s Troubled Home" (pages 1–8). Use voice variation for each character.',                   time: '8 min',              requiresPhoto: false },
+      { id: 'step4', title: 'Roleplay: Meet the Sea Creatures', desc: 'Assign fish puppet roles. Children act out swimming, eating, being happy in clean water.',    time: '10 min',             requiresPhoto: true, photoPrompt: 'Photo of children in character' },
+      { id: 'step5', title: 'The Problem Appears',    desc: 'Introduce plastic bottles into the "ocean". Pause and ask: "How do the fish feel now?"',               time: '8 min',              requiresPhoto: false },
+      { id: 'step6', title: 'Roleplay: The Cleanup',  desc: 'Children become rescuers. Collect plastic, "heal" the ocean together.',                                 time: '8 min',              requiresPhoto: true, photoPrompt: 'Photo of cleanup activity' },
+      { id: 'step7', title: 'Reflection Circle',      desc: 'Return to circle. Ask children what they learned. Sing closing song.',                                   time: '5 min',              requiresPhoto: false },
+      { id: 'step8', title: 'Cleanup & Reset',        desc: 'Pack materials. Photograph classroom condition for records.',                                            time: '6 min',              requiresPhoto: true, photoPrompt: 'Photo of reset classroom' },
+    ],
+  },
+  {
+    id: 's2',
+    title: 'Music & Movement — Drumming with Dinosaurs',
+    linkedClass: 'Drumming with Dinosaurs • Week 1, April',
+    duration: '40 min',
+    materials: ['Hand drums × 8', 'Dinosaur flashcards', 'Speaker'],
+    steps: [
+      { id: 'step1', title: 'Setup drum circle',  desc: 'Arrange drums in semicircle.', time: '5 min before', requiresPhoto: true, photoPrompt: 'Photo of drum setup' },
+      { id: 'step2', title: 'Welcome song',        desc: 'Sing hello song with steady beat.', time: '3 min',  requiresPhoto: false },
+      { id: 'step3', title: 'Dinosaur warm-up',    desc: 'March like T-Rex, tiptoe like Velociraptor.', time: '7 min', requiresPhoto: false },
+      { id: 'step4', title: 'Call & response drumming', desc: 'Teacher taps pattern, children echo.',  time: '12 min', requiresPhoto: true, photoPrompt: 'Photo of drumming in action' },
+      { id: 'step5', title: 'Free exploration',    desc: 'Let children experiment with rhythms.',       time: '8 min',  requiresPhoto: false },
+      { id: 'step6', title: 'Closing circle',      desc: 'Final rhythm, goodbye song.',                  time: '5 min',  requiresPhoto: false },
+    ],
+  },
+  {
+    id: 's3',
+    title: 'Opening Routine (Daily)',
+    linkedClass: 'Every session',
+    duration: '15 min',
+    materials: ['Attendance sheet', 'Name tags', 'Welcome song lyrics'],
+    steps: [
+      { id: 'step1', title: 'Greet each child & parent', desc: 'Eye contact, name, warm greeting.', time: '5 min', requiresPhoto: false },
+      { id: 'step2', title: 'Attendance check',           desc: 'Mark register, note absences.',        time: '2 min', requiresPhoto: false },
+      { id: 'step3', title: 'Circle time opener',         desc: 'Welcome song, date/weather chat.',     time: '5 min', requiresPhoto: false },
+      { id: 'step4', title: 'Day introduction',           desc: 'Preview today\'s activities with visual schedule.', time: '3 min', requiresPhoto: false },
+    ],
+  },
+];
+
+// ───────────────────────────────────────────────────────────
+//  SMALL UTILITIES
+// ───────────────────────────────────────────────────────────
+
+const CURRENT_USER = { name: 'Sarah Chen', email: 'sarah.chen@brightbeginnings.my', franchise: 'Selangor Central · Franchise #047' };
+
+function Toast({ message, onDone }) {
+  useEffect(() => { const t = setTimeout(onDone, 2700); return () => clearTimeout(t); }, []);
+  return (
+    <div className="toast fixed bottom-20 md:bottom-8 left-1/2 -translate-x-1/2 z-50 bg-ink text-cream px-5 py-3 rounded-full shadow-xl flex items-center gap-2 text-sm">
+      <Icon.info className="w-4 h-4" /> {message}
+    </div>
+  );
+}
+
+// ───────────────────────────────────────────────────────────
+//  MAIN APP
+// ───────────────────────────────────────────────────────────
+
+function App() {
+  const [page, setPage] = useState('home'); // home | classes | academy | sop | sop-run
+  const [classSelection, setClassSelection] = useState(null); // { theme, month, week, planId }
+  const [currentCourse, setCurrentCourse] = useState(null);
+  const [currentLesson, setCurrentLesson] = useState(null);
+  const [currentSop, setCurrentSop] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const showToast = (msg) => setToast(msg);
+
+  const nav = (target) => {
+    setPage(target);
+    setMobileMenuOpen(false);
+    window.scrollTo({ top: 0 });
+  };
+
+  return (
+    <div className="min-h-screen paper">
+      {/* ── TOP BAR / MOBILE HEADER ── */}
+      <header className="sticky top-0 z-40 bg-cream/90 backdrop-blur border-b border-ink/10">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 h-14 md:h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 md:gap-3">
+            <button className="md:hidden p-2" onClick={() => setMobileMenuOpen(true)}><Icon.menu className="w-6 h-6 text-ink"/></button>
+            <div className="w-8 h-8 md:w-9 md:h-9 rounded-xl bg-ochre flex items-center justify-center">
+              <span className="font-display text-cream text-lg md:text-xl font-bold">b</span>
+            </div>
+            <div className="hidden sm:block">
+              <div className="font-display text-ink text-lg md:text-xl leading-none font-semibold">Bright Beginnings</div>
+              <div className="text-[10px] md:text-xs text-slate1 tracking-wider uppercase">Franchisee Hub</div>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 md:gap-5">
+            <button className="relative p-2 hover:bg-ink/5 rounded-full">
+              <Icon.bell className="w-5 h-5 text-ink"/>
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-coral rounded-full"></span>
+            </button>
+            <div className="hidden md:flex items-center gap-3">
+              <div className="text-right">
+                <div className="text-sm font-medium text-ink leading-tight">{CURRENT_USER.name}</div>
+                <div className="text-xs text-slate1 leading-tight">{CURRENT_USER.franchise}</div>
+              </div>
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-coral to-ochre flex items-center justify-center text-cream font-semibold">SC</div>
+            </div>
+            <div className="md:hidden w-8 h-8 rounded-full bg-gradient-to-br from-coral to-ochre flex items-center justify-center text-cream font-semibold text-sm">SC</div>
+          </div>
+        </div>
+      </header>
+
+      <div className="max-w-7xl mx-auto flex">
+        {/* ── SIDEBAR (DESKTOP) ── */}
+        <aside className="desktop-only hidden md:block w-60 shrink-0 border-r border-ink/10 min-h-[calc(100vh-4rem)] py-8 px-4">
+          <NavItems page={page} onNav={nav} />
+          <div className="mt-10 p-4 rounded-2xl bg-ink text-cream">
+            <div className="flex items-center gap-2 mb-2"><Icon.sparkle className="w-4 h-4"/> <span className="text-xs uppercase tracking-widest">This week</span></div>
+            <p className="text-sm leading-snug">Complete your Safeguarding refresh by Friday to stay compliant.</p>
+          </div>
+        </aside>
+
+        {/* ── MOBILE MENU DRAWER ── */}
+        {mobileMenuOpen && (
+          <div className="md:hidden fixed inset-0 z-50 bg-ink/60" onClick={() => setMobileMenuOpen(false)}>
+            <aside className="absolute left-0 top-0 h-full w-72 bg-cream p-6 shadow-2xl" onClick={e=>e.stopPropagation()}>
+              <div className="flex items-center justify-between mb-8">
+                <div className="flex items-center gap-2">
+                  <div className="w-9 h-9 rounded-xl bg-ochre flex items-center justify-center">
+                    <span className="font-display text-cream text-xl font-bold">b</span>
+                  </div>
+                  <div>
+                    <div className="font-display text-ink font-semibold">Bright Beginnings</div>
+                    <div className="text-xs text-slate1">Franchisee Hub</div>
+                  </div>
+                </div>
+                <button onClick={()=>setMobileMenuOpen(false)}><Icon.x className="w-5 h-5"/></button>
+              </div>
+              <NavItems page={page} onNav={nav} />
+              <div className="mt-auto pt-8 border-t border-ink/10 mt-8">
+                <div className="text-sm font-medium text-ink">{CURRENT_USER.name}</div>
+                <div className="text-xs text-slate1">{CURRENT_USER.franchise}</div>
+              </div>
+            </aside>
+          </div>
+        )}
+
+        {/* ── MAIN CONTENT ── */}
+        <main className="flex-1 pb-20 md:pb-8">
+          {page === 'home'    && <HomePage onNav={nav} />}
+          {page === 'classes' && !classSelection && <ClassPlansLibrary onOpen={setClassSelection} />}
+          {page === 'classes' && classSelection && <ClassPlanViewer selection={classSelection} onBack={() => setClassSelection(null)} />}
+          {page === 'academy' && !currentCourse  && <AcademyHome onOpen={setCurrentCourse} />}
+          {page === 'academy' && currentCourse && !currentLesson && <CoursePage course={currentCourse} onBack={() => setCurrentCourse(null)} onOpenLesson={setCurrentLesson} showToast={showToast} />}
+          {page === 'academy' && currentCourse && currentLesson && <LessonPage course={currentCourse} lesson={currentLesson} onBack={() => setCurrentLesson(null)} showToast={showToast} />}
+          {page === 'sop' && !currentSop && <SOPLibrary onOpen={setCurrentSop} />}
+          {page === 'sop' && currentSop && <SOPRunner sop={currentSop} onBack={() => setCurrentSop(null)} showToast={showToast} />}
+        </main>
+      </div>
+
+      {/* ── MOBILE BOTTOM NAV ── */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-cream/95 backdrop-blur border-t border-ink/10 z-30">
+        <div className="grid grid-cols-4">
+          {[
+            { id: 'home',    icon: Icon.home,   label: 'Home' },
+            { id: 'classes', icon: Icon.book,   label: 'Classes' },
+            { id: 'academy', icon: Icon.grad,   label: 'Academy' },
+            { id: 'sop',     icon: Icon.clip,   label: 'SOPs' },
+          ].map(n => (
+            <button key={n.id} onClick={() => nav(n.id)}
+              className={`flex flex-col items-center py-2.5 gap-0.5 ${page === n.id ? 'text-ochre' : 'text-slate1'}`}>
+              <n.icon className="w-5 h-5" />
+              <span className="text-[10px] font-medium">{n.label}</span>
+            </button>
+          ))}
+        </div>
+      </nav>
+
+      {toast && <Toast message={toast} onDone={() => setToast(null)} />}
+    </div>
+  );
+}
+
+// ───────────────────────────────────────────────────────────
+//  NAV ITEMS (shared sidebar/mobile)
+// ───────────────────────────────────────────────────────────
+
+function NavItems({ page, onNav }) {
+  const items = [
+    { id: 'home',    icon: Icon.home,   label: 'Dashboard' },
+    { id: 'classes', icon: Icon.book,   label: 'Class Plans' },
+    { id: 'academy', icon: Icon.grad,   label: 'Training Academy' },
+    { id: 'sop',     icon: Icon.clip,   label: 'SOP Execution' },
+  ];
+  return (
+    <nav className="space-y-1">
+      {items.map(it => (
+        <button key={it.id} onClick={() => onNav(it.id)}
+          className={`nav-item w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-left text-sm font-medium ${page === it.id ? 'active' : 'text-slate1 hover:bg-ink/5'}`}>
+          <it.icon className="w-5 h-5" />
+          <span>{it.label}</span>
+        </button>
+      ))}
+    </nav>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+//  HOME / DASHBOARD
+// ═══════════════════════════════════════════════════════════
+
+function HomePage({ onNav }) {
+  return (
+    <div className="px-4 md:px-8 py-8 md:py-10 animate-fade-up">
+      {/* Hero */}
+      <div className="mb-10">
+        <div className="text-sm text-slate1 mb-2">Good morning, Sarah</div>
+        <h1 className="font-display text-4xl md:text-5xl text-ink font-semibold leading-tight">
+          Ready to teach <span className="italic text-ochre">something wonderful</span> today?
+        </h1>
+      </div>
+
+      {/* Quick stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-10">
+        {[
+          { label: 'Class plans this month', value: '24', color: 'ochre' },
+          { label: 'Training progress',      value: '68%', color: 'coral' },
+          { label: 'SOPs completed',         value: '12',  color: 'slate1' },
+          { label: 'Certificates earned',    value: '3',   color: 'ink' },
+        ].map((s,i) => (
+          <div key={i} className="bg-white/60 border border-ink/10 rounded-2xl p-4 md:p-5">
+            <div className={`font-display text-3xl md:text-4xl text-${s.color} font-semibold`}>{s.value}</div>
+            <div className="text-xs md:text-sm text-slate1 mt-1">{s.label}</div>
+          </div>
+        ))}
+      </div>
+
+      {/* Three main feature cards */}
+      <div className="grid md:grid-cols-3 gap-4 md:gap-5 mb-10">
+        <FeatureCard
+          icon={<Icon.book className="w-6 h-6"/>}
+          title="Class Plans"
+          meta="IP-protected library"
+          desc="Browse curriculum by theme, month, and week. View-only — your classroom, our proprietary content."
+          onClick={() => onNav('classes')}
+          accent="ochre"
+        />
+        <FeatureCard
+          icon={<Icon.grad className="w-6 h-6"/>}
+          title="Training Academy"
+          meta="5 courses · 3 required"
+          desc="Structured learning paths that unlock curriculum access. Earn certificates as you grow."
+          onClick={() => onNav('academy')}
+          accent="coral"
+        />
+        <FeatureCard
+          icon={<Icon.clip className="w-6 h-6"/>}
+          title="SOP Execution"
+          meta="Mobile-first checklists"
+          desc="Step-by-step teaching guides with photo proof. Consistency, every class, every teacher."
+          onClick={() => onNav('sop')}
+          accent="slate1"
+        />
+      </div>
+
+      {/* Continue learning + upcoming */}
+      <div className="grid md:grid-cols-2 gap-5 mb-10">
+        <div className="bg-white/60 border border-ink/10 rounded-2xl p-5 md:p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display text-xl text-ink font-semibold">Resume learning</h3>
+            <button onClick={() => onNav('academy')} className="text-sm text-ochre hover:underline flex items-center gap-1">All courses <Icon.chevR className="w-4 h-4"/></button>
+          </div>
+          <div className="flex gap-4">
+            <div className="w-20 h-20 rounded-xl video-shell flex items-center justify-center shrink-0">
+              <Icon.play className="w-7 h-7 text-cream/90"/>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs text-ochre font-medium mb-1">Early Years Pedagogy</div>
+              <div className="font-display text-lg text-ink font-semibold leading-snug mb-2 truncate">Ages 5–6: Cognitive growth</div>
+              <ProgressBar value={72} />
+              <div className="text-xs text-slate1 mt-2">72% complete · ~1h 30m remaining</div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-white/60 border border-ink/10 rounded-2xl p-5 md:p-6">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="font-display text-xl text-ink font-semibold">Tomorrow's class</h3>
+            <button onClick={() => onNav('sop')} className="text-sm text-ochre hover:underline flex items-center gap-1">Open SOP <Icon.chevR className="w-4 h-4"/></button>
+          </div>
+          <div className="flex items-start gap-4">
+            <div className="w-20 h-20 rounded-xl bg-coral/15 flex items-center justify-center shrink-0 text-3xl">🌊</div>
+            <div className="flex-1 min-w-0">
+              <div className="text-xs text-coral font-medium mb-1">Drama · 10:30 AM</div>
+              <div className="font-display text-lg text-ink font-semibold leading-snug mb-1">Ocean Pollution Theme</div>
+              <div className="text-sm text-slate1 mb-3">Ages 4–5 · 50 min · 8 steps</div>
+              <div className="flex gap-2">
+                <span className="text-xs px-2 py-1 rounded-full bg-ochre/15 text-ochre font-medium">Plan ready</span>
+                <span className="text-xs px-2 py-1 rounded-full bg-slate1/10 text-slate1 font-medium">SOP linked</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <AnnouncementStrip />
+    </div>
+  );
+}
+
+function FeatureCard({ icon, title, meta, desc, onClick, accent }) {
+  const accentBg = { ochre: 'bg-ochre', coral: 'bg-coral', slate1: 'bg-slate1' }[accent];
+  return (
+    <button onClick={onClick} className="card-hover text-left bg-white/60 border border-ink/10 rounded-2xl p-5 md:p-6 flex flex-col">
+      <div className={`${accentBg} w-11 h-11 rounded-xl flex items-center justify-center text-cream mb-4`}>{icon}</div>
+      <div className="text-xs text-slate1 uppercase tracking-wider mb-1">{meta}</div>
+      <h3 className="font-display text-xl md:text-2xl text-ink font-semibold mb-2">{title}</h3>
+      <p className="text-sm text-slate1 leading-relaxed flex-1">{desc}</p>
+      <div className="mt-4 flex items-center gap-1 text-sm font-medium text-ink">Enter <Icon.chevR className="w-4 h-4"/></div>
+    </button>
+  );
+}
+
+function AnnouncementStrip() {
+  return (
+    <div className="relative overflow-hidden rounded-2xl bg-ink text-cream p-6 md:p-8">
+      <div className="absolute -right-10 -top-10 w-48 h-48 rounded-full bg-ochre/20 blur-2xl"></div>
+      <div className="relative">
+        <div className="text-xs uppercase tracking-widest text-ochre mb-3 flex items-center gap-2"><Icon.sparkle className="w-4 h-4"/> HQ announcement</div>
+        <h3 className="font-display text-2xl md:text-3xl font-semibold mb-2">New Summer Theme: Ocean Heroes</h3>
+        <p className="text-cream/80 text-sm md:text-base max-w-2xl">A brand-new 4-week drama and STEM unit launching June 1. Training module available now — complete it to unlock the lesson plans.</p>
+      </div>
+    </div>
+  );
+}
+
+function ProgressBar({ value }) {
+  return (
+    <div className="h-1.5 bg-ink/10 rounded-full overflow-hidden">
+      <div className="h-full bg-ochre rounded-full transition-all duration-500" style={{width: `${value}%`}}></div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CLASS PLANS LIBRARY
+// ═══════════════════════════════════════════════════════════
+
+function ClassPlansLibrary({ onOpen }) {
+  const [selectedTheme, setSelectedTheme] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(null);
+  const [search, setSearch] = useState('');
+
+  // Breadcrumb navigation
+  if (selectedTheme && selectedMonth) {
+    return <ClassPlansWeekView themeId={selectedTheme} month={selectedMonth} onOpen={onOpen} onBack={() => setSelectedMonth(null)} onBackToThemes={() => { setSelectedTheme(null); setSelectedMonth(null); }} />;
+  }
+  if (selectedTheme) {
+    return <ClassPlansMonthView themeId={selectedTheme} onSelectMonth={setSelectedMonth} onBack={() => setSelectedTheme(null)} />;
+  }
+
+  const filteredThemes = CLASS_THEMES.filter(t => t.name.toLowerCase().includes(search.toLowerCase()));
+
+  return (
+    <div className="px-4 md:px-8 py-8 md:py-10 animate-fade-up">
+      <div className="mb-8 flex items-start justify-between flex-wrap gap-4">
+        <div>
+          <div className="text-xs uppercase tracking-widest text-ochre mb-2">Curriculum library</div>
+          <h1 className="font-display text-3xl md:text-4xl text-ink font-semibold">Class Plans</h1>
+          <p className="text-slate1 mt-2 max-w-xl">Browse by theme. All content is view-only and watermarked to protect our curriculum IP.</p>
+        </div>
+        <div className="flex items-center gap-2 px-4 py-2 rounded-full bg-ink/5 text-xs text-ink">
+          <Icon.lock className="w-3.5 h-3.5"/>
+          <span>IP Protected · View Only</span>
+        </div>
+      </div>
+
+      {/* Search */}
+      <div className="relative mb-8 max-w-md">
+        <Icon.search className="w-4 h-4 absolute left-4 top-1/2 -translate-y-1/2 text-slate1"/>
+        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search themes..." className="w-full pl-11 pr-4 py-3 bg-white/60 border border-ink/10 rounded-full text-sm focus:outline-none focus:border-ochre"/>
+      </div>
+
+      {/* Theme grid */}
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+        {filteredThemes.map(theme => {
+          const planCount = Object.values(MOCK_CLASS_PLANS[theme.id]?.months || {}).reduce((sum, m) =>
+            sum + Object.values(m.weeks).reduce((s, w) => s + w.length, 0), 0);
+          return (
+            <button key={theme.id} onClick={() => setSelectedTheme(theme.id)} className="card-hover text-left bg-white/60 border border-ink/10 rounded-2xl p-5 md:p-6">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl mb-3" style={{backgroundColor: `${theme.color}20`}}>
+                {theme.icon}
+              </div>
+              <h3 className="font-display text-lg md:text-xl text-ink font-semibold mb-1">{theme.name}</h3>
+              <p className="text-xs text-slate1 mb-3">{theme.desc}</p>
+              <div className="flex items-center justify-between text-xs">
+                <span className="text-slate1">{planCount} plan{planCount!==1?'s':''}</span>
+                <Icon.folder className="w-4 h-4" style={{color: theme.color}}/>
+              </div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ClassPlansMonthView({ themeId, onSelectMonth, onBack }) {
+  const theme     = CLASS_THEMES.find(t => t.id === themeId);
+  const themeData = MOCK_CLASS_PLANS[themeId];
+  const months    = Object.keys(themeData?.months || {});
+
+  return (
+    <div className="px-4 md:px-8 py-8 md:py-10 animate-fade-up">
+      <button onClick={onBack} className="flex items-center gap-2 text-sm text-slate1 hover:text-ink mb-4">
+        <Icon.chevL className="w-4 h-4"/> All themes
+      </button>
+      <div className="mb-8 flex items-center gap-4">
+        <div className="w-14 h-14 rounded-2xl flex items-center justify-center text-3xl" style={{backgroundColor: `${theme.color}20`}}>{theme.icon}</div>
+        <div>
+          <h1 className="font-display text-2xl md:text-3xl text-ink font-semibold">{theme.name}</h1>
+          <p className="text-slate1 text-sm mt-1">Select a month to view weekly plans</p>
+        </div>
+      </div>
+
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+        {months.map(month => {
+          const weekCount = Object.keys(themeData.months[month].weeks).length;
+          const planCount = Object.values(themeData.months[month].weeks).reduce((s,w)=>s+w.length,0);
+          return (
+            <button key={month} onClick={() => onSelectMonth(month)} className="card-hover text-left bg-white/60 border border-ink/10 rounded-2xl p-5 md:p-6">
+              <div className="flex items-start justify-between mb-4">
+                <Icon.folder className="w-6 h-6" style={{color: theme.color}}/>
+                <Icon.chevR className="w-4 h-4 text-slate1"/>
+              </div>
+              <h3 className="font-display text-xl text-ink font-semibold mb-1">{month}</h3>
+              <div className="text-xs text-slate1">{weekCount} weeks · {planCount} lesson plans</div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ClassPlansWeekView({ themeId, month, onOpen, onBack, onBackToThemes }) {
+  const theme = CLASS_THEMES.find(t => t.id === themeId);
+  const weeks = MOCK_CLASS_PLANS[themeId].months[month].weeks;
+
+  return (
+    <div className="px-4 md:px-8 py-8 md:py-10 animate-fade-up">
+      <div className="flex items-center gap-2 text-sm text-slate1 mb-4 flex-wrap">
+        <button onClick={onBackToThemes} className="hover:text-ink">Themes</button>
+        <span>/</span>
+        <button onClick={onBack} className="hover:text-ink">{theme.name}</button>
+        <span>/</span>
+        <span className="text-ink font-medium">{month}</span>
+      </div>
+
+      <h1 className="font-display text-2xl md:text-3xl text-ink font-semibold mb-8">{month} · {theme.name}</h1>
+
+      <div className="space-y-6">
+        {Object.entries(weeks).map(([weekName, plans]) => (
+          <div key={weekName}>
+            <h3 className="text-xs uppercase tracking-widest text-slate1 mb-3">{weekName}</h3>
+            <div className="grid md:grid-cols-2 gap-3 md:gap-4">
+              {plans.map(plan => (
+                <button key={plan.id} onClick={() => onOpen({themeId, month, weekName, plan})}
+                  className="card-hover text-left bg-white/60 border border-ink/10 rounded-2xl p-5 flex gap-4">
+                  <div className="w-14 h-14 rounded-xl flex items-center justify-center text-2xl shrink-0" style={{backgroundColor: `${theme.color}20`}}>{theme.icon}</div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <span className="text-xs px-2 py-0.5 rounded-full bg-ink/5 text-slate1">Lesson {plan.lesson}</span>
+                      <span className="text-xs text-slate1">{plan.duration}</span>
+                    </div>
+                    <h4 className="font-display text-lg text-ink font-semibold leading-tight mb-1">{plan.title}</h4>
+                    <div className="text-xs text-slate1">Ages {plan.ageGroup}</div>
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ── Class Plan Viewer ── IP PROTECTED
+function ClassPlanViewer({ selection, onBack }) {
+  const { themeId, month, weekName, plan } = selection;
+  const theme = CLASS_THEMES.find(t => t.id === themeId);
+  const [page, setPage] = useState(1);
+  const totalPages = 4;
+  const viewerRef = useRef(null);
+
+  // Anti-copy protections
+  useEffect(() => {
+    const handlers = {
+      contextmenu: (e) => { e.preventDefault(); flashWarning('Right-click is disabled'); },
+      keydown:     (e) => {
+        // Block: Ctrl+S, Ctrl+P, Ctrl+C, Ctrl+A, PrtScn, F12, Ctrl+Shift+I, Ctrl+U
+        if ((e.ctrlKey || e.metaKey) && ['s','p','c','a','u'].includes(e.key.toLowerCase())) {
+          e.preventDefault(); flashWarning('This action is disabled to protect curriculum IP');
+        }
+        if (e.key === 'PrintScreen')  { flashWarning('Screenshots are discouraged — this is IP-protected content'); }
+        if (e.key === 'F12')          { e.preventDefault(); flashWarning('Developer tools disabled'); }
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase())) {
+          e.preventDefault(); flashWarning('Developer tools disabled');
+        }
+      },
+      selectstart: (e) => e.preventDefault(),
+      copy:        (e) => { e.preventDefault(); flashWarning('Copying is disabled'); },
+      dragstart:   (e) => e.preventDefault(),
+    };
+    Object.entries(handlers).forEach(([k, fn]) => document.addEventListener(k, fn));
+    return () => Object.entries(handlers).forEach(([k, fn]) => document.removeEventListener(k, fn));
+  }, []);
+
+  const [warning, setWarning] = useState(null);
+  const flashWarning = (msg) => {
+    setWarning(msg);
+    setTimeout(() => setWarning(null), 2400);
+  };
+
+  return (
+    <div className="px-4 md:px-8 py-6 md:py-8 animate-fade-up ip-protected no-select">
+      {/* Breadcrumb + back */}
+      <div className="flex items-center justify-between mb-5 gap-4">
+        <button onClick={onBack} className="flex items-center gap-2 text-sm text-slate1 hover:text-ink">
+          <Icon.chevL className="w-4 h-4"/> <span className="hidden sm:inline">Back to {weekName}</span><span className="sm:hidden">Back</span>
+        </button>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-coral/15 text-coral text-xs font-medium">
+          <Icon.lock className="w-3.5 h-3.5"/>
+          <span>View-only · No download · No screenshots</span>
+        </div>
+      </div>
+
+      {/* Viewer container */}
+      <div ref={viewerRef} className="relative bg-white rounded-2xl border border-ink/10 shadow-lg overflow-hidden">
+        {/* Watermark layers */}
+        <div className="watermark-layer"></div>
+        <div className="watermark-text">
+          {[...Array(24)].map((_,i) => (
+            <span key={i}>{CURRENT_USER.email} · {new Date().toLocaleDateString()}</span>
+          ))}
+        </div>
+
+        {/* Page content */}
+        <div className="relative z-10 p-6 md:p-12 min-h-[500px] md:min-h-[700px]">
+          {page === 1 && (
+            <>
+              <div className="text-xs uppercase tracking-widest text-ochre mb-4">{theme.name} · {month} · {weekName}</div>
+              <h1 className="font-display text-3xl md:text-5xl text-ink font-semibold mb-4 leading-tight">{plan.title}</h1>
+              <div className="flex flex-wrap gap-3 mb-8">
+                <span className="text-xs px-3 py-1.5 rounded-full bg-ink/5 text-ink">Lesson {plan.lesson}</span>
+                <span className="text-xs px-3 py-1.5 rounded-full bg-ink/5 text-ink">Ages {plan.ageGroup}</span>
+                <span className="text-xs px-3 py-1.5 rounded-full bg-ink/5 text-ink">{plan.duration}</span>
+              </div>
+              <div className="prose prose-slate max-w-none">
+                <h3 className="font-display text-xl text-ink font-semibold mb-2">Overview</h3>
+                <p className="text-slate1 leading-relaxed mb-6">{plan.overview}</p>
+
+                <h3 className="font-display text-xl text-ink font-semibold mb-2">Learning Outcomes</h3>
+                <ul className="space-y-2 text-slate1">
+                  <li className="flex gap-2"><span className="text-ochre mt-1">●</span> Develop empathy for marine life through character embodiment</li>
+                  <li className="flex gap-2"><span className="text-ochre mt-1">●</span> Build narrative thinking skills through cause-and-effect play</li>
+                  <li className="flex gap-2"><span className="text-ochre mt-1">●</span> Practice cooperative problem-solving in a group setting</li>
+                  <li className="flex gap-2"><span className="text-ochre mt-1">●</span> Introduce early ecological vocabulary (pollution, habitat, rescue)</li>
+                </ul>
+              </div>
+            </>
+          )}
+
+          {page === 2 && (
+            <>
+              <div className="text-xs uppercase tracking-widest text-ochre mb-4">Page 2 · Materials</div>
+              <h2 className="font-display text-2xl md:text-3xl text-ink font-semibold mb-6">Materials & Preparation</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-display text-lg text-ink mb-3">Required materials</h3>
+                  <ul className="space-y-2 text-sm text-slate1">
+                    {['Blue & green tulle fabric (2m each)','Plastic bottle props (pre-washed, 6 pieces)','Fish puppets × 6','Turtle costume × 1','Picture flashcards (sea creatures)','Bluetooth speaker','Ocean soundscape audio'].map(m => (
+                      <li key={m} className="flex gap-2"><span className="text-ochre">○</span> {m}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-display text-lg text-ink mb-3">Setup (10 min before)</h3>
+                  <ol className="space-y-2 text-sm text-slate1 list-decimal list-inside">
+                    <li>Spread tulle across central floor area</li>
+                    <li>Arrange puppets in visible positions</li>
+                    <li>Hide plastic bottles nearby (reveal later)</li>
+                    <li>Queue soundscape audio</li>
+                    <li>Prepare reflection circle space</li>
+                  </ol>
+                </div>
+              </div>
+              <div className="mt-8 p-5 rounded-xl bg-ochre/10 border border-ochre/20">
+                <div className="flex items-start gap-3">
+                  <Icon.info className="w-5 h-5 text-ochre shrink-0 mt-0.5"/>
+                  <div>
+                    <div className="font-semibold text-ink mb-1">Safety note</div>
+                    <p className="text-sm text-slate1">All plastic props must be pre-washed. Check tulle for loose threads. Ensure no choking hazards among the flashcards for younger groups.</p>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {page === 3 && (
+            <>
+              <div className="text-xs uppercase tracking-widest text-ochre mb-4">Page 3 · Lesson Flow</div>
+              <h2 className="font-display text-2xl md:text-3xl text-ink font-semibold mb-6">Lesson Sequence</h2>
+              <div className="space-y-4">
+                {[
+                  { time: '0–5', title: 'Opening Circle',            desc: 'Gather children. Sing "The Ocean Song". Introduce today\'s theme with gentle curiosity.'},
+                  { time: '5–13', title: 'Story Introduction',        desc: 'Read "Turtle\'s Troubled Home" (pages 1–8). Use voice variation for each character.'},
+                  { time: '13–23', title: 'Meet the Sea Creatures',    desc: 'Children choose puppet roles. Act out swimming, eating, being happy in clean water.'},
+                  { time: '23–31', title: 'The Problem Appears',       desc: 'Introduce plastic. Pause: "How do the fish feel now?" Let children respond.'},
+                  { time: '31–39', title: 'The Cleanup Roleplay',      desc: 'Children become rescuers. Collect plastic, "heal" the ocean together.'},
+                  { time: '39–45', title: 'Reflection Circle',         desc: 'Return to circle. Ask open questions. Sing closing song.'},
+                  { time: '45–50', title: 'Cleanup & Transition',      desc: 'Invite helpers to pack materials while singing the "Tidy Song".'},
+                ].map((s,i) => (
+                  <div key={i} className="flex gap-4 p-4 rounded-xl bg-ink/5">
+                    <div className="w-16 shrink-0 font-display text-sm text-ochre font-semibold">{s.time}m</div>
+                    <div>
+                      <div className="font-display text-ink font-semibold mb-1">{s.title}</div>
+                      <div className="text-sm text-slate1">{s.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {page === 4 && (
+            <>
+              <div className="text-xs uppercase tracking-widest text-ochre mb-4">Page 4 · Assessment</div>
+              <h2 className="font-display text-2xl md:text-3xl text-ink font-semibold mb-6">Observation Notes & Differentiation</h2>
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="font-display text-lg text-ink mb-3">What to observe</h3>
+                  <ul className="space-y-2 text-sm text-slate1">
+                    <li className="flex gap-2"><span className="text-coral">●</span> Engagement with the story narrative</li>
+                    <li className="flex gap-2"><span className="text-coral">●</span> Willingness to take on character roles</li>
+                    <li className="flex gap-2"><span className="text-coral">●</span> Emotional response to the "problem" moment</li>
+                    <li className="flex gap-2"><span className="text-coral">●</span> Cooperation during the cleanup roleplay</li>
+                    <li className="flex gap-2"><span className="text-coral">●</span> Vocabulary used in reflection</li>
+                  </ul>
+                </div>
+                <div>
+                  <h3 className="font-display text-lg text-ink mb-3">Differentiation</h3>
+                  <div className="space-y-3 text-sm text-slate1">
+                    <div>
+                      <div className="font-semibold text-ink">For younger (3–4):</div>
+                      <p>Simplify vocabulary. Focus on "happy fish / sad fish". Shorter roleplay segments.</p>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-ink">For older (5–6):</div>
+                      <p>Introduce vocabulary like "habitat" and "pollution". Encourage them to invent their own character voices.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-8 p-5 rounded-xl bg-coral/10 border border-coral/20">
+                <div className="font-display text-ink font-semibold mb-1">Remember</div>
+                <p className="text-sm text-slate1">Parents love photos of reflection moments — capture with our approved classroom-photo framework (faces obscured or parental consent only).</p>
+              </div>
+            </>
+          )}
+        </div>
+
+        {/* Pagination */}
+        <div className="relative z-10 border-t border-ink/10 bg-cream/50 px-4 md:px-8 py-4 flex items-center justify-between">
+          <button onClick={() => setPage(Math.max(1,page-1))} disabled={page===1} className="flex items-center gap-1 text-sm text-slate1 disabled:opacity-30 hover:text-ink">
+            <Icon.chevL className="w-4 h-4"/> Previous
+          </button>
+          <div className="flex gap-1.5">
+            {[...Array(totalPages)].map((_,i) => (
+              <button key={i} onClick={() => setPage(i+1)}
+                className={`w-2 h-2 rounded-full transition-all ${page===i+1 ? 'bg-ochre w-6' : 'bg-ink/20'}`}/>
+            ))}
+          </div>
+          <button onClick={() => setPage(Math.min(totalPages,page+1))} disabled={page===totalPages} className="flex items-center gap-1 text-sm text-slate1 disabled:opacity-30 hover:text-ink">
+            Next <Icon.chevR className="w-4 h-4"/>
+          </button>
+        </div>
+      </div>
+
+      {/* Disabled actions hint */}
+      <div className="mt-6 flex flex-wrap items-center gap-2 text-xs text-slate1">
+        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-ink/5"><Icon.dl className="w-3.5 h-3.5"/> Download disabled</span>
+        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-ink/5"><Icon.camera className="w-3.5 h-3.5"/> Screenshot discouraged</span>
+        <span className="flex items-center gap-1 px-2.5 py-1 rounded-full bg-ink/5"><Icon.lock className="w-3.5 h-3.5"/> Watermarked to {CURRENT_USER.email}</span>
+      </div>
+
+      {warning && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-coral text-cream px-5 py-3 rounded-full shadow-xl flex items-center gap-2 text-sm animate-fade-up">
+          <Icon.lock className="w-4 h-4"/> {warning}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+//  TRAINING ACADEMY
+// ═══════════════════════════════════════════════════════════
+
+function AcademyHome({ onOpen }) {
+  const [filter, setFilter] = useState('all');
+
+  const overallProgress = Math.round(COURSES.reduce((s,c)=>s+c.progress,0) / COURSES.length);
+  const requiredCourses = COURSES.filter(c => c.required);
+  const requiredDone = requiredCourses.filter(c=>c.progress===100).length;
+
+  const filtered = COURSES.filter(c => {
+    if (filter === 'required')   return c.required;
+    if (filter === 'progress')   return c.progress > 0 && c.progress < 100;
+    if (filter === 'completed')  return c.progress === 100;
+    return true;
+  });
+
+  return (
+    <div className="px-4 md:px-8 py-8 md:py-10 animate-fade-up">
+      {/* Header */}
+      <div className="mb-6">
+        <div className="text-xs uppercase tracking-widest text-ochre mb-2">Learning & development</div>
+        <h1 className="font-display text-3xl md:text-4xl text-ink font-semibold">Training Academy</h1>
+        <p className="text-slate1 mt-2 max-w-xl">Grow your teaching practice. Required courses unlock curriculum access.</p>
+      </div>
+
+      {/* Progress summary card */}
+      <div className="grid md:grid-cols-3 gap-4 mb-8">
+        <div className="md:col-span-2 bg-ink text-cream rounded-2xl p-6 md:p-8 relative overflow-hidden">
+          <div className="absolute -right-10 -bottom-10 w-40 h-40 rounded-full bg-ochre/20 blur-2xl"></div>
+          <div className="relative flex items-center gap-6">
+            <ProgressRing value={overallProgress} size={100}/>
+            <div>
+              <div className="text-xs uppercase tracking-widest text-cream/60 mb-1">Overall progress</div>
+              <div className="font-display text-3xl md:text-4xl font-semibold mb-1">{overallProgress}% complete</div>
+              <div className="text-sm text-cream/70">{requiredDone} of {requiredCourses.length} required courses · 3 certificates earned</div>
+            </div>
+          </div>
+        </div>
+        <div className="bg-white/60 border border-ink/10 rounded-2xl p-6">
+          <div className="text-xs uppercase tracking-widest text-slate1 mb-3">Next up</div>
+          <div className="font-display text-lg text-ink font-semibold mb-1">Ages 5–6: Cognitive growth</div>
+          <div className="text-sm text-slate1 mb-4">14 min · Slides</div>
+          <button onClick={() => onOpen(COURSES[0])} className="w-full py-3 rounded-full bg-ochre text-cream text-sm font-medium hover:bg-ochre/90 transition flex items-center justify-center gap-2">
+            <Icon.play className="w-3.5 h-3.5"/> Resume
+          </button>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="flex gap-2 mb-6 overflow-x-auto pb-1 -mx-4 px-4 md:mx-0 md:px-0">
+        {[
+          { id: 'all',       label: 'All courses' },
+          { id: 'required',  label: 'Required' },
+          { id: 'progress',  label: 'In progress' },
+          { id: 'completed', label: 'Completed' },
+        ].map(f => (
+          <button key={f.id} onClick={()=>setFilter(f.id)}
+            className={`pill px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap border ${filter===f.id ? 'active border-ink' : 'border-ink/10 text-slate1 hover:text-ink'}`}>
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Courses list */}
+      <div className="grid md:grid-cols-2 gap-4">
+        {filtered.map(c => <CourseCard key={c.id} course={c} onOpen={onOpen} />)}
+      </div>
+    </div>
+  );
+}
+
+function CourseCard({ course, onOpen }) {
+  const covers = {
+    pedagogy: { bg: 'from-ink to-slate1', emoji: '🧠' },
+    drama:    { bg: 'from-coral to-ochre', emoji: '🎭' },
+    parent:   { bg: 'from-ochre to-coral', emoji: '💬' },
+    safety:   { bg: 'from-slate1 to-ink',  emoji: '🛡️' },
+    stem:     { bg: 'from-slate1 to-ochre', emoji: '🔬' },
+  };
+  const cover = covers[course.cover] || covers.pedagogy;
+
+  return (
+    <button onClick={() => onOpen(course)} className="card-hover text-left bg-white/60 border border-ink/10 rounded-2xl overflow-hidden flex flex-col">
+      <div className={`bg-gradient-to-br ${cover.bg} p-6 relative`}>
+        <div className="flex items-start justify-between">
+          <div className="text-4xl">{cover.emoji}</div>
+          {course.required && (
+            <span className="text-[10px] uppercase tracking-widest px-2 py-1 rounded-full bg-white/20 text-cream font-medium">Required</span>
+          )}
+          {course.progress === 100 && (
+            <span className="text-[10px] uppercase tracking-widest px-2 py-1 rounded-full bg-white/90 text-ink font-medium flex items-center gap-1"><Icon.check className="w-3 h-3"/> Complete</span>
+          )}
+        </div>
+      </div>
+      <div className="p-5 flex-1 flex flex-col">
+        <div className="text-xs text-ochre mb-1">{course.subtitle}</div>
+        <h3 className="font-display text-lg md:text-xl text-ink font-semibold leading-tight mb-2">{course.title}</h3>
+        <div className="flex items-center gap-3 text-xs text-slate1 mb-4">
+          <span>{course.level}</span>
+          <span>·</span>
+          <span className="flex items-center gap-1"><Icon.clock className="w-3 h-3"/> {course.hours}h</span>
+          <span>·</span>
+          <span>{course.instructor}</span>
+        </div>
+        <div className="mt-auto">
+          <div className="flex justify-between text-xs text-slate1 mb-1">
+            <span>{course.progress}% complete</span>
+            {course.progress > 0 && course.progress < 100 && <span className="text-ochre font-medium">Continue</span>}
+            {course.progress === 0 && <span className="text-ochre font-medium">Start</span>}
+            {course.progress === 100 && <span className="text-ochre font-medium">Review</span>}
+          </div>
+          <ProgressBar value={course.progress}/>
+        </div>
+      </div>
+    </button>
+  );
+}
+
+function ProgressRing({ value, size = 60 }) {
+  const r = size/2 - 4;
+  const c = 2 * Math.PI * r;
+  const offset = c - (value/100) * c;
+  return (
+    <svg width={size} height={size} className="shrink-0 -rotate-90">
+      <circle cx={size/2} cy={size/2} r={r} className="ring-bg" fill="none" strokeWidth="6"/>
+      <circle cx={size/2} cy={size/2} r={r} className="ring-fg" fill="none" strokeWidth="6" strokeLinecap="round"
+        strokeDasharray={c} strokeDashoffset={offset}/>
+      <text x={size/2} y={size/2 + 5} textAnchor="middle" className="rotate-90" fill="currentColor" fontSize="18" fontFamily="Fraunces" fontWeight="600" transform={`rotate(90 ${size/2} ${size/2})`}>{value}%</text>
+    </svg>
+  );
+}
+
+function CoursePage({ course, onBack, onOpenLesson, showToast }) {
+  return (
+    <div className="animate-fade-up">
+      {/* Hero */}
+      <div className="bg-gradient-to-br from-ink to-slate1 text-cream px-4 md:px-8 py-8 md:py-12 relative overflow-hidden">
+        <div className="absolute -right-20 -top-20 w-80 h-80 rounded-full bg-ochre/10 blur-3xl"></div>
+        <div className="max-w-5xl mx-auto relative">
+          <button onClick={onBack} className="flex items-center gap-2 text-sm text-cream/70 hover:text-cream mb-5">
+            <Icon.chevL className="w-4 h-4"/> All courses
+          </button>
+          <div className="flex items-start gap-2 mb-4 flex-wrap">
+            {course.required && <span className="text-[10px] uppercase tracking-widest px-2 py-1 rounded-full bg-coral/30 text-coral font-medium">Required</span>}
+            <span className="text-[10px] uppercase tracking-widest px-2 py-1 rounded-full bg-white/10 text-cream/80 font-medium">{course.level}</span>
+          </div>
+          <h1 className="font-display text-3xl md:text-5xl font-semibold leading-tight mb-3">{course.title}</h1>
+          <p className="text-cream/80 max-w-2xl mb-6">{course.description}</p>
+          <div className="flex items-center gap-5 text-sm text-cream/70 flex-wrap mb-6">
+            <span className="flex items-center gap-1.5"><Icon.clock className="w-4 h-4"/> {course.hours} hours</span>
+            <span>·</span>
+            <span>{course.modules.length} modules</span>
+            <span>·</span>
+            <span>{course.modules.reduce((s,m)=>s+m.lessons.length,0)} lessons</span>
+            <span>·</span>
+            <span>Taught by {course.instructor}</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <ProgressRing value={course.progress} size={60}/>
+            <div>
+              <div className="text-xs text-cream/60 uppercase tracking-widest mb-0.5">Your progress</div>
+              <div className="font-display text-xl font-semibold">{course.progress}% complete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-5xl mx-auto px-4 md:px-8 py-8">
+        {/* Modules */}
+        <h2 className="font-display text-2xl text-ink font-semibold mb-6">Course content</h2>
+        <div className="space-y-3">
+          {course.modules.map((mod, mi) => (
+            <CourseModule key={mod.id} mod={mod} index={mi} course={course} onOpenLesson={onOpenLesson}/>
+          ))}
+        </div>
+
+        {/* Completion */}
+        {course.progress === 100 && (
+          <div className="mt-10">
+            <CertificateView course={course} showToast={showToast}/>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function CourseModule({ mod, index, course, onOpenLesson }) {
+  const [open, setOpen] = useState(mod.lessons.some(l => l.current) || index === 0);
+  const completedCount = mod.lessons.filter(l=>l.completed).length;
+
+  return (
+    <div className="bg-white/60 border border-ink/10 rounded-2xl overflow-hidden">
+      <button onClick={()=>setOpen(!open)} className="w-full px-4 md:px-6 py-4 flex items-center gap-4 hover:bg-ink/5 transition">
+        <div className="w-8 h-8 rounded-full bg-ochre/15 text-ochre flex items-center justify-center font-display font-semibold text-sm shrink-0">{index+1}</div>
+        <div className="flex-1 text-left min-w-0">
+          <div className="font-display text-ink font-semibold truncate">{mod.title}</div>
+          <div className="text-xs text-slate1 mt-0.5">{completedCount} of {mod.lessons.length} lessons</div>
+        </div>
+        <Icon.chevR className={`w-4 h-4 text-slate1 transition-transform shrink-0 ${open ? 'rotate-90' : ''}`}/>
+      </button>
+      {open && (
+        <div className="border-t border-ink/10">
+          {mod.lessons.map(l => (
+            <button key={l.id} onClick={() => onOpenLesson({...l, course, module: mod})}
+              className="w-full px-4 md:px-6 py-3 flex items-center gap-3 hover:bg-ink/5 transition text-left">
+              <div className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center"
+                style={{
+                  backgroundColor: l.completed ? 'var(--ochre)' : (l.current ? 'rgba(201,139,44,0.2)' : 'rgba(63,77,81,0.08)'),
+                  color: l.completed ? 'white' : (l.current ? 'var(--ochre)' : 'var(--slate1)')
+                }}>
+                {l.completed ? <Icon.check className="w-4 h-4"/>
+                  : l.type === 'quiz' ? <span className="text-xs">Q</span>
+                  : l.type === 'slides' ? <Icon.image className="w-3.5 h-3.5"/>
+                  : <Icon.play className="w-3 h-3"/>}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className={`text-sm truncate ${l.completed ? 'text-slate1' : 'text-ink font-medium'}`}>{l.title}</div>
+                <div className="text-xs text-slate1">{l.type === 'quiz' ? 'Quiz' : l.type === 'slides' ? 'Slides' : 'Video'} · {l.duration} min</div>
+              </div>
+              {l.current && <span className="text-xs text-ochre font-medium">Current</span>}
+              <Icon.chevR className="w-4 h-4 text-slate1 shrink-0"/>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function LessonPage({ course, lesson, onBack, showToast }) {
+  if (lesson.type === 'quiz') {
+    return <QuizLesson lesson={lesson} onBack={onBack} showToast={showToast}/>;
+  }
+  return <VideoLesson lesson={lesson} onBack={onBack} showToast={showToast}/>;
+}
+
+function VideoLesson({ lesson, onBack, showToast }) {
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(32);
+
+  useEffect(() => {
+    if (!playing) return;
+    const i = setInterval(() => setProgress(p => Math.min(100, p + 1.5)), 500);
+    return () => clearInterval(i);
+  }, [playing]);
+
+  return (
+    <div className="animate-fade-up max-w-5xl mx-auto px-4 md:px-8 py-6 md:py-8">
+      <button onClick={onBack} className="flex items-center gap-2 text-sm text-slate1 hover:text-ink mb-4">
+        <Icon.chevL className="w-4 h-4"/> Back to course
+      </button>
+
+      {/* Video player */}
+      <div className="relative aspect-video video-shell rounded-2xl overflow-hidden mb-5 group">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <button onClick={()=>setPlaying(!playing)} className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-cream/95 text-ink flex items-center justify-center shadow-xl hover:scale-105 transition">
+            {playing ? <svg viewBox="0 0 24 24" className="w-6 h-6" fill="currentColor"><rect x="6" y="5" width="4" height="14"/><rect x="14" y="5" width="4" height="14"/></svg>
+                     : <Icon.play className="w-6 h-6 ml-1"/>}
+          </button>
+        </div>
+        {/* Progress bar */}
+        <div className="absolute bottom-0 left-0 right-0 p-4">
+          <div className="h-1 bg-cream/20 rounded-full overflow-hidden">
+            <div className="h-full bg-ochre rounded-full transition-all" style={{width: `${progress}%`}}></div>
+          </div>
+          <div className="flex items-center justify-between text-cream/90 text-xs mt-2">
+            <span>{Math.floor(progress*lesson.duration/100/1)}:{String(Math.floor(progress*lesson.duration*0.6/100)%60).padStart(2,'0')}</span>
+            <span>{lesson.duration}:00</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Meta */}
+      <div className="text-xs text-ochre mb-1">{lesson.module?.title} · Lesson</div>
+      <h1 className="font-display text-2xl md:text-3xl text-ink font-semibold mb-3">{lesson.title}</h1>
+      <div className="flex items-center gap-3 text-xs text-slate1 mb-6 flex-wrap">
+        <span className="flex items-center gap-1"><Icon.video className="w-3.5 h-3.5"/> Video</span>
+        <span>·</span>
+        <span>{lesson.duration} min</span>
+        <span>·</span>
+        <span>{progress}% watched</span>
+      </div>
+
+      {/* Tabs: About / Resources / Discussion */}
+      <div className="border-b border-ink/10 flex gap-6 mb-6">
+        {['About this lesson','Resources','Transcript'].map((t,i) => (
+          <button key={t} className={`pb-3 text-sm font-medium ${i===0 ? 'text-ink border-b-2 border-ochre' : 'text-slate1'}`}>{t}</button>
+        ))}
+      </div>
+
+      <div className="prose max-w-none">
+        <p className="text-slate1 leading-relaxed mb-4">
+          In this lesson, we explore the cognitive development patterns typical of children aged 5–6. You'll learn how to recognize readiness signals for symbolic thinking and how to introduce concepts like cause-and-effect, early number sense, and rudimentary logical reasoning.
+        </p>
+        <h3 className="font-display text-lg text-ink font-semibold mt-5 mb-2">Learning outcomes</h3>
+        <ul className="space-y-1.5 text-slate1 text-sm list-disc list-inside">
+          <li>Identify three cognitive milestones typical of ages 5–6</li>
+          <li>Plan activities that support symbolic thinking</li>
+          <li>Recognize common misunderstandings children at this age display</li>
+        </ul>
+      </div>
+
+      <div className="mt-8 grid md:grid-cols-2 gap-3">
+        <a className="flex items-center gap-3 p-4 rounded-xl bg-white/60 border border-ink/10 hover:bg-ink/5 transition">
+          <div className="w-10 h-10 rounded-lg bg-coral/15 text-coral flex items-center justify-center"><Icon.pdf className="w-5 h-5"/></div>
+          <div className="flex-1 min-w-0">
+            <div className="text-sm font-medium text-ink truncate">Cognitive milestones — quick reference</div>
+            <div className="text-xs text-slate1">PDF · 2 pages</div>
+          </div>
+          <Icon.dl className="w-4 h-4 text-slate1"/>
+        </a>
+        <a className="flex items-center gap-3 p-4 rounded-xl bg-white/60 border border-ink/10 hover:bg-ink/5 transition">
+          <div className="w-10 h-10 rounded-lg bg-ochre/15 text-ochre flex items-center justify-center"><Icon.image className="w-5 h-5"/></div>
+          <div className="flex-1 min-w-0">
+            <div className="text-sm font-medium text-ink truncate">Companion slide deck</div>
+            <div className="text-xs text-slate1">PPT · 24 slides</div>
+          </div>
+          <Icon.dl className="w-4 h-4 text-slate1"/>
+        </a>
+      </div>
+
+      {/* Complete button */}
+      <div className="mt-10 flex items-center gap-3">
+        <button
+          onClick={() => showToast('Lesson marked complete — nice work!')}
+          className="flex-1 md:flex-none px-6 py-3 rounded-full bg-ochre text-cream text-sm font-medium hover:bg-ochre/90 transition flex items-center justify-center gap-2">
+          <Icon.check className="w-4 h-4"/> Mark as complete
+        </button>
+        <button className="px-6 py-3 rounded-full border border-ink/20 text-ink text-sm font-medium hover:bg-ink/5 transition">Next lesson →</button>
+      </div>
+    </div>
+  );
+}
+
+function QuizLesson({ lesson, onBack, showToast }) {
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+
+  const score = Object.entries(answers).reduce((s, [qi, a]) => s + (QUIZ_QUESTIONS[qi].correct === a ? 1 : 0), 0);
+  const total = QUIZ_QUESTIONS.length;
+  const passed = score / total >= 0.7;
+
+  return (
+    <div className="animate-fade-up max-w-3xl mx-auto px-4 md:px-8 py-6 md:py-8">
+      <button onClick={onBack} className="flex items-center gap-2 text-sm text-slate1 hover:text-ink mb-4">
+        <Icon.chevL className="w-4 h-4"/> Back to course
+      </button>
+
+      <div className="text-xs text-ochre mb-1">{lesson.module?.title} · Quiz</div>
+      <h1 className="font-display text-2xl md:text-3xl text-ink font-semibold mb-2">{lesson.title}</h1>
+      <p className="text-slate1 text-sm mb-8">Answer all questions · 70% required to pass · {total} questions</p>
+
+      <div className="space-y-6">
+        {QUIZ_QUESTIONS.map((q, qi) => (
+          <div key={q.id} className="bg-white/60 border border-ink/10 rounded-2xl p-5 md:p-6">
+            <div className="flex items-start gap-3 mb-4">
+              <div className="w-7 h-7 rounded-full bg-ochre/15 text-ochre flex items-center justify-center font-display font-semibold text-sm shrink-0">{qi+1}</div>
+              <h3 className="font-display text-lg text-ink font-semibold leading-snug">{q.question}</h3>
+            </div>
+            <div className="space-y-2 ml-10">
+              {q.options.map((opt, oi) => {
+                const selected  = answers[qi] === oi;
+                const isCorrect = submitted && oi === q.correct;
+                const isWrong   = submitted && selected && oi !== q.correct;
+                return (
+                  <button key={oi} disabled={submitted}
+                    onClick={() => setAnswers({...answers, [qi]: oi})}
+                    className={`w-full text-left p-3 md:p-4 rounded-xl border transition text-sm flex items-center gap-3
+                      ${isCorrect ? 'border-ochre bg-ochre/10' : ''}
+                      ${isWrong   ? 'border-coral bg-coral/10' : ''}
+                      ${!submitted && selected ? 'border-ink bg-ink/5' : ''}
+                      ${!submitted && !selected ? 'border-ink/10 hover:border-ink/30' : ''}`}>
+                    <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0
+                      ${isCorrect ? 'border-ochre bg-ochre' : ''}
+                      ${isWrong   ? 'border-coral bg-coral' : ''}
+                      ${!submitted && selected ? 'border-ink bg-ink' : ''}
+                      ${!submitted && !selected ? 'border-ink/20' : ''}`}>
+                      {(isCorrect || (!submitted && selected)) && <Icon.check className="w-3 h-3 text-cream" style={{strokeWidth: 4}}/>}
+                      {isWrong && <Icon.x className="w-3 h-3 text-cream" style={{strokeWidth: 4}}/>}
+                    </div>
+                    <span className={isCorrect ? 'text-ochre font-medium' : isWrong ? 'text-coral' : 'text-ink'}>{opt}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {submitted && (
+              <div className="ml-10 mt-3 p-3 rounded-xl bg-ink/5 text-sm text-slate1">
+                <div className="font-medium text-ink mb-1">Explanation</div>
+                {q.explanation}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {!submitted ? (
+        <button
+          disabled={Object.keys(answers).length !== total}
+          onClick={() => setSubmitted(true)}
+          className="mt-8 w-full py-4 rounded-full bg-ochre text-cream font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-ochre/90 transition">
+          Submit quiz
+        </button>
+      ) : (
+        <div className={`mt-8 p-6 rounded-2xl ${passed ? 'bg-ochre/10 border border-ochre/30' : 'bg-coral/10 border border-coral/30'}`}>
+          <div className="flex items-center gap-4 mb-3">
+            <div className={`w-12 h-12 rounded-full flex items-center justify-center ${passed ? 'bg-ochre text-cream' : 'bg-coral text-cream'}`}>
+              {passed ? <Icon.check className="w-6 h-6"/> : <Icon.x className="w-6 h-6"/>}
+            </div>
+            <div>
+              <div className={`font-display text-xl font-semibold ${passed ? 'text-ochre' : 'text-coral'}`}>
+                {passed ? 'You passed!' : 'Not quite there'}
+              </div>
+              <div className="text-sm text-slate1">You scored {score} / {total} ({Math.round(score/total*100)}%)</div>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            {passed
+              ? <button onClick={()=>{showToast('Progress saved'); onBack();}} className="px-5 py-2.5 rounded-full bg-ink text-cream text-sm font-medium">Continue to next lesson</button>
+              : <button onClick={()=>{setSubmitted(false); setAnswers({});}} className="px-5 py-2.5 rounded-full bg-ink text-cream text-sm font-medium">Try again</button>}
+            <button onClick={onBack} className="px-5 py-2.5 rounded-full border border-ink/20 text-ink text-sm font-medium">Back to course</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CertificateView({ course, showToast }) {
+  return (
+    <div className="certificate rounded-2xl p-8 md:p-12 text-center relative overflow-hidden">
+      <div className="absolute top-4 left-4 flex items-center gap-2 text-xs uppercase tracking-widest text-ochre">
+        <Icon.award className="w-4 h-4"/> Certificate of Completion
+      </div>
+      <div className="mt-8">
+        <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-ochre/15 flex items-center justify-center">
+          <Icon.award className="w-8 h-8 text-ochre"/>
+        </div>
+        <div className="text-sm text-slate1 mb-2">This certifies that</div>
+        <div className="font-display text-3xl md:text-4xl text-ink font-semibold mb-2">{CURRENT_USER.name}</div>
+        <div className="text-sm text-slate1 mb-5">has successfully completed</div>
+        <div className="font-display italic text-xl text-ochre mb-8">{course.title}</div>
+        <div className="grid grid-cols-2 gap-8 max-w-md mx-auto text-xs">
+          <div>
+            <div className="text-slate1 uppercase tracking-widest mb-1">Issued on</div>
+            <div className="text-ink font-medium">23 April 2026</div>
+          </div>
+          <div>
+            <div className="text-slate1 uppercase tracking-widest mb-1">Cert ID</div>
+            <div className="text-ink font-medium">BB-2026-4872</div>
+          </div>
+        </div>
+      </div>
+      <button onClick={() => showToast('Certificate downloaded as PDF')}
+        className="mt-8 px-6 py-3 rounded-full bg-ink text-cream text-sm font-medium hover:bg-ink/90 transition inline-flex items-center gap-2">
+        <Icon.dl className="w-4 h-4"/> Download PDF
+      </button>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SOP EXECUTION
+// ═══════════════════════════════════════════════════════════
+
+function SOPLibrary({ onOpen }) {
+  return (
+    <div className="px-4 md:px-8 py-8 md:py-10 animate-fade-up">
+      <div className="mb-8">
+        <div className="text-xs uppercase tracking-widest text-ochre mb-2">Standard operating procedures</div>
+        <h1 className="font-display text-3xl md:text-4xl text-ink font-semibold">SOP Execution</h1>
+        <p className="text-slate1 mt-2 max-w-xl">Step-by-step teaching guides with photo proof. Maintain consistency across all franchises.</p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4 mb-8">
+        <div className="bg-white/60 border border-ink/10 rounded-2xl p-5 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-ochre/15 text-ochre flex items-center justify-center"><Icon.clip className="w-6 h-6"/></div>
+          <div>
+            <div className="font-display text-2xl text-ink font-semibold">12 executions</div>
+            <div className="text-xs text-slate1">this month · 100% compliance</div>
+          </div>
+        </div>
+        <div className="bg-white/60 border border-ink/10 rounded-2xl p-5 flex items-center gap-4">
+          <div className="w-12 h-12 rounded-full bg-coral/15 text-coral flex items-center justify-center"><Icon.camera className="w-6 h-6"/></div>
+          <div>
+            <div className="font-display text-2xl text-ink font-semibold">38 photos</div>
+            <div className="text-xs text-slate1">uploaded for HQ review</div>
+          </div>
+        </div>
+      </div>
+
+      <h2 className="font-display text-xl text-ink font-semibold mb-4">Available SOPs</h2>
+      <div className="grid md:grid-cols-2 gap-4">
+        {SOP_TEMPLATES.map(s => (
+          <button key={s.id} onClick={() => onOpen(s)} className="card-hover text-left bg-white/60 border border-ink/10 rounded-2xl p-5">
+            <div className="flex items-start justify-between mb-3">
+              <div className="w-11 h-11 rounded-xl bg-slate1/15 text-slate1 flex items-center justify-center"><Icon.clip className="w-5 h-5"/></div>
+              <div className="text-xs text-slate1 flex items-center gap-1"><Icon.clock className="w-3.5 h-3.5"/> {s.duration}</div>
+            </div>
+            <h3 className="font-display text-lg text-ink font-semibold leading-tight mb-1">{s.title}</h3>
+            <div className="text-xs text-ochre mb-3">{s.linkedClass}</div>
+            <div className="flex items-center justify-between text-xs text-slate1">
+              <span>{s.steps.length} steps · {s.steps.filter(x=>x.requiresPhoto).length} photo checkpoints</span>
+              <Icon.chevR className="w-4 h-4"/>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SOPRunner({ sop, onBack, showToast }) {
+  const [completed, setCompleted] = useState({});
+  const [photos,    setPhotos]    = useState({});
+  const [notes,     setNotes]     = useState({});
+  const [activeStep,setActiveStep]= useState(0);
+  const [started,   setStarted]   = useState(false);
+  const [startTime, setStartTime] = useState(null);
+
+  const progress = Math.round(Object.keys(completed).length / sop.steps.length * 100);
+
+  const toggleStep = (id) => {
+    setCompleted(c => {
+      const n = {...c};
+      if (n[id]) delete n[id];
+      else       n[id] = { at: new Date().toISOString() };
+      return n;
+    });
+  };
+
+  const addPhoto = (stepId) => {
+    setPhotos(p => ({...p, [stepId]: [...(p[stepId]||[]), { id: Date.now(), name: 'IMG_' + Math.floor(Math.random()*9000 + 1000) + '.jpg' }] }));
+    showToast('Photo uploaded');
+  };
+
+  const begin = () => {
+    setStarted(true);
+    setStartTime(new Date());
+  };
+
+  const finish = () => {
+    const allDone     = Object.keys(completed).length === sop.steps.length;
+    const photosNeeded = sop.steps.filter(s => s.requiresPhoto).every(s => photos[s.id]?.length);
+    if (!allDone)      return showToast('Some steps are not yet complete');
+    if (!photosNeeded) return showToast('Photo checkpoints missing');
+    showToast('SOP execution logged successfully');
+    setTimeout(onBack, 800);
+  };
+
+  if (!started) {
+    return (
+      <div className="animate-fade-up px-4 md:px-8 py-6 md:py-8 max-w-3xl mx-auto">
+        <button onClick={onBack} className="flex items-center gap-2 text-sm text-slate1 hover:text-ink mb-4">
+          <Icon.chevL className="w-4 h-4"/> All SOPs
+        </button>
+        <div className="bg-white/60 border border-ink/10 rounded-2xl p-6 md:p-8">
+          <div className="text-xs text-ochre mb-1">{sop.linkedClass}</div>
+          <h1 className="font-display text-2xl md:text-3xl text-ink font-semibold mb-3">{sop.title}</h1>
+          <div className="flex items-center gap-4 text-sm text-slate1 mb-6 flex-wrap">
+            <span className="flex items-center gap-1"><Icon.clock className="w-4 h-4"/> {sop.duration}</span>
+            <span>·</span>
+            <span>{sop.steps.length} steps</span>
+            <span>·</span>
+            <span>{sop.steps.filter(s=>s.requiresPhoto).length} photo checkpoints</span>
+          </div>
+
+          <h3 className="font-display text-lg text-ink font-semibold mb-3">Materials to prepare</h3>
+          <div className="grid sm:grid-cols-2 gap-2 mb-6">
+            {sop.materials.map(m => (
+              <div key={m} className="flex items-center gap-2 p-2.5 rounded-lg bg-ink/5 text-sm text-slate1">
+                <div className="w-4 h-4 rounded border border-slate1/40 shrink-0"/>
+                <span>{m}</span>
+              </div>
+            ))}
+          </div>
+
+          <h3 className="font-display text-lg text-ink font-semibold mb-3">Steps overview</h3>
+          <div className="space-y-2 mb-8">
+            {sop.steps.map((s, i) => (
+              <div key={s.id} className="flex items-start gap-3 p-3 rounded-lg bg-ink/5">
+                <div className="w-6 h-6 rounded-full bg-ochre/15 text-ochre flex items-center justify-center text-xs font-semibold shrink-0">{i+1}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium text-ink">{s.title}</div>
+                  <div className="text-xs text-slate1">{s.time} {s.requiresPhoto && '· 📸 Photo required'}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button onClick={begin} className="w-full py-4 rounded-full bg-ochre text-cream font-medium hover:bg-ochre/90 transition flex items-center justify-center gap-2">
+            <Icon.play className="w-4 h-4"/> Start execution
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Execution mode
+  return (
+    <div className="animate-fade-up">
+      {/* Sticky header with progress */}
+      <div className="sticky top-14 md:top-16 z-20 bg-cream/95 backdrop-blur border-b border-ink/10 px-4 md:px-8 py-3">
+        <div className="max-w-3xl mx-auto flex items-center gap-3">
+          <button onClick={onBack} className="p-2 -ml-2"><Icon.chevL className="w-5 h-5 text-ink"/></button>
+          <div className="flex-1 min-w-0">
+            <div className="text-xs text-slate1 truncate">{sop.title}</div>
+            <div className="flex items-center gap-2">
+              <ProgressBar value={progress}/>
+              <div className="text-xs font-medium text-ink shrink-0">{Object.keys(completed).length}/{sop.steps.length}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="px-4 md:px-8 py-6 max-w-3xl mx-auto">
+        <div className="space-y-3">
+          {sop.steps.map((step, i) => {
+            const isCompleted = !!completed[step.id];
+            const isActive    = activeStep === i;
+            const stepPhotos  = photos[step.id] || [];
+            const needsPhoto  = step.requiresPhoto && !stepPhotos.length;
+
+            return (
+              <div key={step.id}
+                onClick={() => !isCompleted && setActiveStep(i)}
+                className={`rounded-2xl border transition overflow-hidden
+                  ${isCompleted ? 'bg-ochre/5 border-ochre/30' : isActive ? 'bg-white border-ink shadow-sm' : 'bg-white/60 border-ink/10 cursor-pointer hover:border-ink/30'}`}>
+                <div className="p-4 md:p-5 flex items-start gap-3">
+                  <button onClick={e => { e.stopPropagation(); toggleStep(step.id); }}
+                    className={`sop-check ${isCompleted ? 'checked' : ''} mt-0.5`}>
+                    <Icon.check className="w-4 h-4 text-cream" style={{strokeWidth: 4}}/>
+                  </button>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2 mb-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-slate1">Step {i+1}</span>
+                        <span className="text-xs text-ochre">{step.time}</span>
+                      </div>
+                      {step.requiresPhoto && (
+                        <span className={`text-xs flex items-center gap-1 px-2 py-0.5 rounded-full ${stepPhotos.length ? 'bg-ochre/15 text-ochre' : 'bg-coral/15 text-coral'}`}>
+                          <Icon.camera className="w-3 h-3"/>
+                          {stepPhotos.length ? 'Photo taken' : 'Photo needed'}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className={`font-display text-lg font-semibold leading-tight ${isCompleted ? 'text-slate1 line-through' : 'text-ink'}`}>{step.title}</h3>
+                    {(isActive || isCompleted) && (
+                      <>
+                        <p className="text-sm text-slate1 mt-2 leading-relaxed">{step.desc}</p>
+
+                        {/* Photo section */}
+                        {step.requiresPhoto && (
+                          <div className="mt-4">
+                            <div className="text-xs text-slate1 mb-2">{step.photoPrompt}</div>
+                            <div className="flex flex-wrap gap-2">
+                              {stepPhotos.map(p => (
+                                <div key={p.id} className="w-20 h-20 rounded-lg bg-gradient-to-br from-slate1 to-ink flex items-center justify-center relative">
+                                  <Icon.image className="w-6 h-6 text-cream/60"/>
+                                  <div className="absolute inset-x-0 bottom-0 bg-ink/70 text-cream text-[9px] px-1 py-0.5 truncate">{p.name}</div>
+                                </div>
+                              ))}
+                              <button onClick={e => { e.stopPropagation(); addPhoto(step.id); }}
+                                className="w-20 h-20 rounded-lg border-2 border-dashed border-ink/20 hover:border-ochre text-slate1 hover:text-ochre transition flex flex-col items-center justify-center gap-1">
+                                <Icon.camera className="w-5 h-5"/>
+                                <span className="text-[10px]">Add</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Notes */}
+                        {isActive && !isCompleted && (
+                          <div className="mt-4">
+                            <textarea
+                              value={notes[step.id] || ''}
+                              onChange={e => setNotes({...notes, [step.id]: e.target.value})}
+                              placeholder="Optional notes (e.g., adjustments, observations)..."
+                              rows="2"
+                              className="w-full p-3 text-sm bg-cream/50 border border-ink/10 rounded-lg focus:outline-none focus:border-ochre resize-none"
+                            />
+                          </div>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Finish bar */}
+        <div className="mt-8 p-5 rounded-2xl bg-ink text-cream flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <div className="text-xs uppercase tracking-widest text-cream/60 mb-0.5">Execution summary</div>
+            <div className="font-display text-lg font-semibold">{Object.keys(completed).length} of {sop.steps.length} steps · {Object.values(photos).flat().length} photos</div>
+          </div>
+          <button onClick={finish} disabled={Object.keys(completed).length === 0}
+            className="px-6 py-3 rounded-full bg-ochre text-cream text-sm font-medium disabled:opacity-40 hover:bg-ochre/90 transition flex items-center gap-2">
+            <Icon.check className="w-4 h-4"/> Submit execution log
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RENDER
+// ═══════════════════════════════════════════════════════════
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>

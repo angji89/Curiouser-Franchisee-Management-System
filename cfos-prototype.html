@@ -1,0 +1,2250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<title>Curiouser — Franchise Operating System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;450;500;550;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // WARM EDITORIAL MINIMALISM — cream palette elevated
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          // Warm base — cream as paper, not background noise
+          paper:    '#f7f2eb',     // primary cream surface
+          paper2:   '#f0ead f'.replace('d f','df'),  // slight shift
+          cream:    '#faf6ef',     // lighter cream for cards
+          canvas:   '#fdfbf6',     // lightest — content surfaces
+          line:     '#e6ddd0',     // warm hairline
+          line2:    '#d4c8b5',     // stronger warm border
+          ink:      '#3f4d51',     // body text
+          ink2:     '#2a3538',     // darkest ink (display)
+          muted:    '#7a7066',     // warm muted
+          muted2:   '#a89f92',     // lighter warm muted
+          // Refined brand accents (from your palette, toned for Apple discipline)
+          ochre:    '#c98b2c',     // primary accent (restraint: used sparingly)
+          ochre2:   '#a67321',     // deeper for hover
+          coral:    '#bf5f49',     // secondary / critical moments only
+          slate:    '#5c707a',     // cool counterpoint
+          success:  '#5f7a4a',     // earthy green
+          warning:  '#b25000',
+          danger:   '#a33a29',
+        },
+        fontFamily: {
+          sans:    ['"Inter"', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'sans-serif'],
+          display: ['"Instrument Serif"', 'Georgia', 'serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root {
+    --paper: #f7f2eb;
+    --cream: #faf6ef;
+    --canvas: #fdfbf6;
+    --line: #e6ddd0;
+    --line2: #d4c8b5;
+    --ink: #3f4d51;
+    --ink2: #2a3538;
+    --muted: #7a7066;
+    --muted2: #a89f92;
+    --ochre: #c98b2c;
+    --coral: #bf5f49;
+    --slate: #5c707a;
+  }
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  html, body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-feature-settings: "cv02","cv03","cv04","cv11","ss01";
+    letter-spacing: -0.01em;
+  }
+
+  /* Subtle paper grain — almost imperceptible warmth */
+  body::before {
+    content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85'/%3E%3CfeColorMatrix values='0 0 0 0 0.78 0 0 0 0 0.72 0 0 0 0 0.62 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.6;
+  }
+  #root { position: relative; z-index: 1; }
+
+  /* Typography — editorial discipline */
+  .display-tight { letter-spacing: -0.035em; line-height: 1.04; }
+  .display-xl    { letter-spacing: -0.04em; line-height: 1.01; }
+  .tracked       { letter-spacing: 0.16em; text-transform: uppercase; font-size: 10.5px; font-weight: 500; }
+
+  /* Instrument Serif — our secret weapon */
+  .serif {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+  }
+  .serif-italic {
+    font-family: 'Instrument Serif', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  /* IP Protection */
+  .ip-protected { user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; }
+  .ip-protected img, .ip-protected video { pointer-events: none; -webkit-user-drag: none; }
+  @media print { .ip-protected { display: none !important; } }
+  .watermark-tile {
+    position: absolute; inset: 0; pointer-events: none;
+    display: flex; flex-wrap: wrap; align-content: space-around; justify-content: space-around;
+    overflow: hidden; z-index: 5;
+  }
+  .watermark-tile span {
+    color: rgba(63,77,81,0.055);
+    font-size: 10.5px; font-weight: 400;
+    transform: rotate(-24deg);
+    white-space: nowrap; padding: 28px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+
+  /* Warm scrollbar */
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgba(63,77,81,0.14); border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(63,77,81,0.28); }
+
+  /* Buttons — refined & tactile */
+  .btn-primary {
+    background: var(--ink2);
+    color: var(--canvas);
+    font-weight: 450;
+    transition: all 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
+    letter-spacing: -0.005em;
+  }
+  .btn-primary:hover { background: #1a2427; transform: translateY(-0.5px); box-shadow: 0 2px 8px rgba(42,53,56,0.12); }
+  .btn-primary:active { transform: translateY(0); }
+  .btn-ochre {
+    background: var(--ochre);
+    color: var(--canvas);
+    font-weight: 450;
+    transition: all 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .btn-ochre:hover { background: var(--ochre2); }
+  .btn-ghost {
+    color: var(--ink);
+    background: transparent;
+    border: 1px solid var(--line2);
+    transition: all 180ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .btn-ghost:hover { background: var(--cream); border-color: var(--muted2); }
+
+  /* Cards — warm, quiet */
+  .card {
+    background: var(--canvas);
+    border: 1px solid var(--line);
+    transition: all 240ms cubic-bezier(0.22, 0.61, 0.36, 1);
+  }
+  .card-hover:hover {
+    border-color: var(--line2);
+    transform: translateY(-1px);
+    box-shadow: 0 1px 2px rgba(63,77,81,0.03), 0 8px 24px rgba(63,77,81,0.06);
+  }
+  .card-sunken {
+    background: var(--cream);
+    border: 1px solid var(--line);
+  }
+
+  /* Progress bar — thin and quiet */
+  .progress-track { background: var(--line); }
+  .progress-fill  { background: var(--ink2); transition: width 500ms cubic-bezier(0.22, 0.61, 0.36, 1); }
+
+  /* Hairline divider */
+  .hairline { border-color: var(--line); }
+  .hairline-b { border-bottom: 1px solid var(--line); }
+  .hairline-t { border-top: 1px solid var(--line); }
+
+  /* Fade animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .animate-fade-up { animation: fadeUp 420ms cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  .animate-fade { animation: fadeIn 300ms ease-out both; }
+
+  .stagger > * { opacity: 0; animation: fadeUp 480ms cubic-bezier(0.22, 0.61, 0.36, 1) both; }
+  .stagger > *:nth-child(1) { animation-delay: 0ms; }
+  .stagger > *:nth-child(2) { animation-delay: 50ms; }
+  .stagger > *:nth-child(3) { animation-delay: 100ms; }
+  .stagger > *:nth-child(4) { animation-delay: 150ms; }
+  .stagger > *:nth-child(5) { animation-delay: 200ms; }
+  .stagger > *:nth-child(6) { animation-delay: 250ms; }
+  .stagger > *:nth-child(7) { animation-delay: 300ms; }
+
+  /* Toast */
+  .toast { animation: fadeUp 240ms ease-out, fadeOutToast 240ms ease-in 2.4s forwards; }
+  @keyframes fadeOutToast { to { opacity: 0; transform: translateY(-4px); } }
+
+  /* Check box */
+  .check-box {
+    width: 20px; height: 20px; border-radius: 6px;
+    border: 1.5px solid var(--line2);
+    display: inline-flex; align-items: center; justify-content: center;
+    transition: all 180ms ease; flex-shrink: 0; background: var(--canvas);
+  }
+  .check-box.checked { background: var(--ink2); border-color: var(--ink2); }
+  .check-box.checked svg { opacity: 1; transform: scale(1); }
+  .check-box svg { opacity: 0; transform: scale(0.6); transition: all 180ms ease; }
+
+  /* Input */
+  .input {
+    background: var(--canvas);
+    border: 1px solid var(--line2);
+    color: var(--ink);
+    transition: all 180ms ease;
+    font-feature-settings: "cv02","cv03","cv04","cv11";
+  }
+  .input:focus {
+    outline: none;
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(63,77,81,0.06);
+  }
+  .input::placeholder { color: var(--muted2); }
+
+  /* Pill tabs */
+  .pill {
+    transition: all 150ms ease;
+    background: transparent;
+    color: var(--muted);
+  }
+  .pill:hover { color: var(--ink); }
+  .pill.active { background: var(--ink2); color: var(--canvas); }
+
+  /* Editorial hero — subtle paper texture + warm tone */
+  .hero-grain {
+    background-image:
+      radial-gradient(ellipse 80% 50% at 20% 0%, rgba(201,139,44,0.05), transparent 50%),
+      radial-gradient(ellipse 80% 50% at 80% 100%, rgba(191,95,73,0.03), transparent 50%);
+  }
+
+  /* Certificate */
+  .cert {
+    background:
+      radial-gradient(ellipse at top, rgba(201,139,44,0.04), transparent 60%),
+      var(--canvas);
+    border: 1px solid var(--line);
+  }
+
+  /* Chevron */
+  .chev-r { transition: transform 200ms ease; }
+  .rotated { transform: rotate(90deg); }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    .desktop-only { display: none !important; }
+  }
+  @media (min-width: 769px) {
+    .mobile-only { display: none !important; }
+  }
+
+  /* Selection */
+  ::selection { background: rgba(201,139,44,0.22); color: var(--ink2); }
+
+  /* Focus */
+  button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: 2px solid var(--ochre);
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+
+  /* Tabular numbers */
+  .tabular-nums { font-variant-numeric: tabular-nums; }
+
+  /* Detail line — editorial device */
+  .detail-line::before {
+    content: ''; display: inline-block;
+    width: 24px; height: 1px; background: var(--line2);
+    margin-right: 12px; vertical-align: middle;
+  }
+</style>
+</head>
+<body class="min-h-screen">
+
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel" data-presets="react">
+const { useState, useEffect, useRef, useMemo } = React;
+
+// ════════════════════════════════════════════════════════════
+//  ICON SYSTEM — hairline, refined
+// ════════════════════════════════════════════════════════════
+const I = {
+  home:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 22V12h6v10"/></svg>,
+  book:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>,
+  grad:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>,
+  clip:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1"/><path d="m9 14 2 2 4-4"/></svg>,
+  users:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>,
+  leaf:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96a1 1 0 0 1 1.8.4c.5 2.5.34 6.06-1.4 9.12A6.94 6.94 0 0 1 13 15"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg>,
+  folder:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2z"/></svg>,
+  search:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>,
+  play:     (p) => <svg {...p} viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21 6 3"/></svg>,
+  check:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>,
+  lock:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>,
+  camera:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>,
+  chevR:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"/></svg>,
+  chevL:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"/></svg>,
+  chevD:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>,
+  clock:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>,
+  menu:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="17" x2="20" y2="17"/></svg>,
+  x:        (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>,
+  award:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="8" r="6"/><path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"/></svg>,
+  dl:       (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>,
+  upload:   (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>,
+  bell:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>,
+  info:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>,
+  image:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>,
+  pdf:      (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>,
+  arrow:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>,
+  video:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="6" width="14" height="12" rx="2"/><polygon points="22 8 16 12 22 16 22 8"/></svg>,
+  plus:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>,
+  edit:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>,
+  store:    (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l2-5h14l2 5M3 9v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9M3 9h18M9 21V12h6v9"/></svg>,
+  send:     (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>,
+  sparkle:  (p) => <svg {...p} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/></svg>,
+};
+
+// ════════════════════════════════════════════════════════════
+//  DATA
+// ════════════════════════════════════════════════════════════
+
+const CURRENT_USER = {
+  name: 'Sarah Chen',
+  initials: 'SC',
+  email: 'sarah.chen@curiouser.co',
+  role: 'Franchisee Admin',
+  franchise: 'Selangor Central · #047',
+};
+
+const CLASS_THEMES = [
+  { id: 'drama',   name: 'Drama',           count: 24, desc: 'Roleplay, storytelling, puppetry' },
+  { id: 'music',   name: 'Music & Movement',count: 18, desc: 'Rhythm, song, instruments' },
+  { id: 'stem',    name: 'STEM',            count: 22, desc: 'Discovery, experiments' },
+  { id: 'nature',  name: 'Nature',          count: 16, desc: 'Plants, animals, ecology' },
+  { id: 'art',     name: 'Creative Arts',   count: 20, desc: 'Paint, craft, sculpture' },
+  { id: 'story',   name: 'Storytime',       count: 15, desc: 'Books, language, imagination' },
+];
+
+const MOCK_CLASS_PLANS = {
+  drama: {
+    months: {
+      'April 2026': {
+        'Week 1': [
+          { id: 'cp1', title: 'The Magic Forest Adventure', ageGroup: '3–4', duration: '45 min', lesson: 1, overview: 'Children embark on an imaginative journey through an enchanted forest, meeting woodland characters.' },
+          { id: 'cp2', title: 'Brave Little Explorers',     ageGroup: '4–5', duration: '50 min', lesson: 2, overview: 'Role-play game where children become brave explorers discovering new lands.' },
+        ],
+        'Week 2': [
+          { id: 'cp3', title: 'Ocean Pollution',             ageGroup: '4–5', duration: '50 min', lesson: 1, overview: 'A dramatic exploration of ocean life and the impact of pollution, using puppets and storytelling to inspire environmental care.' },
+          { id: 'cp4', title: 'Save the Turtles',            ageGroup: '5–6', duration: '55 min', lesson: 2, overview: 'Children act as marine rescuers in a scenario-based drama lesson.' },
+        ],
+        'Week 3': [
+          { id: 'cp5', title: 'Shadow Puppet Theatre',       ageGroup: '4–5', duration: '45 min', lesson: 1, overview: 'Learn simple shadow puppetry techniques and perform a mini story.' },
+        ],
+      },
+      'May 2026': { 'Week 1': [{ id: 'cp7', title: 'Garden Party', ageGroup: '4–5', duration: '50 min', lesson: 1, overview: 'A whimsical garden-themed drama lesson.' }] },
+    }
+  },
+  music:  { months: { 'April 2026': { 'Week 1': [{ id: 'cp8',  title: 'Drumming with Dinosaurs', ageGroup: '3–4', duration: '40 min', lesson: 1, overview: 'Percussion-based class introducing rhythm through dinosaur themes.' }] } } },
+  stem:   { months: { 'April 2026': { 'Week 2': [{ id: 'cp10', title: 'Floating and Sinking',    ageGroup: '4–5', duration: '45 min', lesson: 1, overview: 'Hands-on experiments exploring density and buoyancy.' }] } } },
+  nature: { months: { 'April 2026': { 'Week 1': [{ id: 'cp11', title: 'Seed to Sprout',          ageGroup: '3–4', duration: '40 min', lesson: 1, overview: 'Plant seeds and observe growth over the term.' }] } } },
+  art:    { months: { 'April 2026': { 'Week 1': [{ id: 'cp12', title: 'Colour Mixing Magic',     ageGroup: '3–4', duration: '40 min', lesson: 1, overview: 'Exploration of primary and secondary colours.' }] } } },
+  story:  { months: { 'April 2026': { 'Week 1': [{ id: 'cp13', title: 'The Hungry Caterpillar',  ageGroup: '3–4', duration: '35 min', lesson: 1, overview: 'Interactive reading with tactile props.' }] } } },
+};
+
+const COURSES = [
+  {
+    id: 'c1', title: 'Early Years Pedagogy',
+    subtitle: 'Required', level: 'Foundation', hours: 4.5, required: true,
+    instructor: 'Dr. Elena Hoffmann', progress: 72,
+    description: 'Foundational principles of early childhood education: developmental milestones, learning theories, and age-appropriate practice.',
+    modules: [
+      { id: 'm1', title: 'Introduction', lessons: [
+        { id: 'l1', title: 'Welcome to Curiouser',      type: 'video',   duration: 4,  completed: true },
+        { id: 'l2', title: 'Our Teaching Philosophy',   type: 'video',   duration: 8,  completed: true },
+        { id: 'l3', title: 'Child Development 101',     type: 'reading', duration: 12, completed: true },
+      ]},
+      { id: 'm2', title: 'Developmental Milestones', lessons: [
+        { id: 'l4', title: 'Ages 3–4',                  type: 'video',   duration: 10, completed: true },
+        { id: 'l5', title: 'Ages 4–5',                  type: 'video',   duration: 11, completed: true },
+        { id: 'l6', title: 'Ages 5–6: Cognitive growth',type: 'reading', duration: 14, completed: false, current: true },
+        { id: 'l7', title: 'Quiz: Milestones',          type: 'quiz',    duration: 8,  completed: false },
+      ]},
+      { id: 'm3', title: 'Classroom Management', lessons: [
+        { id: 'l8', title: 'Setting up a learning space',type:'video',   duration: 9,  completed: false },
+        { id: 'l9', title: 'Handling transitions',       type: 'reading',duration: 10, completed: false },
+      ]},
+    ],
+  },
+  {
+    id: 'c2', title: 'Drama Class Delivery',
+    subtitle: 'Required to unlock Drama curriculum', level: 'Intermediate', hours: 3, required: true,
+    instructor: 'Marcus Theo', progress: 0,
+    description: 'How to deliver our signature Drama classes with confidence. Warm-ups, storytelling, voice projection, and managing group dynamics.',
+    modules: [{ id: 'm1', title: 'Foundations', lessons: [
+      { id: 'l1', title: 'Why drama matters for kids', type: 'video',  duration: 7,  completed: false, current: true },
+      { id: 'l2', title: 'Warm-up techniques',         type: 'video',  duration: 10, completed: false },
+    ]}],
+  },
+  {
+    id: 'c3', title: 'Parent Communication',
+    subtitle: 'Recommended', level: 'Foundation', hours: 2, required: false,
+    instructor: 'Priya Ramesh', progress: 100,
+    description: 'Build strong partnerships with parents through effective communication strategies and difficult conversation frameworks.',
+    modules: [{ id: 'm1', title: 'Partnership', lessons: [{id:'l1',title:'Overview',type:'video',duration:6,completed:true}]}],
+  },
+  {
+    id: 'c4', title: 'Health, Safety & Safeguarding',
+    subtitle: 'Required · Annual', level: 'Foundation', hours: 2.5, required: true,
+    instructor: 'Compliance Team', progress: 0,
+    description: 'Essential compliance training covering child safeguarding, health protocols, incident reporting, and emergency procedures.',
+    modules: [{ id: 'm1', title: 'Basics', lessons: [{id:'l1',title:'Policy overview',type:'video',duration:10,completed:false}]}],
+  },
+  {
+    id: 'c5', title: 'STEM Class Delivery',
+    subtitle: 'Unlocks STEM curriculum', level: 'Intermediate', hours: 3.5, required: false,
+    instructor: 'Dr. James Okoro', progress: 25,
+    description: 'Deliver engaging science and discovery lessons. Learn experiment safety and inquiry-based teaching.',
+    modules: [{ id: 'm1', title: 'Inquiry', lessons: [
+      {id:'l1',title:'The inquiry cycle',     type:'video', duration:8,  completed:true},
+      {id:'l2',title:'Setting up experiments',type:'video', duration:10, completed:false, current:true}
+    ]}],
+  },
+];
+
+const QUIZ_QUESTIONS = [
+  { id: 'q1', question: 'What is the typical attention span for a 4-year-old during a structured activity?',
+    options: ['2–5 minutes','8–12 minutes','20–25 minutes','30+ minutes'], correct: 1,
+    explanation: 'Children aged 4 can typically focus for 8–12 minutes on a single activity. Lessons should rotate activities every ~10 minutes.' },
+  { id: 'q2', question: 'Which of the following is NOT a key early years developmental domain?',
+    options: ['Physical development','Economic development','Social & emotional','Cognitive development'], correct: 1,
+    explanation: 'The main domains are physical, social-emotional, cognitive, and language. Economic development is not a child development domain.' },
+  { id: 'q3', question: 'When a child shows distress during drop-off, the best first response is to:',
+    options: ['Ignore it to build resilience','Acknowledge feelings and co-regulate','Distract with a new toy','Ask the parent to stay longer'], correct: 1,
+    explanation: 'Acknowledging feelings and co-regulating (calm voice, physical presence) helps children develop emotional literacy.' },
+];
+
+const SOP_TEMPLATES = [
+  { id: 's1', title: 'Drama — Ocean Pollution', linkedClass: 'Ocean Pollution · Week 2, April', duration: '50 min',
+    materials: ['Blue & green tulle','Plastic bottle props','Fish puppets × 6','Turtle costume','Picture flashcards','Bluetooth speaker'],
+    steps: [
+      { id: 'step1', title: 'Classroom Setup',       desc: 'Arrange tulle across the floor. Place puppets and props in the "ocean" area.', time: '10 min before', requiresPhoto: true,  photoPrompt: 'Photo of prepared ocean setup' },
+      { id: 'step2', title: 'Opening Circle',        desc: 'Gather children in a circle. Sing "The Ocean Song". Introduce theme.',         time: '5 min',          requiresPhoto: false },
+      { id: 'step3', title: 'Story Introduction',    desc: 'Read "Turtle\'s Troubled Home" (pages 1–8). Use voice variation.',             time: '8 min',          requiresPhoto: false },
+      { id: 'step4', title: 'Meet the Sea Creatures',desc: 'Assign puppet roles. Children act out swimming, eating, being happy.',        time: '10 min',         requiresPhoto: true,  photoPrompt: 'Photo of children in character' },
+      { id: 'step5', title: 'The Problem Appears',   desc: 'Introduce plastic bottles. Pause: "How do the fish feel now?"',              time: '8 min',          requiresPhoto: false },
+      { id: 'step6', title: 'The Cleanup Roleplay', desc: 'Children become rescuers. Collect plastic, "heal" the ocean.',                 time: '8 min',          requiresPhoto: true,  photoPrompt: 'Photo of cleanup activity' },
+      { id: 'step7', title: 'Reflection Circle',    desc: 'Return to circle. Ask open questions. Sing closing song.',                      time: '5 min',          requiresPhoto: false },
+      { id: 'step8', title: 'Cleanup & Reset',      desc: 'Pack materials. Photograph classroom condition for records.',                   time: '6 min',          requiresPhoto: true,  photoPrompt: 'Photo of reset classroom' },
+    ]},
+  { id: 's2', title: 'Music — Drumming with Dinosaurs', linkedClass: 'Drumming · Week 1, April', duration: '40 min',
+    materials: ['Hand drums × 8','Flashcards','Speaker'],
+    steps: [
+      { id:'s2-1',title:'Setup drum circle',desc:'Arrange drums in semicircle.',time:'5 min before',requiresPhoto:true,photoPrompt:'Photo of drum setup'},
+      { id:'s2-2',title:'Welcome song',     desc:'Sing hello with steady beat.',time:'3 min',       requiresPhoto:false},
+      { id:'s2-3',title:'Dinosaur warm-up', desc:'March like T-Rex.',           time:'7 min',       requiresPhoto:false},
+      { id:'s2-4',title:'Call & response',  desc:'Teacher taps, children echo.',time:'12 min',      requiresPhoto:true, photoPrompt:'Photo of drumming'},
+      { id:'s2-5',title:'Free exploration', desc:'Children experiment.',        time:'8 min',       requiresPhoto:false},
+      { id:'s2-6',title:'Closing circle',   desc:'Final rhythm, goodbye.',       time:'5 min',       requiresPhoto:false},
+    ]},
+  { id: 's3', title: 'Daily Opening Routine', linkedClass: 'Every session', duration: '15 min',
+    materials: ['Attendance sheet','Name tags'],
+    steps: [
+      { id:'s3-1',title:'Greet children & parents',desc:'Eye contact, name, warm greeting.',time:'5 min',requiresPhoto:false},
+      { id:'s3-2',title:'Attendance check',        desc:'Mark register.',                    time:'2 min',requiresPhoto:false},
+      { id:'s3-3',title:'Circle time opener',      desc:'Welcome song, date/weather.',       time:'5 min',requiresPhoto:false},
+      { id:'s3-4',title:'Day introduction',        desc:'Preview activities.',               time:'3 min',requiresPhoto:false},
+    ]},
+];
+
+const EYFS_AREAS = [
+  { id: 'csed', name: 'Communication & Language',    short: 'CL'   },
+  { id: 'pd',   name: 'Physical Development',         short: 'PD'   },
+  { id: 'psed', name: 'Personal, Social & Emotional', short: 'PSED' },
+  { id: 'lit',  name: 'Literacy',                      short: 'LIT'  },
+  { id: 'mat',  name: 'Mathematics',                   short: 'MAT'  },
+  { id: 'utw',  name: 'Understanding the World',       short: 'UTW'  },
+  { id: 'ead',  name: 'Expressive Arts & Design',      short: 'EAD'  },
+];
+
+const MOCK_CHILDREN = [
+  { id: 'ch1', name: 'Maya Patel',      age: '4y 3m', observationsCount: 12 },
+  { id: 'ch2', name: 'Liam O\'Connor',  age: '4y 8m', observationsCount: 9  },
+  { id: 'ch3', name: 'Amira Hassan',    age: '3y 11m',observationsCount: 15 },
+  { id: 'ch4', name: 'Noah Tanaka',     age: '5y 1m', observationsCount: 7  },
+  { id: 'ch5', name: 'Zara Williams',   age: '4y 5m', observationsCount: 11 },
+  { id: 'ch6', name: 'Ethan Lim',       age: '4y 0m', observationsCount: 8  },
+];
+
+const MOCK_OBSERVATIONS = [
+  { id:'o1', childId:'ch1', date:'2026-04-21', note:'Maya confidently narrated the story of the Magic Forest to her peers, using full sentences and descriptive language. She introduced new vocabulary like "whispering" and "glimmering".', areas:['csed','lit'] },
+  { id:'o2', childId:'ch1', date:'2026-04-18', note:'During the drumming activity Maya kept a steady beat and encouraged two quieter children to join in. Strong social leadership.',                                                     areas:['psed','ead'] },
+  { id:'o3', childId:'ch1', date:'2026-04-15', note:'Maya counted to 20 unprompted while sorting coloured blocks, and grouped them by both colour and shape.',                                                                          areas:['mat']        },
+];
+
+const MOCK_USERS = [
+  { id: 'u1', name: 'Sarah Chen',     email: 'sarah.chen@curiouser.co', role: 'FRANCHISEE_ADMIN', store: 'Selangor Central', active: true },
+  { id: 'u2', name: 'Maya Lee',       email: 'maya.lee@curiouser.co',   role: 'TEACHER',          store: 'Selangor Central', active: true },
+  { id: 'u3', name: 'Daniel Wong',    email: 'daniel.w@curiouser.co',   role: 'TEACHER',          store: 'Selangor Central', active: true },
+  { id: 'u4', name: 'Priya Ramesh',   email: 'priya@curiouser.co',      role: 'HQ_ADMIN',         store: 'HQ',               active: true },
+  { id: 'u5', name: 'James Tan',      email: 'james.t@curiouser.co',    role: 'FRANCHISEE_ADMIN', store: 'KL Bangsar',       active: true },
+  { id: 'u6', name: 'Fatima Ibrahim', email: 'fatima.i@curiouser.co',   role: 'TEACHER',          store: 'KL Bangsar',       active: false },
+];
+
+const MOCK_STORES = [
+  { id: 's1', code: '#047', name: 'Selangor Central',  region: 'Selangor', teachers: 6, students: 48, status: 'active' },
+  { id: 's2', code: '#048', name: 'KL Bangsar',        region: 'KL',       teachers: 4, students: 32, status: 'active' },
+  { id: 's3', code: '#052', name: 'Penang Georgetown', region: 'Penang',   teachers: 5, students: 41, status: 'active' },
+];
+
+// ════════════════════════════════════════════════════════════
+//  UTILITIES
+// ════════════════════════════════════════════════════════════
+
+function Toast({ message, onDone }) {
+  useEffect(() => { const t = setTimeout(onDone, 2700); return () => clearTimeout(t); }, []);
+  return (
+    <div className="toast fixed bottom-20 md:bottom-6 left-1/2 -translate-x-1/2 z-50 bg-ink2 text-canvas px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2.5 text-[13px]">
+      <I.check className="w-3.5 h-3.5" /> <span>{message}</span>
+    </div>
+  );
+}
+
+function ProgressBar({ value, height = 2 }) {
+  return (
+    <div className="progress-track rounded-full overflow-hidden" style={{height: `${height}px`}}>
+      <div className="progress-fill h-full rounded-full" style={{width: `${value}%`}}></div>
+    </div>
+  );
+}
+
+function Pill({ children, tone = 'neutral' }) {
+  const tones = {
+    neutral:  'bg-cream text-muted border border-line',
+    dark:     'bg-ink2 text-canvas',
+    ochre:    'bg-ochre/10 text-ochre',
+    success:  'bg-success/10 text-success',
+    warning:  'bg-warning/10 text-warning',
+    danger:   'bg-danger/10 text-danger',
+    outline:  'border border-line2 text-ink2',
+  };
+  return <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium ${tones[tone]}`}>{children}</span>;
+}
+
+// ════════════════════════════════════════════════════════════
+//  APP SHELL
+// ════════════════════════════════════════════════════════════
+
+function App() {
+  const [page, setPage]                   = useState('home');
+  const [classSelection, setClassSel]     = useState(null);
+  const [currentCourse, setCurrentCourse] = useState(null);
+  const [currentLesson, setCurrentLesson] = useState(null);
+  const [currentSop, setCurrentSop]       = useState(null);
+  const [currentChild, setCurrentChild]   = useState(null);
+  const [toast, setToast]                 = useState(null);
+  const [menuOpen, setMenuOpen]           = useState(false);
+  const [adminView, setAdminView]         = useState('users');
+
+  const showToast = (msg) => setToast(msg);
+
+  const nav = (target) => {
+    setPage(target);
+    setMenuOpen(false);
+    setClassSel(null);
+    setCurrentCourse(null);
+    setCurrentLesson(null);
+    setCurrentSop(null);
+    setCurrentChild(null);
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  };
+
+  return (
+    <div className="min-h-screen">
+      {/* ── TOP BAR ── */}
+      <header className="sticky top-0 z-40 bg-paper/80 backdrop-blur-xl border-b hairline">
+        <div className="max-w-[1440px] mx-auto px-5 md:px-8 h-14 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <button className="md:hidden p-1.5 -ml-1.5" onClick={() => setMenuOpen(true)}><I.menu className="w-5 h-5 text-ink"/></button>
+            <button onClick={() => nav('home')} className="flex items-center gap-2.5">
+              <div className="w-7 h-7 rounded-md bg-ink2 flex items-center justify-center">
+                <span className="serif text-canvas text-[16px] leading-none">C</span>
+              </div>
+              <div className="flex items-baseline gap-2">
+                <span className="text-[15px] font-medium text-ink2" style={{letterSpacing:'-0.02em'}}>Curiouser</span>
+                <span className="tracked text-muted2 hidden sm:inline">CFOS</span>
+              </div>
+            </button>
+          </div>
+
+          <nav className="desktop-only hidden md:flex items-center gap-0.5">
+            <NavLink page={page} target="home"    onNav={nav}>Dashboard</NavLink>
+            <NavLink page={page} target="classes" onNav={nav}>Class Plans</NavLink>
+            <NavLink page={page} target="academy" onNav={nav}>Training</NavLink>
+            <NavLink page={page} target="sop"     onNav={nav}>SOP</NavLink>
+            <NavLink page={page} target="reports" onNav={nav}>Reports</NavLink>
+            {CURRENT_USER.role !== 'Teacher' && <NavLink page={page} target="admin" onNav={nav}>Admin</NavLink>}
+          </nav>
+
+          <div className="flex items-center gap-3 md:gap-4">
+            <button className="relative p-1.5 hover:bg-cream rounded-lg transition">
+              <I.bell className="w-[17px] h-[17px] text-ink"/>
+              <span className="absolute top-1 right-1 w-1.5 h-1.5 bg-coral rounded-full"></span>
+            </button>
+            <div className="hidden md:flex items-center gap-2.5">
+              <div className="text-right">
+                <div className="text-[12.5px] font-medium text-ink2 leading-tight">{CURRENT_USER.name}</div>
+                <div className="text-[10.5px] text-muted leading-tight mt-0.5">{CURRENT_USER.franchise}</div>
+              </div>
+              <div className="w-8 h-8 rounded-full bg-ink2 text-canvas flex items-center justify-center text-[10.5px] font-medium">{CURRENT_USER.initials}</div>
+            </div>
+            <div className="md:hidden w-7 h-7 rounded-full bg-ink2 text-canvas flex items-center justify-center text-[10.5px] font-medium">{CURRENT_USER.initials}</div>
+          </div>
+        </div>
+      </header>
+
+      {/* ── MOBILE MENU ── */}
+      {menuOpen && (
+        <div className="md:hidden fixed inset-0 z-50 bg-ink2/30 backdrop-blur-sm" onClick={() => setMenuOpen(false)}>
+          <aside className="absolute left-0 top-0 h-full w-[280px] bg-paper p-5 animate-fade-up" onClick={e=>e.stopPropagation()}>
+            <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-md bg-ink2 flex items-center justify-center">
+                  <span className="serif text-canvas text-[16px] leading-none">C</span>
+                </div>
+                <span className="text-[15px] font-medium text-ink2" style={{letterSpacing:'-0.02em'}}>Curiouser</span>
+              </div>
+              <button onClick={()=>setMenuOpen(false)}><I.x className="w-5 h-5 text-muted"/></button>
+            </div>
+            <nav className="space-y-0.5">
+              <MobileNavLink page={page} target="home"    onNav={nav} icon={I.home}>Dashboard</MobileNavLink>
+              <MobileNavLink page={page} target="classes" onNav={nav} icon={I.book}>Class Plans</MobileNavLink>
+              <MobileNavLink page={page} target="academy" onNav={nav} icon={I.grad}>Training Academy</MobileNavLink>
+              <MobileNavLink page={page} target="sop"     onNav={nav} icon={I.clip}>SOP Execution</MobileNavLink>
+              <MobileNavLink page={page} target="reports" onNav={nav} icon={I.leaf}>Child Reports</MobileNavLink>
+              {CURRENT_USER.role !== 'Teacher' && <MobileNavLink page={page} target="admin" onNav={nav} icon={I.users}>Admin</MobileNavLink>}
+            </nav>
+            <div className="absolute bottom-6 left-5 right-5 pt-4 hairline-t">
+              <div className="text-[13px] font-medium text-ink2">{CURRENT_USER.name}</div>
+              <div className="text-[11px] text-muted mt-0.5">{CURRENT_USER.franchise}</div>
+            </div>
+          </aside>
+        </div>
+      )}
+
+      {/* ── MAIN ── */}
+      <main className="pb-20 md:pb-12">
+        {page === 'home' && <HomePage onNav={nav} />}
+
+        {page === 'classes' && !classSelection && <ClassPlansLibrary onOpen={setClassSel} />}
+        {page === 'classes' &&  classSelection  && <ClassPlanViewer selection={classSelection} onBack={() => setClassSel(null)} />}
+
+        {page === 'academy' && !currentCourse && <AcademyHome onOpen={setCurrentCourse} />}
+        {page === 'academy' &&  currentCourse && !currentLesson && <CoursePage course={currentCourse} onBack={() => setCurrentCourse(null)} onOpenLesson={setCurrentLesson} showToast={showToast}/>}
+        {page === 'academy' &&  currentCourse &&  currentLesson && <LessonPage course={currentCourse} lesson={currentLesson} onBack={() => setCurrentLesson(null)} showToast={showToast}/>}
+
+        {page === 'sop' && !currentSop && <SOPLibrary onOpen={setCurrentSop}/>}
+        {page === 'sop' &&  currentSop && <SOPRunner sop={currentSop} onBack={() => setCurrentSop(null)} showToast={showToast}/>}
+
+        {page === 'reports' && !currentChild && <ReportsHome onOpen={setCurrentChild}/>}
+        {page === 'reports' &&  currentChild && <ChildReport child={currentChild} onBack={() => setCurrentChild(null)} showToast={showToast}/>}
+
+        {page === 'admin' && <AdminPanel view={adminView} setView={setAdminView} showToast={showToast}/>}
+      </main>
+
+      {/* ── MOBILE BOTTOM NAV ── */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-paper/95 backdrop-blur-xl border-t hairline z-30">
+        <div className="grid grid-cols-5">
+          {[
+            { id: 'home',    icon: I.home,  label: 'Home' },
+            { id: 'classes', icon: I.book,  label: 'Plans' },
+            { id: 'academy', icon: I.grad,  label: 'Training' },
+            { id: 'sop',     icon: I.clip,  label: 'SOP' },
+            { id: 'reports', icon: I.leaf,  label: 'Reports' },
+          ].map(n => (
+            <button key={n.id} onClick={() => nav(n.id)}
+              className={`flex flex-col items-center py-2 gap-0.5 transition ${page === n.id ? 'text-ink2' : 'text-muted2'}`}>
+              <n.icon className="w-[17px] h-[17px]" />
+              <span className="text-[10px] font-medium">{n.label}</span>
+            </button>
+          ))}
+        </div>
+      </nav>
+
+      {toast && <Toast message={toast} onDone={() => setToast(null)} />}
+    </div>
+  );
+}
+
+function NavLink({ page, target, onNav, children }) {
+  const active = page === target;
+  return (
+    <button onClick={() => onNav(target)}
+      className={`px-3 py-1.5 rounded-md text-[13px] font-medium transition ${active ? 'bg-cream text-ink2' : 'text-muted hover:text-ink2'}`}>
+      {children}
+    </button>
+  );
+}
+
+function MobileNavLink({ page, target, onNav, children, icon: Ico }) {
+  const active = page === target;
+  return (
+    <button onClick={() => onNav(target)}
+      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-[14px] font-medium text-left transition ${active ? 'bg-cream text-ink2' : 'text-muted2 hover:text-ink2'}`}>
+      <Ico className="w-[17px] h-[17px]"/>
+      <span>{children}</span>
+    </button>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+//  HOME
+// ════════════════════════════════════════════════════════════
+
+function HomePage({ onNav }) {
+  return (
+    <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-12 md:py-20 hero-grain">
+      {/* EDITORIAL HERO */}
+      <div className="mb-16 md:mb-24 animate-fade-up">
+        <div className="tracked text-muted mb-6 detail-line">Thursday · 23 April</div>
+        <h1 className="text-[44px] md:text-[88px] font-medium display-xl text-ink2 mb-4 max-w-4xl">
+          Good morning, Sarah.
+        </h1>
+        <p className="text-[22px] md:text-[36px] serif text-muted max-w-3xl leading-[1.25]">
+          Today is a good day to teach <span className="serif-italic text-ink2">something wonderful</span>.
+        </p>
+      </div>
+
+      {/* Stats — editorial grid */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-line rounded-none md:rounded-2xl overflow-hidden mb-16 md:mb-24 stagger">
+        <StatTile value="24"   label="Class plans this month"/>
+        <StatTile value="68%"  label="Training progress"/>
+        <StatTile value="12"   label="SOPs completed"/>
+        <StatTile value="3"    label="Certificates earned"/>
+      </div>
+
+      {/* Workspace — editorial product grid */}
+      <div className="mb-16 md:mb-24">
+        <div className="flex items-end justify-between mb-8 md:mb-10">
+          <div>
+            <div className="tracked text-muted mb-3 detail-line">Workspace</div>
+            <h2 className="text-[28px] md:text-[40px] font-medium display-tight text-ink2">
+              Five modules. <span className="serif-italic text-muted">One operating system.</span>
+            </h2>
+          </div>
+        </div>
+        <div className="grid md:grid-cols-2 gap-4 md:gap-5 stagger">
+          <BigTile
+            onClick={() => onNav('classes')}
+            eyebrow="Curriculum"
+            title="Class Plans"
+            tagline="Your IP, protected."
+            desc="Browse lesson plans by theme, month, and week. View-only with dynamic watermarking."
+          />
+          <BigTile
+            onClick={() => onNav('academy')}
+            eyebrow="Learning"
+            title="Training Academy"
+            tagline="Mastery, one step at a time."
+            desc="Structured courses that unlock curriculum access. Earn certificates as you grow."
+          />
+          <BigTile
+            onClick={() => onNav('sop')}
+            eyebrow="Operations"
+            title="SOP Execution"
+            tagline="Consistency, every class."
+            desc="Step-by-step teaching guides with photo proof. Built for the classroom."
+          />
+          <BigTile
+            onClick={() => onNav('reports')}
+            eyebrow="Reporting"
+            title="Child Development Reports"
+            tagline="EYFS, made simple."
+            desc="Observations tagged to seven areas of learning, assembled into structured reports."
+          />
+        </div>
+      </div>
+
+      {/* Two-up: resume + tomorrow */}
+      <div className="grid md:grid-cols-2 gap-5 mb-16 md:mb-20">
+        <Panel eyebrow="Resume learning" action={{label:'All courses', onClick: ()=>onNav('academy')}}>
+          <div className="flex gap-4">
+            <div className="w-16 h-16 rounded-xl bg-cream border hairline flex items-center justify-center shrink-0">
+              <I.play className="w-5 h-5 text-ink2"/>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[11px] text-muted mb-1">Early Years Pedagogy</div>
+              <div className="text-[15px] font-medium text-ink2 leading-tight mb-3 truncate">Ages 5–6: Cognitive growth</div>
+              <ProgressBar value={72} />
+              <div className="flex justify-between text-[11px] text-muted mt-1.5 tabular-nums">
+                <span>72% complete</span>
+                <span>~1h 30m remaining</span>
+              </div>
+            </div>
+          </div>
+        </Panel>
+
+        <Panel eyebrow="Tomorrow's class" action={{label:'Open SOP', onClick: ()=>onNav('sop')}}>
+          <div className="flex gap-4">
+            <div className="w-16 h-16 rounded-xl bg-ink2 text-canvas flex flex-col items-center justify-center shrink-0">
+              <div className="text-[9px] font-medium tracked leading-none text-canvas/70">APR</div>
+              <div className="serif text-[26px] leading-none mt-0.5">24</div>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[11px] text-muted mb-1">Drama · 10:30 AM</div>
+              <div className="text-[15px] font-medium text-ink2 leading-tight mb-2 truncate">Ocean Pollution</div>
+              <div className="text-[12px] text-muted mb-3">Ages 4–5 · 50 min · 8 steps</div>
+              <div className="flex gap-1.5">
+                <Pill tone="neutral">Plan ready</Pill>
+                <Pill tone="neutral">SOP linked</Pill>
+              </div>
+            </div>
+          </div>
+        </Panel>
+      </div>
+
+      {/* Announcement — editorial magazine moment */}
+      <div className="bg-ink2 text-canvas rounded-2xl md:rounded-3xl px-7 md:px-16 py-14 md:py-24 relative overflow-hidden animate-fade-up">
+        <div className="absolute -top-32 -right-32 w-80 h-80 rounded-full bg-ochre/10 blur-3xl"></div>
+        <div className="relative">
+          <div className="tracked text-ochre/70 mb-6 detail-line before:bg-ochre/30">This summer</div>
+          <h3 className="text-[36px] md:text-[64px] font-medium display-xl mb-4 leading-[1.05]">
+            Introducing <span className="serif-italic text-canvas/80">Ocean Heroes</span>.
+          </h3>
+          <p className="text-canvas/70 text-[16px] md:text-[19px] max-w-xl mb-10 leading-relaxed">
+            A new four-week drama and STEM unit launching June 1. Complete the training module now to unlock the curriculum.
+          </p>
+          <div className="flex gap-3 flex-wrap">
+            <button className="btn-ochre px-6 py-3 rounded-full text-[13px]">Preview unit</button>
+            <button className="text-canvas/90 px-6 py-3 text-[13px] font-medium hover:text-canvas inline-flex items-center gap-1.5 group">
+              Read more <I.arrow className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition"/>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function StatTile({ value, label }) {
+  return (
+    <div className="bg-paper p-6 md:p-8">
+      <div className="text-[36px] md:text-[52px] font-medium text-ink2 display-xl mb-1">{value}</div>
+      <div className="text-[12px] text-muted">{label}</div>
+    </div>
+  );
+}
+
+function BigTile({ onClick, eyebrow, title, tagline, desc }) {
+  return (
+    <button onClick={onClick} className="card card-hover text-left rounded-2xl md:rounded-3xl p-8 md:p-10 group">
+      <div className="tracked text-muted2 mb-6">{eyebrow}</div>
+      <h3 className="text-[26px] md:text-[32px] font-medium display-tight text-ink2 mb-1">{title}</h3>
+      <div className="serif-italic text-[19px] md:text-[22px] text-muted mb-4">{tagline}</div>
+      <p className="text-[13.5px] text-ink leading-relaxed max-w-sm">{desc}</p>
+      <div className="mt-7 inline-flex items-center gap-1.5 text-[13px] font-medium text-ochre group-hover:gap-2.5 transition-all">
+        Enter <I.arrow className="w-4 h-4"/>
+      </div>
+    </button>
+  );
+}
+
+function Panel({ eyebrow, action, children }) {
+  return (
+    <div className="card rounded-2xl p-6 animate-fade-up">
+      <div className="flex items-center justify-between mb-5">
+        <div className="tracked text-muted2">{eyebrow}</div>
+        {action && <button onClick={action.onClick} className="text-[12px] text-ochre hover:text-ochre2 inline-flex items-center gap-1 transition">{action.label}<I.chevR className="w-3 h-3"/></button>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+//  CLASS PLANS
+// ════════════════════════════════════════════════════════════
+
+function ClassPlansLibrary({ onOpen }) {
+  const [themeId, setThemeId] = useState(null);
+  const [month,   setMonth]   = useState(null);
+  const [search,  setSearch]  = useState('');
+
+  if (themeId && month) return <WeekView themeId={themeId} month={month} onOpen={onOpen} onBackMonth={() => setMonth(null)} onBackTheme={() => { setThemeId(null); setMonth(null); }} />;
+  if (themeId)          return <MonthView themeId={themeId} onSelectMonth={setMonth} onBack={() => setThemeId(null)} />;
+
+  const themes = CLASS_THEMES.filter(t => t.name.toLowerCase().includes(search.toLowerCase()));
+
+  return (
+    <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-12 md:py-16 animate-fade-up">
+      <PageHeader
+        eyebrow="Curriculum library"
+        title={<>Class <span className="serif-italic text-muted">Plans</span>.</>}
+        subtitle="Browse by theme. View-only and watermarked to protect our curriculum."
+        right={<Pill tone="outline"><I.lock className="w-3 h-3"/> Protected</Pill>}
+      />
+
+      <div className="relative mb-10 max-w-sm">
+        <I.search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted2"/>
+        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search themes" className="input w-full pl-10 pr-4 py-2.5 rounded-xl text-[14px]"/>
+      </div>
+
+      <div className="grid md:grid-cols-3 gap-4 md:gap-5 stagger">
+        {themes.map(theme => (
+          <button key={theme.id} onClick={() => setThemeId(theme.id)} className="card card-hover text-left rounded-2xl p-6">
+            <div className="flex items-start justify-between mb-10">
+              <div className="w-10 h-10 rounded-xl bg-cream border hairline flex items-center justify-center">
+                <I.folder className="w-[17px] h-[17px] text-ink2"/>
+              </div>
+              <span className="text-[11px] text-muted2 tabular-nums">{theme.count} plans</span>
+            </div>
+            <h3 className="text-[22px] font-medium display-tight text-ink2 mb-1">{theme.name}</h3>
+            <p className="text-[13px] text-muted leading-relaxed">{theme.desc}</p>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function MonthView({ themeId, onSelectMonth, onBack }) {
+  const theme  = CLASS_THEMES.find(t => t.id === themeId);
+  const data   = MOCK_CLASS_PLANS[themeId];
+  const months = Object.keys(data?.months || {});
+
+  return (
+    <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-12 md:py-16 animate-fade-up">
+      <BreadcrumbBack onClick={onBack} label="All themes"/>
+      <PageHeader
+        eyebrow={theme.name}
+        title={<>Select a <span className="serif-italic text-muted">month</span>.</>}
+        subtitle="Browse weekly plans organized by month."
+      />
+      <div className="grid md:grid-cols-3 gap-4 stagger">
+        {months.map(m => {
+          const weekCount = Object.keys(data.months[m]).length;
+          const planCount = Object.values(data.months[m]).reduce((s,w)=>s+w.length,0);
+          return (
+            <button key={m} onClick={() => onSelectMonth(m)} className="card card-hover text-left rounded-2xl p-6">
+              <div className="flex items-start justify-between mb-10">
+                <I.folder className="w-[17px] h-[17px] text-ink2"/>
+                <I.chevR className="w-4 h-4 text-muted2"/>
+              </div>
+              <h3 className="text-[20px] font-medium display-tight text-ink2 mb-1">{m}</h3>
+              <div className="text-[12px] text-muted tabular-nums">{weekCount} weeks · {planCount} plans</div>
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function WeekView({ themeId, month, onOpen, onBackMonth, onBackTheme }) {
+  const theme = CLASS_THEMES.find(t => t.id === themeId);
+  const weeks = MOCK_CLASS_PLANS[themeId].months[month];
+
+  return (
+    <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-12 md:py-16 animate-fade-up">
+      <div className="flex items-center gap-2 text-[12px] text-muted mb-6 flex-wrap">
+        <button onClick={onBackTheme} className="hover:text-ink2 transition">Themes</button>
+        <I.chevR className="w-3 h-3 text-muted2"/>
+        <button onClick={onBackMonth} className="hover:text-ink2 transition">{theme.name}</button>
+        <I.chevR className="w-3 h-3 text-muted2"/>
+        <span className="text-ink2">{month}</span>
+      </div>
+      <PageHeader eyebrow={theme.name} title={month}/>
+
+      <div className="space-y-12 stagger">
+        {Object.entries(weeks).map(([weekName, plans]) => (
+          <div key={weekName}>
+            <div className="tracked text-muted mb-5 detail-line">{weekName}</div>
+            <div className="grid md:grid-cols-2 gap-4">
+              {plans.map(plan => (
+                <button key={plan.id} onClick={() => onOpen({themeId, month, weekName, plan})}
+                  className="card card-hover text-left rounded-2xl p-5 flex gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-cream border hairline flex flex-col items-center justify-center shrink-0">
+                    <div className="tracked text-muted leading-none text-[9px]">Lesson</div>
+                    <div className="serif text-[18px] text-ink2 leading-none mt-1">{plan.lesson}</div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <Pill tone="neutral">{plan.duration}</Pill>
+                      <span className="text-[11px] text-muted">Ages {plan.ageGroup}</span>
+                    </div>
+                    <h4 className="text-[17px] font-medium text-ink2 leading-tight">{plan.title}</h4>
+                  </div>
+                  <I.chevR className="w-4 h-4 text-muted2 self-center"/>
+                </button>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ClassPlanViewer({ selection, onBack }) {
+  const { themeId, month, weekName, plan } = selection;
+  const theme = CLASS_THEMES.find(t => t.id === themeId);
+  const [page, setPage] = useState(1);
+  const totalPages = 4;
+  const [warning, setWarning] = useState(null);
+  const flashWarning = (msg) => { setWarning(msg); setTimeout(() => setWarning(null), 2400); };
+
+  useEffect(() => {
+    const handlers = {
+      contextmenu: (e) => { e.preventDefault(); flashWarning('Right-click is disabled'); },
+      keydown: (e) => {
+        if ((e.ctrlKey || e.metaKey) && ['s','p','c','a','u'].includes(e.key.toLowerCase())) {
+          e.preventDefault(); flashWarning('Disabled to protect curriculum IP');
+        }
+        if (e.key === 'PrintScreen') flashWarning('Screenshots are discouraged');
+        if (e.key === 'F12') { e.preventDefault(); flashWarning('Developer tools disabled'); }
+        if ((e.ctrlKey || e.metaKey) && e.shiftKey && ['i','j','c'].includes(e.key.toLowerCase())) {
+          e.preventDefault(); flashWarning('Developer tools disabled');
+        }
+      },
+      copy: (e) => { e.preventDefault(); flashWarning('Copying is disabled'); },
+      dragstart: (e) => e.preventDefault(),
+    };
+    Object.entries(handlers).forEach(([k,fn]) => document.addEventListener(k, fn));
+    return () => Object.entries(handlers).forEach(([k,fn]) => document.removeEventListener(k, fn));
+  }, []);
+
+  return (
+    <div className="max-w-[1000px] mx-auto px-5 md:px-8 py-8 md:py-12 animate-fade-up ip-protected">
+      <div className="flex items-center justify-between mb-6 gap-4">
+        <button onClick={onBack} className="flex items-center gap-1.5 text-[13px] text-muted hover:text-ink2 transition">
+          <I.chevL className="w-4 h-4"/><span>Back to {weekName}</span>
+        </button>
+        <Pill tone="outline"><I.lock className="w-3 h-3"/> View-only</Pill>
+      </div>
+
+      <div className="bg-canvas rounded-2xl border hairline relative overflow-hidden">
+        <div className="watermark-tile">
+          {[...Array(24)].map((_,i) => (<span key={i}>{CURRENT_USER.email} · 23 APR 2026</span>))}
+        </div>
+
+        <div className="relative z-10 p-8 md:p-16 min-h-[600px]">
+          {page === 1 && (
+            <>
+              <div className="tracked text-muted2 mb-6 detail-line">{theme.name} · {month} · {weekName}</div>
+              <h1 className="text-[44px] md:text-[72px] font-medium display-xl text-ink2 mb-6 leading-[1.02]">{plan.title}</h1>
+              <div className="flex flex-wrap gap-2 mb-12">
+                <Pill tone="neutral">Lesson {plan.lesson}</Pill>
+                <Pill tone="neutral">Ages {plan.ageGroup}</Pill>
+                <Pill tone="neutral">{plan.duration}</Pill>
+              </div>
+
+              <div className="space-y-10">
+                <div>
+                  <div className="tracked text-muted2 mb-3">Overview</div>
+                  <p className="text-[17px] md:text-[19px] serif text-ink2 leading-[1.55] max-w-2xl">{plan.overview}</p>
+                </div>
+                <div>
+                  <div className="tracked text-muted2 mb-3">Learning outcomes</div>
+                  <ul className="space-y-3 text-[14.5px] text-ink2 max-w-2xl">
+                    <li className="flex gap-4"><span className="serif text-muted2 tabular-nums w-6">01</span><span>Develop empathy for marine life through character embodiment</span></li>
+                    <li className="flex gap-4"><span className="serif text-muted2 tabular-nums w-6">02</span><span>Build narrative thinking through cause-and-effect play</span></li>
+                    <li className="flex gap-4"><span className="serif text-muted2 tabular-nums w-6">03</span><span>Practice cooperative problem-solving in a group setting</span></li>
+                    <li className="flex gap-4"><span className="serif text-muted2 tabular-nums w-6">04</span><span>Introduce ecological vocabulary: pollution, habitat, rescue</span></li>
+                  </ul>
+                </div>
+              </div>
+            </>
+          )}
+
+          {page === 2 && (
+            <>
+              <div className="tracked text-muted2 mb-6 detail-line">Page 2 · Materials</div>
+              <h2 className="text-[32px] md:text-[44px] font-medium display-tight text-ink2 mb-10">Materials & <span className="serif-italic text-muted">preparation</span></h2>
+              <div className="grid md:grid-cols-2 gap-10">
+                <div>
+                  <div className="tracked text-muted2 mb-3">Required</div>
+                  <ul className="space-y-2.5 text-[14px] text-ink2">
+                    {['Blue & green tulle fabric (2m each)','Plastic bottle props (pre-washed, 6 pieces)','Fish puppets × 6','Turtle costume × 1','Picture flashcards (sea creatures)','Bluetooth speaker','Ocean soundscape audio'].map(m => (
+                      <li key={m} className="flex gap-3"><span className="w-1 h-1 bg-muted2 rounded-full shrink-0 mt-2"></span>{m}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <div className="tracked text-muted2 mb-3">Setup · 10 min before</div>
+                  <ol className="space-y-2.5 text-[14px] text-ink2">
+                    {['Spread tulle across central floor area','Arrange puppets in visible positions','Hide plastic bottles nearby (reveal later)','Queue soundscape audio','Prepare reflection circle space'].map((s,i) => (
+                      <li key={s} className="flex gap-4"><span className="serif text-muted2 tabular-nums w-5">{String(i+1).padStart(2,'0')}</span>{s}</li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+              <div className="mt-12 p-6 rounded-2xl card-sunken">
+                <div className="flex items-start gap-3">
+                  <I.info className="w-4 h-4 text-ink2 shrink-0 mt-0.5"/>
+                  <div>
+                    <div className="text-[13px] font-medium text-ink2 mb-1">Safety note</div>
+                    <p className="text-[13px] text-ink leading-relaxed">All plastic props must be pre-washed. Check tulle for loose threads. Ensure no choking hazards among the flashcards for younger groups.</p>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {page === 3 && (
+            <>
+              <div className="tracked text-muted2 mb-6 detail-line">Page 3 · Lesson flow</div>
+              <h2 className="text-[32px] md:text-[44px] font-medium display-tight text-ink2 mb-10"><span className="serif-italic text-muted">Sequence</span>.</h2>
+              <div className="space-y-px bg-line rounded-2xl overflow-hidden border hairline">
+                {[
+                  { time: '0–5',   title: 'Opening Circle',         desc: 'Gather children. Sing "The Ocean Song". Introduce theme with gentle curiosity.' },
+                  { time: '5–13',  title: 'Story Introduction',     desc: 'Read "Turtle\'s Troubled Home" (pages 1–8). Use voice variation for each character.' },
+                  { time: '13–23', title: 'Meet the Sea Creatures', desc: 'Children choose puppet roles. Act out swimming, eating, being happy in clean water.' },
+                  { time: '23–31', title: 'The Problem Appears',    desc: 'Introduce plastic. Pause: "How do the fish feel now?" Let children respond.' },
+                  { time: '31–39', title: 'The Cleanup Roleplay',   desc: 'Children become rescuers. Collect plastic, "heal" the ocean together.' },
+                  { time: '39–45', title: 'Reflection Circle',      desc: 'Return to circle. Ask open questions. Sing closing song.' },
+                  { time: '45–50', title: 'Cleanup & Transition',   desc: 'Invite helpers to pack materials while singing the "Tidy Song".' },
+                ].map((s,i) => (
+                  <div key={i} className="flex gap-6 p-5 md:p-6 bg-canvas">
+                    <div className="w-16 shrink-0 serif text-[17px] text-ochre tabular-nums">{s.time}m</div>
+                    <div>
+                      <div className="text-[15px] font-medium text-ink2 mb-1">{s.title}</div>
+                      <div className="text-[13.5px] text-ink leading-relaxed">{s.desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </>
+          )}
+
+          {page === 4 && (
+            <>
+              <div className="tracked text-muted2 mb-6 detail-line">Page 4 · Assessment</div>
+              <h2 className="text-[32px] md:text-[44px] font-medium display-tight text-ink2 mb-10">Observation & <span className="serif-italic text-muted">differentiation</span>.</h2>
+              <div className="grid md:grid-cols-2 gap-10">
+                <div>
+                  <div className="tracked text-muted2 mb-3">What to observe</div>
+                  <ul className="space-y-2.5 text-[14px] text-ink2">
+                    {['Engagement with the story narrative','Willingness to take on character roles','Emotional response to the "problem" moment','Cooperation during the cleanup roleplay','Vocabulary used in reflection'].map(s => (
+                      <li key={s} className="flex gap-3"><span className="w-1 h-1 bg-muted2 rounded-full shrink-0 mt-2"></span>{s}</li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <div className="tracked text-muted2 mb-3">Differentiation</div>
+                  <div className="space-y-5 text-[14px] text-ink">
+                    <div>
+                      <div className="font-medium text-ink2 mb-1">Younger · 3–4</div>
+                      <p className="leading-relaxed">Simplify vocabulary. Focus on "happy fish / sad fish". Shorter roleplay segments.</p>
+                    </div>
+                    <div>
+                      <div className="font-medium text-ink2 mb-1">Older · 5–6</div>
+                      <p className="leading-relaxed">Introduce vocabulary like "habitat" and "pollution". Encourage invented character voices.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+
+        <div className="relative z-10 hairline-t bg-cream/60 px-6 md:px-16 py-4 flex items-center justify-between">
+          <button onClick={() => setPage(Math.max(1,page-1))} disabled={page===1} className="flex items-center gap-1 text-[13px] text-muted disabled:opacity-30 hover:text-ink2 transition">
+            <I.chevL className="w-4 h-4"/> Previous
+          </button>
+          <div className="tabular-nums text-[12px] text-muted serif">
+            <span className="text-[16px]">{page}</span> <span className="text-muted2">/</span> {totalPages}
+          </div>
+          <button onClick={() => setPage(Math.min(totalPages,page+1))} disabled={page===totalPages} className="flex items-center gap-1 text-[13px] text-muted disabled:opacity-30 hover:text-ink2 transition">
+            Next <I.chevR className="w-4 h-4"/>
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-6 flex flex-wrap gap-2 text-[11px] text-muted">
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border hairline"><I.dl className="w-3 h-3"/> Download disabled</span>
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border hairline"><I.camera className="w-3 h-3"/> Screenshots discouraged</span>
+        <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full border hairline"><I.lock className="w-3 h-3"/> Watermarked · {CURRENT_USER.email}</span>
+      </div>
+
+      {warning && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-ink2 text-canvas px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 text-[13px] animate-fade-up">
+          <I.lock className="w-3.5 h-3.5"/> {warning}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+//  ACADEMY
+// ════════════════════════════════════════════════════════════
+
+function AcademyHome({ onOpen }) {
+  const [filter, setFilter] = useState('all');
+  const overall = Math.round(COURSES.reduce((s,c)=>s+c.progress,0) / COURSES.length);
+  const requiredDone = COURSES.filter(c => c.required && c.progress===100).length;
+  const requiredTotal = COURSES.filter(c => c.required).length;
+
+  const filtered = COURSES.filter(c => {
+    if (filter === 'required')   return c.required;
+    if (filter === 'progress')   return c.progress > 0 && c.progress < 100;
+    if (filter === 'completed')  return c.progress === 100;
+    return true;
+  });
+
+  return (
+    <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-12 md:py-16 animate-fade-up">
+      <PageHeader
+        eyebrow="Learning & development"
+        title={<>Training <span className="serif-italic text-muted">Academy</span>.</>}
+        subtitle="Grow your teaching practice. Required courses unlock curriculum access."
+      />
+
+      <div className="grid md:grid-cols-3 gap-4 mb-12">
+        <div className="md:col-span-2 bg-ink2 text-canvas rounded-2xl p-8 md:p-10 relative overflow-hidden">
+          <div className="absolute -top-20 -right-20 w-64 h-64 rounded-full bg-ochre/10 blur-3xl"></div>
+          <div className="relative flex items-center gap-8">
+            <ProgressRing value={overall} size={88} dark/>
+            <div>
+              <div className="tracked text-canvas/50 mb-2 detail-line before:bg-canvas/30">Overall progress</div>
+              <div className="text-[32px] md:text-[44px] font-medium display-tight mb-1 tabular-nums">{overall}% <span className="serif-italic text-canvas/60">complete</span></div>
+              <div className="text-[13px] text-canvas/70">{requiredDone} of {requiredTotal} required courses · 3 certificates earned</div>
+            </div>
+          </div>
+        </div>
+        <div className="card rounded-2xl p-6 flex flex-col">
+          <div className="tracked text-muted2 mb-3">Next up</div>
+          <div className="text-[17px] font-medium text-ink2 leading-tight mb-1">Ages 5–6: Cognitive growth</div>
+          <div className="text-[12px] text-muted mb-6">14 min · Reading</div>
+          <button onClick={() => onOpen(COURSES[0])} className="btn-primary w-full py-2.5 rounded-full text-[13px] flex items-center justify-center gap-2 mt-auto">
+            <I.play className="w-3 h-3"/> Resume
+          </button>
+        </div>
+      </div>
+
+      <div className="flex gap-2 mb-8 overflow-x-auto pb-1 -mx-5 px-5 md:mx-0 md:px-0">
+        {[
+          { id: 'all',       label: 'All' },
+          { id: 'required',  label: 'Required' },
+          { id: 'progress',  label: 'In progress' },
+          { id: 'completed', label: 'Completed' },
+        ].map(f => (
+          <button key={f.id} onClick={()=>setFilter(f.id)}
+            className={`pill px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap ${filter===f.id ? 'active' : ''}`}>
+            {f.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-4 md:gap-5 stagger">
+        {filtered.map(c => <CourseCard key={c.id} course={c} onOpen={onOpen} />)}
+      </div>
+    </div>
+  );
+}
+
+function CourseCard({ course, onOpen }) {
+  return (
+    <button onClick={() => onOpen(course)} className="card card-hover text-left rounded-2xl overflow-hidden flex flex-col">
+      <div className="p-6 hairline-b">
+        <div className="flex items-start justify-between mb-6">
+          <Pill tone={course.required ? 'dark' : 'neutral'}>{course.required ? 'Required' : 'Optional'}</Pill>
+          {course.progress === 100 && <Pill tone="success"><I.check className="w-3 h-3"/> Complete</Pill>}
+        </div>
+        <div className="text-[11px] text-muted2 mb-1">{course.subtitle}</div>
+        <h3 className="text-[23px] font-medium display-tight text-ink2 leading-tight mb-3">{course.title}</h3>
+        <div className="flex items-center gap-2.5 text-[12px] text-muted">
+          <span>{course.level}</span>
+          <span className="text-muted2">·</span>
+          <span className="inline-flex items-center gap-1"><I.clock className="w-3 h-3"/>{course.hours}h</span>
+          <span className="text-muted2">·</span>
+          <span>{course.instructor}</span>
+        </div>
+      </div>
+      <div className="p-6">
+        <div className="flex items-center justify-between text-[12px] text-muted mb-2 tabular-nums">
+          <span>{course.progress}% complete</span>
+          <span className="text-ochre font-medium">{course.progress === 0 ? 'Start' : course.progress === 100 ? 'Review' : 'Continue'} →</span>
+        </div>
+        <ProgressBar value={course.progress}/>
+      </div>
+    </button>
+  );
+}
+
+function ProgressRing({ value, size = 60, dark = false }) {
+  const r = size/2 - 3;
+  const c = 2 * Math.PI * r;
+  const offset = c - (value/100) * c;
+  return (
+    <svg width={size} height={size} className="-rotate-90 shrink-0">
+      <circle cx={size/2} cy={size/2} r={r} fill="none" strokeWidth="2.5" stroke={dark ? 'rgba(253,251,246,0.15)' : 'var(--line)'}/>
+      <circle cx={size/2} cy={size/2} r={r} fill="none" strokeWidth="2.5" strokeLinecap="round"
+        stroke={dark ? 'rgba(253,251,246,0.9)' : 'var(--ink2)'}
+        strokeDasharray={c} strokeDashoffset={offset}
+        style={{transition: 'stroke-dashoffset 600ms cubic-bezier(0.22,0.61,0.36,1)'}}/>
+      <text x={size/2} y={size/2+4} textAnchor="middle" transform={`rotate(90 ${size/2} ${size/2})`}
+        fill={dark ? 'var(--canvas)' : 'var(--ink2)'} fontSize="14" fontWeight="500" fontFamily="Inter" className="tabular-nums">{value}%</text>
+    </svg>
+  );
+}
+
+function CoursePage({ course, onBack, onOpenLesson, showToast }) {
+  return (
+    <div className="animate-fade-up">
+      <div className="bg-cream hairline-b">
+        <div className="max-w-[1000px] mx-auto px-5 md:px-8 py-10 md:py-16">
+          <BreadcrumbBack onClick={onBack} label="All courses"/>
+          <div className="flex gap-2 mb-4">
+            {course.required && <Pill tone="dark">Required</Pill>}
+            <Pill tone="neutral">{course.level}</Pill>
+          </div>
+          <h1 className="text-[44px] md:text-[64px] font-medium display-xl text-ink2 leading-[1.02] mb-5 max-w-3xl">{course.title}</h1>
+          <p className="text-[17px] md:text-[20px] serif text-ink leading-[1.55] max-w-2xl mb-10">{course.description}</p>
+          <div className="flex items-center gap-4 text-[13px] text-muted flex-wrap mb-10">
+            <span className="inline-flex items-center gap-1.5"><I.clock className="w-3.5 h-3.5"/> {course.hours} hours</span>
+            <span className="text-muted2">·</span>
+            <span>{course.modules.length} modules</span>
+            <span className="text-muted2">·</span>
+            <span>{course.modules.reduce((s,m)=>s+m.lessons.length,0)} lessons</span>
+            <span className="text-muted2">·</span>
+            <span>Taught by {course.instructor}</span>
+          </div>
+          <div className="flex items-center gap-4">
+            <ProgressRing value={course.progress} size={52}/>
+            <div>
+              <div className="tracked text-muted2 mb-0.5">Your progress</div>
+              <div className="text-[17px] font-medium text-ink2 tabular-nums">{course.progress}% complete</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-[1000px] mx-auto px-5 md:px-8 py-10 md:py-14">
+        <h2 className="text-[24px] font-medium display-tight text-ink2 mb-6">Course content</h2>
+        <div className="space-y-3 stagger">
+          {course.modules.map((mod, mi) => (
+            <CourseModule key={mod.id} mod={mod} index={mi} course={course} onOpenLesson={onOpenLesson}/>
+          ))}
+        </div>
+
+        {course.progress === 100 && <div className="mt-12"><CertificateView course={course} showToast={showToast}/></div>}
+      </div>
+    </div>
+  );
+}
+
+function CourseModule({ mod, index, course, onOpenLesson }) {
+  const [open, setOpen] = useState(mod.lessons.some(l => l.current) || index === 0);
+  const done = mod.lessons.filter(l=>l.completed).length;
+  return (
+    <div className="card rounded-2xl overflow-hidden">
+      <button onClick={()=>setOpen(!open)} className="w-full px-5 md:px-6 py-4 flex items-center gap-5 hover:bg-cream/60 transition">
+        <div className="serif text-[18px] text-muted2 tabular-nums w-8 shrink-0">{String(index+1).padStart(2,'0')}</div>
+        <div className="flex-1 text-left min-w-0">
+          <div className="text-[15px] font-medium text-ink2 truncate">{mod.title}</div>
+          <div className="text-[12px] text-muted tabular-nums mt-0.5">{done} of {mod.lessons.length} lessons</div>
+        </div>
+        <I.chevR className={`chev-r w-4 h-4 text-muted2 shrink-0 ${open ? 'rotated' : ''}`}/>
+      </button>
+      {open && (
+        <div className="hairline-t">
+          {mod.lessons.map(l => (
+            <button key={l.id} onClick={() => onOpenLesson({...l, course, module: mod})}
+              className="w-full px-5 md:px-6 py-3.5 flex items-center gap-4 hover:bg-cream/60 transition text-left hairline-b last:border-b-0">
+              <div className="w-5 h-5 rounded-full shrink-0 flex items-center justify-center"
+                style={{
+                  backgroundColor: l.completed ? 'var(--ink2)' : (l.current ? 'var(--canvas)' : 'var(--cream)'),
+                  border: l.current && !l.completed ? '1.5px solid var(--ink2)' : 'none'
+                }}>
+                {l.completed && <I.check className="w-3 h-3 text-canvas"/>}
+                {l.current && !l.completed && <div className="w-1.5 h-1.5 rounded-full bg-ink2"></div>}
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className={`text-[14px] truncate ${l.completed ? 'text-muted' : 'text-ink2 font-medium'}`}>{l.title}</div>
+                <div className="text-[11px] text-muted mt-0.5 flex items-center gap-1.5">
+                  <span className="capitalize">{l.type}</span>
+                  <span className="text-muted2">·</span>
+                  <span className="tabular-nums">{l.duration} min</span>
+                </div>
+              </div>
+              {l.current && <Pill tone="outline">Current</Pill>}
+              <I.chevR className="w-4 h-4 text-muted2 shrink-0"/>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function LessonPage({ course, lesson, onBack, showToast }) {
+  if (lesson.type === 'quiz') return <QuizLesson lesson={lesson} onBack={onBack} showToast={showToast}/>;
+  return <VideoLesson lesson={lesson} onBack={onBack} showToast={showToast}/>;
+}
+
+function VideoLesson({ lesson, onBack, showToast }) {
+  const [playing, setPlaying] = useState(false);
+  const [progress, setProgress] = useState(32);
+  useEffect(() => {
+    if (!playing) return;
+    const i = setInterval(() => setProgress(p => Math.min(100, p + 1.5)), 500);
+    return () => clearInterval(i);
+  }, [playing]);
+
+  return (
+    <div className="max-w-[900px] mx-auto px-5 md:px-8 py-8 md:py-12 animate-fade-up">
+      <BreadcrumbBack onClick={onBack} label="Back to course"/>
+
+      <div className="relative aspect-video bg-ink2 rounded-2xl overflow-hidden mb-6">
+        <div className="absolute inset-0 flex items-center justify-center">
+          <button onClick={()=>setPlaying(!playing)} className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-canvas/95 text-ink2 flex items-center justify-center hover:scale-105 transition">
+            {playing
+              ? <svg viewBox="0 0 24 24" className="w-5 h-5" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>
+              : <I.play className="w-5 h-5 ml-0.5"/>}
+          </button>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 p-5">
+          <div className="h-0.5 bg-canvas/20 rounded-full overflow-hidden">
+            <div className="h-full bg-canvas rounded-full transition-all" style={{width: `${progress}%`}}></div>
+          </div>
+          <div className="flex items-center justify-between text-canvas/80 text-[11px] mt-2 tabular-nums">
+            <span>{Math.floor(progress*lesson.duration/100)}:{String(Math.floor(progress*lesson.duration*0.6/100)%60).padStart(2,'0')}</span>
+            <span>{lesson.duration}:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="tracked text-muted2 mb-2">{lesson.module?.title}</div>
+      <h1 className="text-[30px] md:text-[42px] font-medium display-tight text-ink2 mb-3">{lesson.title}</h1>
+      <div className="flex items-center gap-3 text-[12px] text-muted mb-8">
+        <span className="inline-flex items-center gap-1"><I.video className="w-3 h-3"/>Video</span>
+        <span className="text-muted2">·</span>
+        <span className="tabular-nums">{lesson.duration} min</span>
+        <span className="text-muted2">·</span>
+        <span className="tabular-nums">{progress}% watched</span>
+      </div>
+
+      <div className="hairline-b flex gap-6 mb-6">
+        {['About','Resources','Transcript'].map((t,i) => (
+          <button key={t} className={`pb-3 text-[13px] font-medium transition ${i===0 ? 'text-ink2 border-b border-ink2' : 'text-muted hover:text-ink2'}`}>{t}</button>
+        ))}
+      </div>
+
+      <div className="text-[15px] text-ink leading-relaxed space-y-4 max-w-2xl">
+        <p className="serif text-[18px] md:text-[20px] text-ink2 leading-[1.55]">In this lesson, we explore the cognitive development patterns typical of children aged 5–6. You'll learn how to recognize readiness signals for symbolic thinking.</p>
+        <p>We'll also cover how to introduce concepts like cause-and-effect, early number sense, and rudimentary logical reasoning.</p>
+        <h3 className="text-[17px] font-medium text-ink2 pt-2 mt-6">Learning outcomes</h3>
+        <ul className="space-y-2">
+          <li className="flex gap-4"><span className="serif text-muted2 tabular-nums w-5">01</span><span>Identify three cognitive milestones typical of ages 5–6</span></li>
+          <li className="flex gap-4"><span className="serif text-muted2 tabular-nums w-5">02</span><span>Plan activities that support symbolic thinking</span></li>
+          <li className="flex gap-4"><span className="serif text-muted2 tabular-nums w-5">03</span><span>Recognize common misunderstandings at this age</span></li>
+        </ul>
+      </div>
+
+      <div className="mt-10 grid md:grid-cols-2 gap-3">
+        <a className="card card-hover flex items-center gap-3 p-4 rounded-xl">
+          <div className="w-10 h-10 rounded-lg bg-cream border hairline flex items-center justify-center"><I.pdf className="w-4 h-4 text-ink2"/></div>
+          <div className="flex-1 min-w-0">
+            <div className="text-[13px] font-medium text-ink2 truncate">Cognitive milestones reference</div>
+            <div className="text-[11px] text-muted">PDF · 2 pages</div>
+          </div>
+          <I.dl className="w-4 h-4 text-muted2"/>
+        </a>
+        <a className="card card-hover flex items-center gap-3 p-4 rounded-xl">
+          <div className="w-10 h-10 rounded-lg bg-cream border hairline flex items-center justify-center"><I.image className="w-4 h-4 text-ink2"/></div>
+          <div className="flex-1 min-w-0">
+            <div className="text-[13px] font-medium text-ink2 truncate">Companion slide deck</div>
+            <div className="text-[11px] text-muted">PPT · 24 slides</div>
+          </div>
+          <I.dl className="w-4 h-4 text-muted2"/>
+        </a>
+      </div>
+
+      <div className="mt-10 flex items-center gap-3">
+        <button onClick={() => showToast('Lesson marked complete')} className="btn-primary flex-1 md:flex-none px-6 py-3 rounded-full text-[13px] inline-flex items-center justify-center gap-2">
+          <I.check className="w-3.5 h-3.5"/> Mark as complete
+        </button>
+        <button className="btn-ghost px-6 py-3 rounded-full text-[13px]">Next lesson →</button>
+      </div>
+    </div>
+  );
+}
+
+function QuizLesson({ lesson, onBack, showToast }) {
+  const [answers, setAnswers] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const score = Object.entries(answers).reduce((s, [qi, a]) => s + (QUIZ_QUESTIONS[qi].correct === a ? 1 : 0), 0);
+  const total = QUIZ_QUESTIONS.length;
+  const passed = score / total >= 0.7;
+
+  return (
+    <div className="max-w-[720px] mx-auto px-5 md:px-8 py-8 md:py-12 animate-fade-up">
+      <BreadcrumbBack onClick={onBack} label="Back to course"/>
+      <div className="tracked text-muted2 mb-2">{lesson.module?.title} · Quiz</div>
+      <h1 className="text-[32px] md:text-[42px] font-medium display-tight text-ink2 mb-3">{lesson.title}</h1>
+      <p className="text-[13px] text-muted mb-10">Answer all questions · 70% required to pass · {total} questions</p>
+
+      <div className="space-y-4">
+        {QUIZ_QUESTIONS.map((q, qi) => (
+          <div key={q.id} className="card rounded-2xl p-6">
+            <div className="flex items-start gap-5 mb-5">
+              <div className="serif text-[20px] text-muted2 tabular-nums shrink-0">{String(qi+1).padStart(2,'0')}</div>
+              <h3 className="text-[17px] font-medium text-ink2 leading-snug flex-1">{q.question}</h3>
+            </div>
+            <div className="space-y-2 ml-11">
+              {q.options.map((opt, oi) => {
+                const selected  = answers[qi] === oi;
+                const isCorrect = submitted && oi === q.correct;
+                const isWrong   = submitted && selected && oi !== q.correct;
+                return (
+                  <button key={oi} disabled={submitted}
+                    onClick={() => setAnswers({...answers, [qi]: oi})}
+                    className={`w-full text-left p-3.5 rounded-xl border transition text-[14px] flex items-center gap-3
+                      ${isCorrect ? 'border-success bg-success/5 text-success' : ''}
+                      ${isWrong   ? 'border-danger bg-danger/5 text-danger' : ''}
+                      ${!submitted && selected ? 'border-ink2 bg-cream text-ink2' : ''}
+                      ${!submitted && !selected ? 'border-line hover:border-line2 text-ink2' : ''}`}>
+                    <div className={`w-4 h-4 rounded-full border-[1.5px] flex items-center justify-center shrink-0
+                      ${isCorrect ? 'border-success bg-success' : ''}
+                      ${isWrong   ? 'border-danger bg-danger' : ''}
+                      ${!submitted && selected ? 'border-ink2 bg-ink2' : ''}
+                      ${!submitted && !selected ? 'border-line2' : ''}`}>
+                      {(isCorrect || (!submitted && selected)) && <I.check className="w-2.5 h-2.5 text-canvas" style={{strokeWidth:3}}/>}
+                      {isWrong && <I.x className="w-2.5 h-2.5 text-canvas" style={{strokeWidth:3}}/>}
+                    </div>
+                    <span>{opt}</span>
+                  </button>
+                );
+              })}
+            </div>
+            {submitted && (
+              <div className="ml-11 mt-3 p-3 rounded-xl card-sunken text-[13px] text-ink">
+                <div className="font-medium text-ink2 mb-1">Explanation</div>
+                {q.explanation}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {!submitted ? (
+        <button disabled={Object.keys(answers).length !== total} onClick={() => setSubmitted(true)}
+          className="btn-primary mt-8 w-full py-3.5 rounded-full text-[13px] disabled:opacity-30 disabled:cursor-not-allowed">
+          Submit quiz
+        </button>
+      ) : (
+        <div className="mt-8 card rounded-2xl p-6">
+          <div className="flex items-center gap-4 mb-4">
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${passed ? 'bg-success text-canvas' : 'bg-danger text-canvas'}`}>
+              {passed ? <I.check className="w-5 h-5"/> : <I.x className="w-5 h-5"/>}
+            </div>
+            <div>
+              <div className="text-[17px] font-medium text-ink2">{passed ? 'You passed' : 'Not quite there'}</div>
+              <div className="text-[13px] text-muted tabular-nums">Score: {score} / {total} ({Math.round(score/total*100)}%)</div>
+            </div>
+          </div>
+          <div className="flex gap-3">
+            {passed
+              ? <button onClick={()=>{showToast('Progress saved'); onBack();}} className="btn-primary px-5 py-2 rounded-full text-[13px]">Continue</button>
+              : <button onClick={()=>{setSubmitted(false); setAnswers({});}} className="btn-primary px-5 py-2 rounded-full text-[13px]">Try again</button>}
+            <button onClick={onBack} className="btn-ghost px-5 py-2 rounded-full text-[13px]">Back to course</button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function CertificateView({ course, showToast }) {
+  return (
+    <div className="cert rounded-2xl p-10 md:p-16 text-center relative">
+      <div className="absolute top-6 left-6 inline-flex items-center gap-1.5 tracked text-muted2">
+        <I.award className="w-3 h-3"/> Certificate
+      </div>
+      <div className="mt-8">
+        <div className="w-12 h-12 mx-auto mb-5 rounded-full bg-cream flex items-center justify-center border hairline">
+          <I.award className="w-5 h-5 text-ink2"/>
+        </div>
+        <div className="text-[12px] text-muted mb-2 tracked">This certifies that</div>
+        <div className="text-[40px] md:text-[56px] font-medium display-tight text-ink2 mb-2">{CURRENT_USER.name}</div>
+        <div className="text-[12px] text-muted mb-5 tracked">has successfully completed</div>
+        <div className="serif-italic text-[24px] md:text-[32px] text-ink mb-12">{course.title}</div>
+        <div className="flex justify-center gap-16 text-[11px]">
+          <div>
+            <div className="tracked text-muted2 mb-1">Issued</div>
+            <div className="text-ink2 font-medium tabular-nums">23 APR 2026</div>
+          </div>
+          <div>
+            <div className="tracked text-muted2 mb-1">Cert ID</div>
+            <div className="text-ink2 font-medium tabular-nums">CFOS-2026-4872</div>
+          </div>
+        </div>
+      </div>
+      <button onClick={() => showToast('Certificate downloaded')}
+        className="btn-primary mt-10 px-5 py-2.5 rounded-full text-[13px] inline-flex items-center gap-2">
+        <I.dl className="w-3.5 h-3.5"/> Download PDF
+      </button>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+//  SOP
+// ════════════════════════════════════════════════════════════
+
+function SOPLibrary({ onOpen }) {
+  return (
+    <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-12 md:py-16 animate-fade-up">
+      <PageHeader
+        eyebrow="Standard operating procedures"
+        title={<>SOP <span className="serif-italic text-muted">Execution</span>.</>}
+        subtitle="Step-by-step teaching guides with photo proof. Built for classrooms."
+      />
+
+      <div className="grid md:grid-cols-2 gap-4 mb-12">
+        <div className="card rounded-2xl p-6 flex items-center gap-5">
+          <div className="w-12 h-12 rounded-xl bg-cream border hairline flex items-center justify-center shrink-0"><I.clip className="w-5 h-5 text-ink2"/></div>
+          <div>
+            <div className="text-[32px] font-medium display-tight text-ink2 tabular-nums">12</div>
+            <div className="text-[12px] text-muted">executions this month · 100% compliance</div>
+          </div>
+        </div>
+        <div className="card rounded-2xl p-6 flex items-center gap-5">
+          <div className="w-12 h-12 rounded-xl bg-cream border hairline flex items-center justify-center shrink-0"><I.camera className="w-5 h-5 text-ink2"/></div>
+          <div>
+            <div className="text-[32px] font-medium display-tight text-ink2 tabular-nums">38</div>
+            <div className="text-[12px] text-muted">photos uploaded for HQ review</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="tracked text-muted mb-4 detail-line">Available SOPs</div>
+      <div className="grid md:grid-cols-2 gap-4 stagger">
+        {SOP_TEMPLATES.map(s => (
+          <button key={s.id} onClick={() => onOpen(s)} className="card card-hover text-left rounded-2xl p-6">
+            <div className="flex items-start justify-between mb-6">
+              <I.clip className="w-[17px] h-[17px] text-ink2"/>
+              <span className="text-[11px] text-muted tabular-nums">{s.duration}</span>
+            </div>
+            <h3 className="text-[19px] font-medium display-tight text-ink2 leading-tight mb-1.5">{s.title}</h3>
+            <div className="text-[12px] text-muted mb-5">{s.linkedClass}</div>
+            <div className="flex items-center justify-between text-[11px] text-muted2 tabular-nums">
+              <span>{s.steps.length} steps · {s.steps.filter(x=>x.requiresPhoto).length} photo checkpoints</span>
+              <I.chevR className="w-4 h-4"/>
+            </div>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SOPRunner({ sop, onBack, showToast }) {
+  const [completed, setCompleted] = useState({});
+  const [photos, setPhotos]       = useState({});
+  const [notes,  setNotes]        = useState({});
+  const [activeStep,setActiveStep]= useState(0);
+  const [started, setStarted]     = useState(false);
+
+  const progress = Math.round(Object.keys(completed).length / sop.steps.length * 100);
+
+  const toggleStep = (id) => {
+    setCompleted(c => {
+      const n = {...c};
+      if (n[id]) delete n[id]; else n[id] = { at: new Date().toISOString() };
+      return n;
+    });
+  };
+
+  const addPhoto = (stepId) => {
+    setPhotos(p => ({...p, [stepId]: [...(p[stepId]||[]), { id: Date.now(), name: 'IMG_'+Math.floor(Math.random()*9000+1000)+'.jpg' }]}));
+    showToast('Photo uploaded');
+  };
+
+  const finish = () => {
+    const allDone = Object.keys(completed).length === sop.steps.length;
+    const photosOk = sop.steps.filter(s => s.requiresPhoto).every(s => photos[s.id]?.length);
+    if (!allDone)   return showToast('Some steps are incomplete');
+    if (!photosOk)  return showToast('Photo checkpoints missing');
+    showToast('Execution logged');
+    setTimeout(onBack, 700);
+  };
+
+  if (!started) {
+    return (
+      <div className="max-w-[720px] mx-auto px-5 md:px-8 py-8 md:py-12 animate-fade-up">
+        <BreadcrumbBack onClick={onBack} label="All SOPs"/>
+        <div className="card rounded-2xl p-8">
+          <div className="tracked text-muted2 mb-3">{sop.linkedClass}</div>
+          <h1 className="text-[32px] md:text-[44px] font-medium display-tight text-ink2 mb-5">{sop.title}</h1>
+          <div className="flex items-center gap-3 text-[13px] text-muted mb-10 flex-wrap">
+            <span className="inline-flex items-center gap-1.5"><I.clock className="w-3.5 h-3.5"/>{sop.duration}</span>
+            <span className="text-muted2">·</span>
+            <span>{sop.steps.length} steps</span>
+            <span className="text-muted2">·</span>
+            <span>{sop.steps.filter(s=>s.requiresPhoto).length} photo checkpoints</span>
+          </div>
+
+          <div className="tracked text-muted2 mb-3">Materials to prepare</div>
+          <div className="grid sm:grid-cols-2 gap-2 mb-10">
+            {sop.materials.map(m => (
+              <div key={m} className="flex items-center gap-2.5 p-2.5 rounded-lg card-sunken text-[13px] text-ink">
+                <div className="check-box"><I.check className="w-3 h-3 text-canvas"/></div>
+                <span>{m}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="tracked text-muted2 mb-3">Steps overview</div>
+          <div className="space-y-px bg-line rounded-xl overflow-hidden border hairline mb-10">
+            {sop.steps.map((s, i) => (
+              <div key={s.id} className="flex items-start gap-4 p-4 bg-canvas">
+                <div className="serif text-[16px] text-muted2 tabular-nums shrink-0 w-6">{String(i+1).padStart(2,'0')}</div>
+                <div className="flex-1">
+                  <div className="text-[13px] font-medium text-ink2">{s.title}</div>
+                  <div className="text-[11px] text-muted mt-0.5 flex items-center gap-1.5">
+                    <span className="tabular-nums">{s.time}</span>
+                    {s.requiresPhoto && <><span className="text-muted2">·</span><span className="inline-flex items-center gap-1"><I.camera className="w-3 h-3"/>Photo required</span></>}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <button onClick={() => setStarted(true)} className="btn-primary w-full py-3.5 rounded-full text-[13px] inline-flex items-center justify-center gap-2">
+            <I.play className="w-3.5 h-3.5"/> Start execution
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="animate-fade-up">
+      <div className="sticky top-14 z-20 bg-paper/90 backdrop-blur-xl hairline-b px-5 md:px-8 py-3">
+        <div className="max-w-[720px] mx-auto flex items-center gap-3">
+          <button onClick={onBack} className="p-1.5 -ml-1.5 hover:bg-cream rounded-lg transition"><I.chevL className="w-4 h-4 text-ink2"/></button>
+          <div className="flex-1 min-w-0">
+            <div className="text-[11px] text-muted truncate">{sop.title}</div>
+            <div className="flex items-center gap-2 mt-1">
+              <ProgressBar value={progress}/>
+              <div className="text-[11px] font-medium text-ink2 tabular-nums shrink-0">{Object.keys(completed).length}/{sop.steps.length}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="max-w-[720px] mx-auto px-5 md:px-8 py-6">
+        <div className="space-y-2.5">
+          {sop.steps.map((step, i) => {
+            const isCompleted = !!completed[step.id];
+            const isActive = activeStep === i;
+            const stepPhotos = photos[step.id] || [];
+
+            return (
+              <div key={step.id}
+                onClick={() => !isCompleted && setActiveStep(i)}
+                className={`rounded-2xl border transition overflow-hidden
+                  ${isCompleted ? 'bg-cream/50 hairline' : isActive ? 'bg-canvas border-ink2' : 'bg-canvas hairline cursor-pointer hover:border-line2'}`}>
+                <div className="p-4 md:p-5 flex items-start gap-4">
+                  <button onClick={e => { e.stopPropagation(); toggleStep(step.id); }} className={`check-box ${isCompleted ? 'checked' : ''} mt-0.5`}>
+                    <I.check className="w-3 h-3 text-canvas"/>
+                  </button>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2 mb-0.5">
+                      <div className="flex items-center gap-2">
+                        <span className="serif text-[13px] text-muted2 tabular-nums">Step {String(i+1).padStart(2,'0')}</span>
+                        <span className="text-[11px] text-muted">{step.time}</span>
+                      </div>
+                      {step.requiresPhoto && (
+                        <Pill tone={stepPhotos.length ? 'success' : 'warning'}><I.camera className="w-3 h-3"/>{stepPhotos.length ? 'Done' : 'Needed'}</Pill>
+                      )}
+                    </div>
+                    <h3 className={`text-[15px] font-medium leading-tight ${isCompleted ? 'text-muted line-through' : 'text-ink2'}`}>{step.title}</h3>
+
+                    {(isActive || isCompleted) && (
+                      <>
+                        <p className="text-[13px] text-ink mt-2 leading-relaxed">{step.desc}</p>
+                        {step.requiresPhoto && (
+                          <div className="mt-4">
+                            <div className="text-[11px] text-muted2 mb-2">{step.photoPrompt}</div>
+                            <div className="flex flex-wrap gap-2">
+                              {stepPhotos.map(p => (
+                                <div key={p.id} className="w-16 h-16 rounded-lg bg-ink2 flex items-center justify-center relative">
+                                  <I.image className="w-5 h-5 text-canvas/60"/>
+                                </div>
+                              ))}
+                              <button onClick={e => { e.stopPropagation(); addPhoto(step.id); }}
+                                className="w-16 h-16 rounded-lg border border-dashed border-line2 hover:border-ink2 text-muted2 hover:text-ink2 transition flex flex-col items-center justify-center gap-0.5">
+                                <I.camera className="w-4 h-4"/>
+                                <span className="text-[9px]">Add</span>
+                              </button>
+                            </div>
+                          </div>
+                        )}
+                        {isActive && !isCompleted && (
+                          <textarea value={notes[step.id] || ''} onChange={e => setNotes({...notes, [step.id]: e.target.value})}
+                            placeholder="Optional notes…" rows="2"
+                            className="input mt-3 w-full p-3 text-[13px] rounded-lg resize-none"/>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-8 card rounded-2xl p-5 flex items-center justify-between flex-wrap gap-3">
+          <div>
+            <div className="tracked text-muted2 mb-1">Summary</div>
+            <div className="text-[14px] font-medium text-ink2 tabular-nums">{Object.keys(completed).length} of {sop.steps.length} steps · {Object.values(photos).flat().length} photos</div>
+          </div>
+          <button onClick={finish} disabled={Object.keys(completed).length === 0}
+            className="btn-primary px-5 py-2.5 rounded-full text-[13px] disabled:opacity-30 inline-flex items-center gap-2">
+            <I.check className="w-3.5 h-3.5"/> Submit log
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+//  CHILD DEVELOPMENT REPORTS (EYFS)
+// ════════════════════════════════════════════════════════════
+
+function ReportsHome({ onOpen }) {
+  const [search, setSearch] = useState('');
+  const filtered = MOCK_CHILDREN.filter(c => c.name.toLowerCase().includes(search.toLowerCase()));
+
+  return (
+    <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-12 md:py-16 animate-fade-up">
+      <PageHeader
+        eyebrow="Early Years Foundation Stage"
+        title={<>Child Development <span className="serif-italic text-muted">Reports</span>.</>}
+        subtitle="Observations tagged to EYFS areas, assembled into structured progress reports every 4–6 weeks."
+      />
+
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-line rounded-none md:rounded-2xl overflow-hidden mb-12 stagger">
+        <StatTile value="48"   label="Children enrolled"/>
+        <StatTile value="62"   label="Observations this week"/>
+        <StatTile value="12"   label="Reports due soon"/>
+        <StatTile value="100%" label="EYFS coverage"/>
+      </div>
+
+      <div className="flex items-center justify-between mb-6 gap-3 flex-wrap">
+        <div className="relative flex-1 max-w-sm">
+          <I.search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-muted2"/>
+          <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search children" className="input w-full pl-10 pr-4 py-2.5 rounded-xl text-[14px]"/>
+        </div>
+        <button className="btn-primary px-4 py-2.5 rounded-full text-[13px] inline-flex items-center gap-2">
+          <I.plus className="w-3.5 h-3.5"/> New observation
+        </button>
+      </div>
+
+      <div className="tracked text-muted mb-4 detail-line">Class roster</div>
+      <div className="card rounded-2xl overflow-hidden">
+        {filtered.map((child, i) => (
+          <button key={child.id} onClick={() => onOpen(child)}
+            className={`w-full flex items-center gap-4 p-5 hover:bg-cream/60 transition text-left ${i !== filtered.length-1 ? 'hairline-b' : ''}`}>
+            <div className="w-10 h-10 rounded-full bg-cream border hairline flex items-center justify-center shrink-0">
+              <span className="text-[12px] font-medium text-ink2">{child.name.split(' ').map(n=>n[0]).join('')}</span>
+            </div>
+            <div className="flex-1 min-w-0">
+              <div className="text-[15px] font-medium text-ink2">{child.name}</div>
+              <div className="text-[12px] text-muted tabular-nums">{child.age} · {child.observationsCount} observations</div>
+            </div>
+            <Pill tone="neutral">Due in 2 weeks</Pill>
+            <I.chevR className="w-4 h-4 text-muted2 shrink-0"/>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ChildReport({ child, onBack, showToast }) {
+  const [tab, setTab]               = useState('observations');
+  const [showNewObs, setShowNewObs] = useState(false);
+  const [obsNote, setObsNote]       = useState('');
+  const [obsAreas, setObsAreas]     = useState([]);
+
+  const toggleArea = (id) => setObsAreas(a => a.includes(id) ? a.filter(x=>x!==id) : [...a, id]);
+
+  const saveObservation = () => {
+    if (!obsNote || obsAreas.length === 0) return showToast('Add a note and at least one area');
+    showToast('Observation saved');
+    setObsNote(''); setObsAreas([]); setShowNewObs(false);
+  };
+
+  return (
+    <div className="max-w-[1000px] mx-auto px-5 md:px-8 py-12 md:py-16 animate-fade-up">
+      <BreadcrumbBack onClick={onBack} label="All children"/>
+      <div className="flex items-start gap-5 mb-10 flex-wrap">
+        <div className="w-16 h-16 rounded-full bg-cream border hairline flex items-center justify-center shrink-0">
+          <span className="text-[18px] font-medium text-ink2">{child.name.split(' ').map(n=>n[0]).join('')}</span>
+        </div>
+        <div className="flex-1">
+          <div className="tracked text-muted2 mb-2">Child profile</div>
+          <h1 className="text-[40px] md:text-[56px] font-medium display-xl text-ink2 leading-[1.02]">{child.name}</h1>
+          <div className="text-[13px] text-muted mt-2">{child.age} · {child.observationsCount} observations · Enrolled since Jan 2025</div>
+        </div>
+        <button onClick={() => showToast('Report exported to PDF')} className="btn-ghost px-4 py-2 rounded-full text-[13px] inline-flex items-center gap-2">
+          <I.dl className="w-3.5 h-3.5"/> Export PDF
+        </button>
+      </div>
+
+      <div className="hairline-b flex gap-6 mb-8">
+        {[
+          { id:'observations', label:'Observations' },
+          { id:'report',       label:'Latest report' },
+          { id:'progress',     label:'EYFS progress' },
+        ].map(t => (
+          <button key={t.id} onClick={()=>setTab(t.id)}
+            className={`pb-3 text-[13px] font-medium transition ${tab===t.id ? 'text-ink2 border-b border-ink2' : 'text-muted hover:text-ink2'}`}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'observations' && (
+        <div>
+          {!showNewObs && (
+            <button onClick={()=>setShowNewObs(true)} className="btn-primary mb-6 px-4 py-2.5 rounded-full text-[13px] inline-flex items-center gap-2">
+              <I.plus className="w-3.5 h-3.5"/> Add observation
+            </button>
+          )}
+
+          {showNewObs && (
+            <div className="card rounded-2xl p-6 mb-6 animate-fade-up">
+              <div className="tracked text-muted2 mb-4">New observation · {new Date().toLocaleDateString()}</div>
+              <textarea value={obsNote} onChange={e=>setObsNote(e.target.value)} rows="4"
+                placeholder="What did you observe? Be specific — what the child did, said, and how they engaged…"
+                className="input w-full p-3.5 text-[14px] rounded-xl resize-none"/>
+              <div className="tracked text-muted2 mt-6 mb-3">Tag EYFS areas</div>
+              <div className="flex flex-wrap gap-2">
+                {EYFS_AREAS.map(a => {
+                  const on = obsAreas.includes(a.id);
+                  return (
+                    <button key={a.id} onClick={() => toggleArea(a.id)}
+                      className={`px-3 py-1.5 rounded-full text-[12px] font-medium border transition
+                        ${on ? 'bg-ink2 text-canvas border-ink2' : 'bg-canvas text-ink2 border-line hover:border-line2'}`}>
+                      {a.name}
+                    </button>
+                  );
+                })}
+              </div>
+              <div className="flex gap-2 mt-6">
+                <button onClick={saveObservation} className="btn-primary px-4 py-2 rounded-full text-[13px]">Save observation</button>
+                <button onClick={()=>{setShowNewObs(false); setObsNote(''); setObsAreas([]);}} className="btn-ghost px-4 py-2 rounded-full text-[13px]">Cancel</button>
+              </div>
+            </div>
+          )}
+
+          <div className="space-y-3">
+            {MOCK_OBSERVATIONS.map(obs => (
+              <div key={obs.id} className="card rounded-2xl p-5">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="text-[11px] text-muted tabular-nums tracked">{new Date(obs.date).toLocaleDateString('en-US', { weekday:'short', day:'numeric', month:'short' })}</div>
+                  <div className="flex gap-1.5">
+                    {obs.areas.map(aid => {
+                      const a = EYFS_AREAS.find(x=>x.id===aid);
+                      return <Pill key={aid} tone="outline">{a.short}</Pill>;
+                    })}
+                  </div>
+                </div>
+                <p className="text-[14px] text-ink2 leading-relaxed">{obs.note}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {tab === 'report' && (
+        <div className="space-y-8">
+          <div className="cert rounded-2xl p-8 md:p-14">
+            <div className="tracked text-muted2 mb-2">Period · 12 March – 23 April 2026</div>
+            <h2 className="text-[32px] md:text-[44px] font-medium display-tight text-ink2 mb-2">Developmental summary</h2>
+            <p className="serif-italic text-[22px] md:text-[28px] text-muted mb-12">{child.name} · Age {child.age}</p>
+
+            <div className="space-y-10">
+              {[
+                { title:'Observations',  body:"Maya has made strong progress this reporting period. She confidently narrates stories using full sentences and has begun introducing self-invented vocabulary. Her physical coordination in the drumming activities shows marked improvement, and her social leadership has emerged through peer encouragement." },
+                { title:'Assessment',    body:"Against expected milestones for ages 4–5, Maya is tracking ahead in Communication & Language and Personal, Social & Emotional Development. She is meeting expectations in Mathematics and Expressive Arts. Early Literacy observations indicate emerging readiness for phonetic awareness activities." },
+                { title:'Next steps',    body:"Over the next 4–6 weeks we will: introduce Maya to simple phonic play through rhyming games, continue encouraging peer leadership in small-group settings, begin early number sequencing activities (1–30), and capture further observations under Understanding the World, currently our lightest coverage area." },
+              ].map(s => (
+                <div key={s.title}>
+                  <div className="tracked text-muted2 mb-3 detail-line">{s.title}</div>
+                  <p className="text-[16px] serif text-ink2 leading-[1.55]">{s.body}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="flex gap-3 justify-end">
+            <button className="btn-ghost px-5 py-2.5 rounded-full text-[13px]">Edit draft</button>
+            <button onClick={() => showToast('Report exported to PDF')} className="btn-primary px-5 py-2.5 rounded-full text-[13px] inline-flex items-center gap-2">
+              <I.dl className="w-3.5 h-3.5"/> Export PDF
+            </button>
+          </div>
+        </div>
+      )}
+
+      {tab === 'progress' && (
+        <div>
+          <div className="tracked text-muted mb-5 detail-line">Coverage across seven areas</div>
+          <div className="space-y-3">
+            {EYFS_AREAS.map(a => {
+              const count = MOCK_OBSERVATIONS.filter(o => o.areas.includes(a.id)).length;
+              const pct = Math.min(100, count * 25 + 20);
+              return (
+                <div key={a.id} className="card rounded-2xl p-5">
+                  <div className="flex items-center justify-between mb-3">
+                    <div>
+                      <div className="text-[14px] font-medium text-ink2">{a.name}</div>
+                      <div className="text-[11px] text-muted tabular-nums mt-0.5">{count} observations</div>
+                    </div>
+                    <div className="serif text-[22px] text-ink2 tabular-nums">{pct}%</div>
+                  </div>
+                  <ProgressBar value={pct} height={2}/>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+//  ADMIN PANEL
+// ════════════════════════════════════════════════════════════
+
+function AdminPanel({ view, setView, showToast }) {
+  return (
+    <div className="max-w-[1200px] mx-auto px-5 md:px-8 py-12 md:py-16 animate-fade-up">
+      <PageHeader
+        eyebrow="Administration"
+        title={<>Admin <span className="serif-italic text-muted">panel</span>.</>}
+        subtitle="Manage users, roles, stores, and permissions across the organization."
+      />
+
+      <div className="flex gap-1 mb-8 overflow-x-auto -mx-5 px-5 md:mx-0 md:px-0">
+        {[
+          { id:'users',  label:'Users' },
+          { id:'stores', label:'Stores' },
+          { id:'roles',  label:'Roles' },
+        ].map(t => (
+          <button key={t.id} onClick={()=>setView(t.id)}
+            className={`pill px-3.5 py-1.5 rounded-full text-[13px] font-medium whitespace-nowrap ${view===t.id ? 'active' : ''}`}>
+            {t.label}
+          </button>
+        ))}
+      </div>
+
+      {view === 'users'  && <AdminUsers showToast={showToast}/>}
+      {view === 'stores' && <AdminStores showToast={showToast}/>}
+      {view === 'roles'  && <AdminRoles/>}
+    </div>
+  );
+}
+
+function AdminUsers({ showToast }) {
+  const [showNew, setShowNew] = useState(false);
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-5">
+        <div className="tracked text-muted2">All users · {MOCK_USERS.length} total</div>
+        <button onClick={() => setShowNew(true)} className="btn-primary px-4 py-2 rounded-full text-[13px] inline-flex items-center gap-2">
+          <I.plus className="w-3.5 h-3.5"/> New user
+        </button>
+      </div>
+
+      {showNew && (
+        <div className="card rounded-2xl p-6 mb-5 animate-fade-up">
+          <div className="text-[15px] font-medium text-ink2 mb-5">Invite a new user</div>
+          <div className="grid md:grid-cols-2 gap-4">
+            <div>
+              <label className="tracked text-muted2 block mb-1.5">Full name</label>
+              <input className="input w-full px-3 py-2 rounded-lg text-[14px]" placeholder="e.g. Ada Lovelace"/>
+            </div>
+            <div>
+              <label className="tracked text-muted2 block mb-1.5">Email</label>
+              <input type="email" className="input w-full px-3 py-2 rounded-lg text-[14px]" placeholder="ada@curiouser.co"/>
+            </div>
+            <div>
+              <label className="tracked text-muted2 block mb-1.5">Role</label>
+              <select className="input w-full px-3 py-2 rounded-lg text-[14px]">
+                <option>FRANCHISEE_ADMIN</option>
+                <option>TEACHER</option>
+                <option>HQ_ADMIN</option>
+              </select>
+            </div>
+            <div>
+              <label className="tracked text-muted2 block mb-1.5">Store</label>
+              <select className="input w-full px-3 py-2 rounded-lg text-[14px]">
+                {MOCK_STORES.map(s => <option key={s.id}>{s.name}</option>)}
+              </select>
+            </div>
+          </div>
+          <div className="flex gap-2 mt-6">
+            <button onClick={() => { showToast('Invitation sent'); setShowNew(false); }} className="btn-primary px-4 py-2 rounded-full text-[13px] inline-flex items-center gap-2">
+              <I.send className="w-3.5 h-3.5"/> Send invitation
+            </button>
+            <button onClick={() => setShowNew(false)} className="btn-ghost px-4 py-2 rounded-full text-[13px]">Cancel</button>
+          </div>
+        </div>
+      )}
+
+      <div className="card rounded-2xl overflow-hidden">
+        <div className="hairline-b bg-cream/60 px-5 py-3 grid grid-cols-12 gap-4 tracked text-muted2">
+          <div className="col-span-4">User</div>
+          <div className="col-span-3">Role</div>
+          <div className="col-span-3">Store</div>
+          <div className="col-span-2 text-right">Status</div>
+        </div>
+        {MOCK_USERS.map((u, i) => (
+          <div key={u.id} className={`px-5 py-4 grid grid-cols-12 gap-4 items-center ${i !== MOCK_USERS.length-1 ? 'hairline-b' : ''} hover:bg-cream/40 transition`}>
+            <div className="col-span-4 flex items-center gap-3 min-w-0">
+              <div className="w-8 h-8 rounded-full bg-cream border hairline flex items-center justify-center shrink-0">
+                <span className="text-[11px] font-medium text-ink2">{u.name.split(' ').map(n=>n[0]).join('')}</span>
+              </div>
+              <div className="min-w-0">
+                <div className="text-[14px] font-medium text-ink2 truncate">{u.name}</div>
+                <div className="text-[11px] text-muted truncate">{u.email}</div>
+              </div>
+            </div>
+            <div className="col-span-3">
+              <Pill tone={u.role === 'HQ_ADMIN' ? 'dark' : u.role === 'FRANCHISEE_ADMIN' ? 'ochre' : 'neutral'}>{u.role.replace('_',' ').toLowerCase().replace(/\b\w/g, c=>c.toUpperCase())}</Pill>
+            </div>
+            <div className="col-span-3 text-[13px] text-ink">{u.store}</div>
+            <div className="col-span-2 flex items-center justify-end gap-3">
+              {u.active ? <Pill tone="success">Active</Pill> : <Pill tone="neutral">Inactive</Pill>}
+              <button className="p-1 hover:bg-cream rounded transition"><I.edit className="w-3.5 h-3.5 text-muted2"/></button>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AdminStores({ showToast }) {
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-5">
+        <div className="tracked text-muted2">Franchise locations · {MOCK_STORES.length} total</div>
+        <button onClick={() => showToast('Store form opened')} className="btn-primary px-4 py-2 rounded-full text-[13px] inline-flex items-center gap-2">
+          <I.plus className="w-3.5 h-3.5"/> New store
+        </button>
+      </div>
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4 stagger">
+        {MOCK_STORES.map(s => (
+          <div key={s.id} className="card rounded-2xl p-6">
+            <div className="flex items-start justify-between mb-6">
+              <div className="w-10 h-10 rounded-xl bg-cream border hairline flex items-center justify-center">
+                <I.store className="w-[17px] h-[17px] text-ink2"/>
+              </div>
+              <Pill tone="success">{s.status}</Pill>
+            </div>
+            <div className="tracked text-muted2 mb-1 tabular-nums">{s.code}</div>
+            <h3 className="text-[20px] font-medium display-tight text-ink2 mb-1">{s.name}</h3>
+            <div className="text-[12px] text-muted mb-6">{s.region}</div>
+            <div className="grid grid-cols-2 gap-3 pt-4 hairline-t">
+              <div><div className="text-[11px] text-muted2">Teachers</div><div className="text-[17px] font-medium text-ink2 tabular-nums mt-0.5">{s.teachers}</div></div>
+              <div><div className="text-[11px] text-muted2">Students</div><div className="text-[17px] font-medium text-ink2 tabular-nums mt-0.5">{s.students}</div></div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function AdminRoles() {
+  const roles = [
+    { name: 'HQ_ADMIN',         desc: 'Head office administrator. Full access to all franchises, data, and configuration.',
+      perms: ['View all stores','Create/edit users','Publish curriculum','Publish courses','Review compliance logs'] },
+    { name: 'FRANCHISEE_ADMIN', desc: 'Owns a single franchise. Can manage their own store, teachers, and students.',
+      perms: ['View own store only','Manage teachers at own store','View all class plans','Assign SOPs','Generate reports'] },
+    { name: 'TEACHER',          desc: 'Classroom teacher. Delivers lessons and executes SOPs.',
+      perms: ['View assigned classes','Execute SOPs','Create observations','Complete trainings','View class plans (if unlocked)'] },
+    { name: 'PARENT',           desc: 'Read-only access to their own child\'s reports.',
+      perms: ['View own child\'s reports','View own child\'s progress'] },
+  ];
+  return (
+    <div className="space-y-3 stagger">
+      {roles.map(r => (
+        <div key={r.name} className="card rounded-2xl p-6">
+          <div className="flex items-start justify-between mb-4 flex-wrap gap-2">
+            <div>
+              <div className="tracked text-muted2 mb-1.5 tabular-nums">{r.name}</div>
+              <p className="text-[14px] text-ink2 max-w-2xl">{r.desc}</p>
+            </div>
+            <Pill tone="outline">{r.perms.length} permissions</Pill>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {r.perms.map(p => <Pill key={p} tone="neutral">{p}</Pill>)}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+//  SHARED UI
+// ════════════════════════════════════════════════════════════
+
+function PageHeader({ eyebrow, title, subtitle, right }) {
+  return (
+    <div className="mb-12 flex items-end justify-between gap-4 flex-wrap">
+      <div>
+        <div className="tracked text-muted mb-4 detail-line">{eyebrow}</div>
+        <h1 className="text-[40px] md:text-[56px] font-medium display-xl text-ink2 mb-4 leading-[1.02]">{title}</h1>
+        {subtitle && <p className="text-[16px] md:text-[18px] text-muted max-w-xl leading-relaxed">{subtitle}</p>}
+      </div>
+      {right && <div>{right}</div>}
+    </div>
+  );
+}
+
+function BreadcrumbBack({ onClick, label }) {
+  return (
+    <button onClick={onClick} className="flex items-center gap-1.5 text-[13px] mb-6 text-muted hover:text-ink2 transition">
+      <I.chevL className="w-4 h-4"/><span>{label}</span>
+    </button>
+  );
+}
+
+// ════════════════════════════════════════════════════════════
+//  MOUNT
+// ════════════════════════════════════════════════════════════
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+</script>
+</body>
+</html>
